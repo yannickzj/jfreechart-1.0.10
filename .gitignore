@@ -1,4 +1,5 @@
-*.jar
+jfreechart-1.0.10.jar
+jfreechart-1.0.10-experimental.jar
 build-*
 *.iml
-/bin/
+bin/
