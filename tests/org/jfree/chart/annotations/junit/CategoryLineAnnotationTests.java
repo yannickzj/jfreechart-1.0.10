@@ -134,7 +134,7 @@ public class CategoryLineAnnotationTests extends TestCase {
     /**
      * Two objects that are equal are required to return the same hashCode.
      */
-    public void testHashcode() {
+    public void testHashCode() {
         CategoryLineAnnotation a1 = new CategoryLineAnnotation(
             "Category 1", 1.0, "Category 2", 2.0, Color.red,
             new BasicStroke(1.0f));
