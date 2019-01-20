@@ -47,24 +47,23 @@
 
 package org.jfree.data.time.junit;
 
+import org.jfree.data.time.Year;
+import java.util.TimeZone;
+import java.util.Calendar;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.time.TimePeriodFormatException;
-import org.jfree.data.time.Year;
 
 /**
  * Tests for the {@link Year} class.
@@ -275,112 +274,50 @@ public class YearTests extends TestCase {
     }
     
     /**
-     * Some checks for the getFirstMillisecond() method.
-     */
-    public void testGetFirstMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Year y = new Year(1970);
-        // TODO: Check this result...
-        assertEquals(-3600000L, y.getFirstMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
-    }
+	 * Some checks for the getFirstMillisecond() method.
+	 */
+	public void testGetFirstMillisecond() {
+		this.yearTestsTestGetMillisecondTemplate(new YearTestsTestGetFirstMillisecondAdapterImpl(), -3600000L);
+	}
     
     /**
-     * Some checks for the getFirstMillisecond(TimeZone) method.
-     */
-    public void testGetFirstMillisecondWithTimeZone() {
-        Year y = new Year(1950);
-        TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-        assertEquals(-631123200000L, y.getFirstMillisecond(zone));
-        
-        // try null calendar
-        boolean pass = false;
-        try {
-            y.getFirstMillisecond((TimeZone) null);
-        }
-        catch (NullPointerException e) {
-            pass = true;
-        }
-        assertTrue(pass);            
-    }
+	 * Some checks for the getFirstMillisecond(TimeZone) method.
+	 */
+	public void testGetFirstMillisecondWithTimeZone() {
+		this.yearTestsTestGetMillisecondWithTimeZoneTemplate(
+				new YearTestsTestGetFirstMillisecondWithTimeZoneAdapterImpl(), -631123200000L);
+	}
     
     /**
-     * Some checks for the getFirstMillisecond(TimeZone) method.
-     */
-    public void testGetFirstMillisecondWithCalendar() {
-        Year y = new Year(2001);
-        GregorianCalendar calendar = new GregorianCalendar(Locale.GERMANY);
-        calendar.setTimeZone(TimeZone.getTimeZone("Europe/Frankfurt"));
-        assertEquals(978307200000L, y.getFirstMillisecond(calendar));
-        
-        // try null calendar
-        boolean pass = false;
-        try {
-            y.getFirstMillisecond((Calendar) null);
-        }
-        catch (NullPointerException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-    }    
+	 * Some checks for the getFirstMillisecond(TimeZone) method.
+	 */
+	public void testGetFirstMillisecondWithCalendar() {
+		this.yearTestsTestGetMillisecondWithCalendarTemplate(
+				new YearTestsTestGetFirstMillisecondWithCalendarAdapterImpl(), 978307200000L);
+	}    
 
     /**
-     * Some checks for the getLastMillisecond() method.
-     */
-    public void testGetLastMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Year y = new Year(1970);
-        // TODO: Check this result...
-        assertEquals(31532399999L, y.getLastMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
-    }
+	 * Some checks for the getLastMillisecond() method.
+	 */
+	public void testGetLastMillisecond() {
+		this.yearTestsTestGetMillisecondTemplate(new YearTestsTestGetLastMillisecondAdapterImpl(), 31532399999L);
+	}
     
     /**
-     * Some checks for the getLastMillisecond(TimeZone) method.
-     */
-    public void testGetLastMillisecondWithTimeZone() {
-        Year y = new Year(1950);
-        TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-        assertEquals(-599587200001L, y.getLastMillisecond(zone));
-        
-        // try null calendar
-        boolean pass = false;
-        try {
-            y.getLastMillisecond((TimeZone) null);
-        }
-        catch (NullPointerException e) {
-            pass = true;
-        }
-        assertTrue(pass);            
-    }
+	 * Some checks for the getLastMillisecond(TimeZone) method.
+	 */
+	public void testGetLastMillisecondWithTimeZone() {
+		this.yearTestsTestGetMillisecondWithTimeZoneTemplate(
+				new YearTestsTestGetLastMillisecondWithTimeZoneAdapterImpl(), -599587200001L);
+	}
     
     /**
-     * Some checks for the getLastMillisecond(TimeZone) method.
-     */
-    public void testGetLastMillisecondWithCalendar() {
-        Year y = new Year(2001);
-        GregorianCalendar calendar = new GregorianCalendar(Locale.GERMANY);
-        calendar.setTimeZone(TimeZone.getTimeZone("Europe/Frankfurt"));
-        assertEquals(1009843199999L, y.getLastMillisecond(calendar));
-        
-        // try null calendar
-        boolean pass = false;
-        try {
-            y.getLastMillisecond((Calendar) null);
-        }
-        catch (NullPointerException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-    } 
+	 * Some checks for the getLastMillisecond(TimeZone) method.
+	 */
+	public void testGetLastMillisecondWithCalendar() {
+		this.yearTestsTestGetMillisecondWithCalendarTemplate(
+				new YearTestsTestGetLastMillisecondWithCalendarAdapterImpl(), 1009843199999L);
+	} 
     
     /**
      * Some checks for the getSerialIndex() method.
@@ -428,5 +365,97 @@ public class YearTests extends TestCase {
         assertEquals(cal.getTime(), y.getEnd());
         Locale.setDefault(saved);                
     }
+
+	public void yearTestsTestGetMillisecondWithCalendarTemplate(YearTestsTestGetMillisecondWithCalendarAdapter adapter,
+			long l1) {
+		Year y = new Year(2001);
+		GregorianCalendar calendar = new GregorianCalendar(Locale.GERMANY);
+		calendar.setTimeZone(TimeZone.getTimeZone("Europe/Frankfurt"));
+		assertEquals(l1, adapter.getMillisecond(y, calendar));
+		boolean pass = false;
+		try {
+			adapter.getMillisecond(y, (Calendar) null);
+		} catch (NullPointerException e) {
+			pass = true;
+		}
+		assertTrue(pass);
+	}
+
+	interface YearTestsTestGetMillisecondWithCalendarAdapter {
+		long getMillisecond(Year year1, Calendar calendar1);
+	}
+
+	class YearTestsTestGetFirstMillisecondWithCalendarAdapterImpl
+			implements YearTestsTestGetMillisecondWithCalendarAdapter {
+		public long getMillisecond(Year y, Calendar calendar) {
+			return y.getFirstMillisecond(calendar);
+		}
+	}
+
+	class YearTestsTestGetLastMillisecondWithCalendarAdapterImpl
+			implements YearTestsTestGetMillisecondWithCalendarAdapter {
+		public long getMillisecond(Year y, Calendar calendar) {
+			return y.getLastMillisecond(calendar);
+		}
+	}
+
+	public void yearTestsTestGetMillisecondWithTimeZoneTemplate(YearTestsTestGetMillisecondWithTimeZoneAdapter adapter,
+			long l1) {
+		Year y = new Year(1950);
+		TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
+		assertEquals(l1, adapter.getMillisecond(y, zone));
+		boolean pass = false;
+		try {
+			adapter.getMillisecond(y, (TimeZone) null);
+		} catch (NullPointerException e) {
+			pass = true;
+		}
+		assertTrue(pass);
+	}
+
+	interface YearTestsTestGetMillisecondWithTimeZoneAdapter {
+		long getMillisecond(Year year1, TimeZone timeZone1);
+	}
+
+	class YearTestsTestGetFirstMillisecondWithTimeZoneAdapterImpl
+			implements YearTestsTestGetMillisecondWithTimeZoneAdapter {
+		public long getMillisecond(Year y, TimeZone zone) {
+			return y.getFirstMillisecond(zone);
+		}
+	}
+
+	class YearTestsTestGetLastMillisecondWithTimeZoneAdapterImpl
+			implements YearTestsTestGetMillisecondWithTimeZoneAdapter {
+		public long getMillisecond(Year y, TimeZone zone) {
+			return y.getLastMillisecond(zone);
+		}
+	}
+
+	public void yearTestsTestGetMillisecondTemplate(YearTestsTestGetMillisecondAdapter adapter, long l1) {
+		Locale saved = Locale.getDefault();
+		Locale.setDefault(Locale.UK);
+		TimeZone savedZone = TimeZone.getDefault();
+		TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
+		Year y = new Year(1970);
+		assertEquals(l1, adapter.getMillisecond(y));
+		Locale.setDefault(saved);
+		TimeZone.setDefault(savedZone);
+	}
+
+	interface YearTestsTestGetMillisecondAdapter {
+		long getMillisecond(Year year1);
+	}
+
+	class YearTestsTestGetFirstMillisecondAdapterImpl implements YearTestsTestGetMillisecondAdapter {
+		public long getMillisecond(Year y) {
+			return y.getFirstMillisecond();
+		}
+	}
+
+	class YearTestsTestGetLastMillisecondAdapterImpl implements YearTestsTestGetMillisecondAdapter {
+		public long getMillisecond(Year y) {
+			return y.getLastMillisecond();
+		}
+	}
     
 }

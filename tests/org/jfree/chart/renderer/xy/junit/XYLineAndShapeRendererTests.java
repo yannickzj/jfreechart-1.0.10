@@ -44,6 +44,11 @@
 
 package org.jfree.chart.renderer.xy.junit;
 
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.data.xy.TableXYDataset;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.xy.XYDataset;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
@@ -62,13 +67,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.urls.TimeSeriesURLGenerator;
 import org.jfree.data.Range;
-import org.jfree.data.xy.TableXYDataset;
 import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -276,42 +278,20 @@ public class XYLineAndShapeRendererTests extends TestCase {
     }
 
     /**
-     * Check that the renderer is calculating the domain bounds correctly.
-     */
-    public void testFindDomainBounds() {
-        XYSeriesCollection dataset
-                = RendererXYPackageTests.createTestXYSeriesCollection();
-        JFreeChart chart = ChartFactory.createXYLineChart(
-                "Test Chart", "X", "Y", dataset, PlotOrientation.VERTICAL,
-                false, false, false);
-        XYPlot plot = (XYPlot) chart.getPlot();
-        NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-        domainAxis.setAutoRangeIncludesZero(false);
-        Range bounds = domainAxis.getRange();
-        assertFalse(bounds.contains(0.9));
-        assertTrue(bounds.contains(1.0));
-        assertTrue(bounds.contains(2.0));
-        assertFalse(bounds.contains(2.10));
-    }
+	 * Check that the renderer is calculating the domain bounds correctly.
+	 */
+	public void testFindDomainBounds() {
+		this.xyLineAndShapeRendererTestsTestFindBoundsTemplate(
+				new XYLineAndShapeRendererTestsTestFindDomainBoundsAdapterImpl(), 0.9, 1.0, 2.10);
+	}
 
     /**
-     * Check that the renderer is calculating the range bounds correctly.
-     */
-    public void testFindRangeBounds() {
-        TableXYDataset dataset
-                = RendererXYPackageTests.createTestTableXYDataset();
-        JFreeChart chart = ChartFactory.createXYLineChart(
-                "Test Chart", "X", "Y", dataset, PlotOrientation.VERTICAL,
-                false, false, false);
-        XYPlot plot = (XYPlot) chart.getPlot();
-        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setAutoRangeIncludesZero(false);
-        Range bounds = rangeAxis.getRange();
-        assertFalse(bounds.contains(1.0));
-        assertTrue(bounds.contains(2.0));
-        assertTrue(bounds.contains(5.0));
-        assertFalse(bounds.contains(6.0));
-    }
+	 * Check that the renderer is calculating the range bounds correctly.
+	 */
+	public void testFindRangeBounds() {
+		this.xyLineAndShapeRendererTestsTestFindBoundsTemplate(
+				new XYLineAndShapeRendererTestsTestFindRangeBoundsAdapterImpl(), 1.0, 5.0, 6.0);
+	}
 
     /**
      * A check for the datasetIndex and seriesIndex fields in the LegendItem
@@ -347,5 +327,48 @@ public class XYLineAndShapeRendererTests extends TestCase {
         assertEquals(1, li.getDatasetIndex());
         assertEquals(2, li.getSeriesIndex());
     }
+
+	public <TXY extends XYDataset> void xyLineAndShapeRendererTestsTestFindBoundsTemplate(
+			XYLineAndShapeRendererTestsTestFindBoundsAdapter<TXY> adapter, double d1, double d2, double d3) {
+		TXY dataset = adapter.createTestXY();
+		JFreeChart chart = ChartFactory.createXYLineChart("Test Chart", "X", "Y", (XYDataset) dataset,
+				PlotOrientation.VERTICAL, false, false, false);
+		XYPlot plot = (XYPlot) chart.getPlot();
+		NumberAxis axis2 = (NumberAxis) adapter.getAxis(plot);
+		axis2.setAutoRangeIncludesZero(false);
+		Range bounds = axis2.getRange();
+		assertFalse(bounds.contains(d1));
+		assertTrue(bounds.contains(d2));
+		assertTrue(bounds.contains(2.0));
+		assertFalse(bounds.contains(d3));
+	}
+
+	interface XYLineAndShapeRendererTestsTestFindBoundsAdapter<TXY> {
+		TXY createTestXY();
+
+		ValueAxis getAxis(XYPlot xYPlot1);
+	}
+
+	class XYLineAndShapeRendererTestsTestFindDomainBoundsAdapterImpl
+			implements XYLineAndShapeRendererTestsTestFindBoundsAdapter<XYSeriesCollection> {
+		public XYSeriesCollection createTestXY() {
+			return RendererXYPackageTests.createTestXYSeriesCollection();
+		}
+
+		public ValueAxis getAxis(XYPlot plot) {
+			return plot.getDomainAxis();
+		}
+	}
+
+	class XYLineAndShapeRendererTestsTestFindRangeBoundsAdapterImpl
+			implements XYLineAndShapeRendererTestsTestFindBoundsAdapter<TableXYDataset> {
+		public TableXYDataset createTestXY() {
+			return RendererXYPackageTests.createTestTableXYDataset();
+		}
+
+		public ValueAxis getAxis(XYPlot plot) {
+			return plot.getRangeAxis();
+		}
+	}
 
 }

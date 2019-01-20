@@ -40,6 +40,7 @@
 
 package org.jfree.data.xy.junit;
 
+import org.jfree.data.xy.MatrixSeries;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -50,8 +51,6 @@ import java.io.ObjectOutputStream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import org.jfree.data.xy.MatrixSeries;
 
 /**
  * Tests for the {@link MatrixSeries} class.
@@ -156,30 +155,18 @@ public class MatrixSeriesTests extends TestCase {
     }
 
     /**
-     * Tests the getItemColumn() method.
-     */
-    public void testGetItemColumn() {
-        MatrixSeries m = new MatrixSeries("Test", 3, 2);
-        assertEquals(0, m.getItemColumn(0));
-        assertEquals(1, m.getItemColumn(1));
-        assertEquals(0, m.getItemColumn(2));
-        assertEquals(1, m.getItemColumn(3));
-        assertEquals(0, m.getItemColumn(4));
-        assertEquals(1, m.getItemColumn(5));
-    }
+	 * Tests the getItemColumn() method.
+	 */
+	public void testGetItemColumn() {
+		this.matrixSeriesTestsTestGetItemTemplate(new MatrixSeriesTestsTestGetItemColumnAdapterImpl(), 1, 2, 0, 1);
+	}
 
     /**
-     * Tests the getItemRow() method.
-     */
-    public void testGetItemRow() {
-        MatrixSeries m = new MatrixSeries("Test", 3, 2);
-        assertEquals(0, m.getItemRow(0));
-        assertEquals(0, m.getItemRow(1));
-        assertEquals(1, m.getItemRow(2));
-        assertEquals(1, m.getItemRow(3));
-        assertEquals(2, m.getItemRow(4));
-        assertEquals(2, m.getItemRow(5));
-    }
+	 * Tests the getItemRow() method.
+	 */
+	public void testGetItemRow() {
+		this.matrixSeriesTestsTestGetItemTemplate(new MatrixSeriesTestsTestGetItemRowAdapterImpl(), 2, 1, 2, 2);
+	}
 
     /**
      * Tests the getItem() method.
@@ -199,4 +186,31 @@ public class MatrixSeriesTests extends TestCase {
         assertEquals(4.0, m.getItem(4).doubleValue(), 0.001);
         assertEquals(5.0, m.getItem(5).doubleValue(), 0.001);
     }
+
+	public void matrixSeriesTestsTestGetItemTemplate(MatrixSeriesTestsTestGetItemAdapter adapter, int i1, int i2,
+			int i3, int i4) {
+		MatrixSeries m = new MatrixSeries("Test", 3, 2);
+		assertEquals(0, adapter.getItem(m, 0));
+		assertEquals(1, adapter.getItem(m, i1));
+		assertEquals(0, adapter.getItem(m, i2));
+		assertEquals(1, adapter.getItem(m, 3));
+		assertEquals(i3, adapter.getItem(m, 4));
+		assertEquals(i4, adapter.getItem(m, 5));
+	}
+
+	interface MatrixSeriesTestsTestGetItemAdapter {
+		int getItem(MatrixSeries matrixSeries1, int i1);
+	}
+
+	class MatrixSeriesTestsTestGetItemColumnAdapterImpl implements MatrixSeriesTestsTestGetItemAdapter {
+		public int getItem(MatrixSeries m, int i1) {
+			return m.getItemColumn(i1);
+		}
+	}
+
+	class MatrixSeriesTestsTestGetItemRowAdapterImpl implements MatrixSeriesTestsTestGetItemAdapter {
+		public int getItem(MatrixSeries m, int i1) {
+			return m.getItemRow(i1);
+		}
+	}
 }

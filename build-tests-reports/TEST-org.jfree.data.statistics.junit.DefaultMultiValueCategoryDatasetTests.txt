@@ -1,0 +1,11 @@
+Testsuite: org.jfree.data.statistics.junit.DefaultMultiValueCategoryDatasetTests
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.073 sec
+
+Testcase: testGetValue2 took 0.004 sec
+Testcase: testEquals took 0.002 sec
+Testcase: testSerialization took 0.061 sec
+Testcase: testAddValue took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testGetRowCount took 0 sec
+Testcase: testGetValue took 0 sec
+Testcase: testGetColumnCount took 0 sec

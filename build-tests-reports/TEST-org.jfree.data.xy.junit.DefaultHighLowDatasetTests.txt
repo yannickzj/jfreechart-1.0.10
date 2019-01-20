@@ -1,0 +1,7 @@
+Testsuite: org.jfree.data.xy.junit.DefaultHighLowDatasetTests
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 sec
+
+Testcase: testPublicCloneable took 0.003 sec
+Testcase: testSerialization took 0.066 sec
+Testcase: testCloning took 0 sec
+Testcase: testEquals took 0.001 sec

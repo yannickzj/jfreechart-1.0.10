@@ -46,6 +46,8 @@
 
 package org.jfree.data.time.junit;
 
+import org.jfree.data.time.Hour;
+import org.jfree.data.time.RegularTimePeriod;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -63,7 +65,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.time.Day;
-import org.jfree.data.time.Hour;
 import org.jfree.date.MonthConstants;
 
 /**
@@ -164,28 +165,20 @@ public class HourTests extends TestCase {
     }
 
     /**
-     * Set up an hour equal to hour zero, 1 January 1900.  Request the next 
-     * hour, it should be null.
-     */
-    public void testFirstHourNext() {
-        Hour first = new Hour(0, new Day(1, MonthConstants.JANUARY, 1900));
-        Hour next = (Hour) first.next();
-        assertEquals(1, next.getHour());
-        assertEquals(1900, next.getYear());
-    }
+	 * Set up an hour equal to hour zero, 1 January 1900.  Request the next  hour, it should be null.
+	 */
+	public void testFirstHourNext() {
+		this.hourTestsTestHourTemplate(new HourTestsTestFirstHourNextAdapterImpl(), 0, 1, MonthConstants.JANUARY, 1900,
+				1, 1900);
+	}
 
     /**
-     * Set up an hour equal to hour zero, 1 January 1900.  Request the previous
-     * hour, it should be null.
-     */
-    public void testLastHourPrevious() {
-
-        Hour last = new Hour(23, new Day(31, MonthConstants.DECEMBER, 9999));
-        Hour previous = (Hour) last.previous();
-        assertEquals(22, previous.getHour());
-        assertEquals(9999, previous.getYear());
-
-    }
+	 * Set up an hour equal to hour zero, 1 January 1900.  Request the previous hour, it should be null.
+	 */
+	public void testLastHourPrevious() {
+		this.hourTestsTestHourTemplate(new HourTestsTestLastHourPreviousAdapterImpl(), 23, 31, MonthConstants.DECEMBER,
+				9999, 22, 9999);
+	}
 
     /**
      * Set up an hour equal to hour zero, 1 January 1900.  Request the next 
@@ -413,5 +406,29 @@ public class HourTests extends TestCase {
         assertEquals(cal.getTime(), h.getEnd());
         Locale.setDefault(saved);                
     }
+
+	public void hourTestsTestHourTemplate(HourTestsTestHourAdapter adapter, int i1, int i2, int i3, int i4, int i5,
+			int i6) {
+		Hour v1 = new Hour(i1, new Day(i2, i3, i4));
+		Hour v2 = (Hour) adapter.action1(v1);
+		assertEquals(i5, v2.getHour());
+		assertEquals(i6, v2.getYear());
+	}
+
+	interface HourTestsTestHourAdapter {
+		RegularTimePeriod action1(Hour hour1);
+	}
+
+	class HourTestsTestFirstHourNextAdapterImpl implements HourTestsTestHourAdapter {
+		public RegularTimePeriod action1(Hour v1) {
+			return v1.next();
+		}
+	}
+
+	class HourTestsTestLastHourPreviousAdapterImpl implements HourTestsTestHourAdapter {
+		public RegularTimePeriod action1(Hour last) {
+			return last.previous();
+		}
+	}
 
 }

@@ -1,0 +1,14 @@
+Testsuite: org.jfree.data.xy.junit.VectorSeriesTests
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 sec
+
+Testcase: testEquals took 0.004 sec
+Testcase: testIndexOf2 took 0 sec
+Testcase: testRemove took 0.001 sec
+Testcase: testAdditionOfDuplicateXValues took 0.001 sec
+Testcase: testAdd took 0 sec
+Testcase: testSetMaximumItemCount took 0 sec
+Testcase: testSetMaximumItemCount2 took 0 sec
+Testcase: testClear took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.063 sec
+Testcase: testIndexOf took 0 sec

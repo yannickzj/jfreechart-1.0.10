@@ -41,6 +41,9 @@
 
 package org.jfree.chart.plot.junit;
 
+import java.util.List;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.plot.CombinedRangeXYPlot;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -51,8 +54,6 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.util.List;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -63,9 +64,7 @@ import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
-import org.jfree.chart.plot.CombinedRangeXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYDataset;
@@ -119,19 +118,12 @@ public class CombinedRangeXYPlotTests extends TestCase
     }
 
     /**
-     * This is a test to replicate the bug report 987080.
-     */
-    public void testRemoveSubplot() {
-        CombinedRangeXYPlot plot = new CombinedRangeXYPlot();
-        XYPlot plot1 = new XYPlot();
-        XYPlot plot2 = new XYPlot();
-        plot.add(plot1);
-        plot.add(plot2);
-        // remove plot2, but plot1 is removed instead
-        plot.remove(plot2);
-        List plots = plot.getSubplots();
-        assertTrue(plots.get(0) == plot1);
-    }
+	 * This is a test to replicate the bug report 987080.
+	 */
+	public void testRemoveSubplot() throws Exception {
+		CombinedXYPlotTestsTestRemoveSubplotTemplate.combinedXYPlotTestsTestRemoveSubplotTemplate(
+				new CombinedRangeXYPlotTestsTestRemoveSubplotAdapterImpl(), CombinedRangeXYPlot.class);
+	}
     
     /**
      * Confirm that cloning works.
@@ -310,5 +302,20 @@ public class CombinedRangeXYPlotTests extends TestCase
         plot.setOrientation(PlotOrientation.VERTICAL);
         return plot;
     }
+
+	class CombinedRangeXYPlotTestsTestRemoveSubplotAdapterImpl
+			implements CombinedXYPlotTestsTestRemoveSubplotAdapter<CombinedRangeXYPlot> {
+		public void add(CombinedRangeXYPlot plot, XYPlot plot1) {
+			plot.add(plot1);
+		}
+
+		public void remove(CombinedRangeXYPlot plot, XYPlot plot2) {
+			plot.remove(plot2);
+		}
+
+		public List getSubplots(CombinedRangeXYPlot plot) {
+			return plot.getSubplots();
+		}
+	}
     
 }

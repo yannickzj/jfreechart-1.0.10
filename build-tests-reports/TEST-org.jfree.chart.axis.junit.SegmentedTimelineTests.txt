@@ -1,0 +1,34 @@
+Testsuite: org.jfree.chart.axis.junit.SegmentedTimelineTests
+Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.113 sec
+
+Testcase: testMsSegmentedTimeline took 0.001 sec
+Testcase: testMs2SegmentedTimeline took 0.001 sec
+Testcase: testMondayThroughFridaySegmentedTimeline took 0 sec
+Testcase: testFifteenMinSegmentedTimeline took 0 sec
+Testcase: testMsSegment took 0.001 sec
+Testcase: testMs2Segment took 0.001 sec
+Testcase: testMondayThroughFridaySegment took 0.045 sec
+Testcase: testFifteenMinSegment took 0.003 sec
+Testcase: testMsInc took 0.039 sec
+Testcase: testMs2Inc took 0.006 sec
+Testcase: testMondayThroughFridayInc took 0.006 sec
+Testcase: testFifteenMinInc took 0.005 sec
+Testcase: testMsIncludedAndExcludedSegments took 0.002 sec
+Testcase: testMs2IncludedAndExcludedSegments took 0.001 sec
+Testcase: testMondayThroughFridayIncludedAndExcludedSegments took 0 sec
+Testcase: testFifteenMinIncludedAndExcludedSegments took 0.001 sec
+Testcase: testMsExceptionSegments took 0.001 sec
+Testcase: testMs2BaseTimelineExceptionSegments took 0 sec
+Testcase: testMondayThoughFridayExceptionSegments took 0.003 sec
+Testcase: testFifteenMinExceptionSegments took 0.003 sec
+Testcase: testMsTranslations took 0.033 sec
+Testcase: testMs2BaseTimelineTranslations took 0.03 sec
+Testcase: testMs2Translations took 1.118 sec
+Testcase: testFifteenMinTranslations took 0.733 sec
+Testcase: testSerialization took 0.069 sec
+Testcase: testCloning took 0.001 sec
+Testcase: testEquals took 0 sec
+Testcase: testHashCode took 0 sec
+Testcase: testSerialization2 took 0.002 sec
+Testcase: testBasicSegmentedTimeline took 0 sec
+Testcase: testSegmentedTimelineWithException1 took 0 sec

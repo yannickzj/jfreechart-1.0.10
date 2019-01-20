@@ -1,0 +1,4 @@
+Testsuite: org.jfree.chart.needle.junit.MeterNeedleTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.06 sec
+
+Testcase: testEquals took 0.057 sec

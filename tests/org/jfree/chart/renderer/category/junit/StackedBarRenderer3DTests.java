@@ -166,16 +166,11 @@ public class StackedBarRenderer3DTests extends TestCase {
     }
 
     /**
-     * A test for the createStackedValueList() method.
-     */
-    public void testCreateStackedValueList1() {
-        DefaultCategoryDataset d = new DefaultCategoryDataset();
-        d.addValue(1.0, "s0", "c0");
-        List l = MyRenderer.createStackedValueList(d, "c0", 0.0, false);
-        assertEquals(2, l.size());
-        assertEquals(new Double(0.0), ((Object[]) l.get(0))[1]);
-        assertEquals(new Double(1.0), ((Object[]) l.get(1))[1]);
-    }
+	 * A test for the createStackedValueList() method.
+	 */
+	public void testCreateStackedValueList1() {
+		this.stackedBarRenderer3DTestsTestCreateStackedValueTemplate(1.0, 1.0);
+	}
 
     /**
      * A test for the createStackedValueList() method.
@@ -190,16 +185,11 @@ public class StackedBarRenderer3DTests extends TestCase {
     }
 
     /**
-     * A test for the createStackedValueList() method.
-     */
-    public void testCreateStackedValueList3() {
-        DefaultCategoryDataset d = new DefaultCategoryDataset();
-        d.addValue(0.0, "s0", "c0");
-        List l = MyRenderer.createStackedValueList(d, "c0", 0.0, false);
-        assertEquals(2, l.size());
-        assertEquals(new Double(0.0), ((Object[]) l.get(0))[1]);
-        assertEquals(new Double(0.0), ((Object[]) l.get(1))[1]);
-    }
+	 * A test for the createStackedValueList() method.
+	 */
+	public void testCreateStackedValueList3() {
+		this.stackedBarRenderer3DTestsTestCreateStackedValueTemplate(0.0, 0.0);
+	}
 
     /**
      * A test for the createStackedValueList() method.
@@ -390,4 +380,13 @@ public class StackedBarRenderer3DTests extends TestCase {
         assertEquals(new Double(1.0), ((Object[]) l.get(1))[1]);
         assertEquals(new Double(3.0), ((Object[]) l.get(2))[1]);
     }
+
+	public void stackedBarRenderer3DTestsTestCreateStackedValueTemplate(double d1, double d2) {
+		DefaultCategoryDataset d = new DefaultCategoryDataset();
+		d.addValue(d1, "s0", "c0");
+		List l = MyRenderer.createStackedValueList(d, "c0", 0.0, false);
+		assertEquals(2, l.size());
+		assertEquals(new Double(0.0), ((Object[]) l.get(0))[1]);
+		assertEquals(new Double(d2), ((Object[]) l.get(1))[1]);
+	}
 }

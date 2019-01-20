@@ -1,0 +1,15 @@
+Testsuite: org.jfree.data.statistics.junit.StatisticsTests
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 sec
+
+Testcase: testCalculateMean_Collection took 0.001 sec
+Testcase: testCalculateMedian4 took 0 sec
+Testcase: testCalculateMedian5 took 0.001 sec
+Testcase: testCalculateMedian6 took 0.001 sec
+Testcase: testCorrelation1 took 0.001 sec
+Testcase: testCorrelation2 took 0 sec
+Testcase: testGetStdDev took 0 sec
+Testcase: testCalculateMean_Array took 0 sec
+Testcase: testCalculateMedian took 0.001 sec
+Testcase: testCalculateMedian1 took 0 sec
+Testcase: testCalculateMedian2 took 0 sec
+Testcase: testCalculateMedian3 took 0 sec

@@ -42,6 +42,8 @@
 
 package org.jfree.data.xy.junit;
 
+import org.jfree.data.xy.XIntervalSeries;
+import java.lang.Number;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -55,7 +57,6 @@ import junit.framework.TestSuite;
 
 import org.jfree.data.general.SeriesChangeEvent;
 import org.jfree.data.general.SeriesChangeListener;
-import org.jfree.data.xy.XIntervalSeries;
 
 /**
  * Tests for the {@link XIntervalSeries} class.
@@ -191,34 +192,20 @@ public class XIntervalSeriesTests extends TestCase
     }
 
     /**
-     * A check for the indexOf() method for an unsorted series.
-     */
-    public void testIndexOf2() {
-        XIntervalSeries s1 = new XIntervalSeries("Series 1", false, true);
-        s1.add(1.0, 1.0, 1.0, 2.0);
-        s1.add(3.0, 3.0, 3.0, 3.0);
-        s1.add(2.0, 2.0, 2.0, 2.0);
-        assertEquals(0, s1.indexOf(new Double(1.0)));
-        assertEquals(1, s1.indexOf(new Double(3.0)));
-        assertEquals(2, s1.indexOf(new Double(2.0)));
-    }
+	 * A check for the indexOf() method for an unsorted series.
+	 */
+	public void testIndexOf2() throws Exception {
+		IntervalSeriesTestsTestIndexOf2Template.intervalSeriesTestsTestIndexOf2Template(
+				new XIntervalSeriesTestsTestIndexOf2AdapterImpl(), XIntervalSeries.class);
+	}
 
     /**
-     * Simple test for the remove() method.
-     */
-    public void testRemove() {
-        XIntervalSeries s1 = new XIntervalSeries("Series 1");
-        s1.add(1.0, 1.0, 1.0, 2.0);
-        s1.add(2.0, 2.0, 2.0, 2.0);
-        s1.add(3.0, 3.0, 3.0, 3.0);
-        assertEquals(3, s1.getItemCount());
-
-        s1.remove(new Double(2.0));
-        assertEquals(new Double(3.0), s1.getX(1));
-
-        s1.remove(new Double(1.0));
-        assertEquals(new Double(3.0), s1.getX(0));
-    }
+	 * Simple test for the remove() method.
+	 */
+	public void testRemove() throws Exception {
+		IntervalSeriesTestsTestRemoveTemplate.intervalSeriesTestsTestRemoveTemplate(
+				new XIntervalSeriesTestsTestRemoveAdapterImpl(), XIntervalSeries.class);
+	}
 
     private static final double EPSILON = 0.0000000001;
 
@@ -306,25 +293,60 @@ public class XIntervalSeriesTests extends TestCase
     }
 
     /**
-     * A simple check for getXLowValue().
-     */
-    public void testGetXLowValue() {
-        XIntervalSeries s1 = new XIntervalSeries("S1");
-        s1.add(1.0, 2.0, 3.0, 4.0);
-        assertEquals(2.0, s1.getXLowValue(0), EPSILON);
-        s1.add(2.0, 1.0, 4.0, 2.5);
-        assertEquals(1.0, s1.getXLowValue(1), EPSILON);
-    }
+	 * A simple check for getXLowValue().
+	 */
+	public void testGetXLowValue() {
+		this.xIntervalSeriesTestsTestGetXValueTemplate(new XIntervalSeriesTestsTestGetXLowValueAdapterImpl(), 2.0, 1.0);
+	}
 
     /**
-     * A simple check for getXHighValue().
-     */
-    public void testGetXHighValue() {
-        XIntervalSeries s1 = new XIntervalSeries("S1");
-        s1.add(1.0, 2.0, 3.0, 4.0);
-        assertEquals(3.0, s1.getXHighValue(0), EPSILON);
-        s1.add(2.0, 1.0, 4.0, 2.5);
-        assertEquals(4.0, s1.getXHighValue(1), EPSILON);
-    }
+	 * A simple check for getXHighValue().
+	 */
+	public void testGetXHighValue() {
+		this.xIntervalSeriesTestsTestGetXValueTemplate(new XIntervalSeriesTestsTestGetXHighValueAdapterImpl(), 3.0,
+				4.0);
+	}
+
+	class XIntervalSeriesTestsTestRemoveAdapterImpl implements IntervalSeriesTestsTestRemoveAdapter<XIntervalSeries> {
+		public void add(XIntervalSeries s1, double d1, double d2, double d3, double d4) {
+			s1.add(d1, d2, d3, d4);
+		}
+
+		public Number getX(XIntervalSeries s1, int i1) {
+			return s1.getX(i1);
+		}
+	}
+
+	class XIntervalSeriesTestsTestIndexOf2AdapterImpl
+			implements IntervalSeriesTestsTestIndexOf2Adapter<XIntervalSeries> {
+		public void add(XIntervalSeries s1, double d1, double d2, double d3, double d4) {
+			s1.add(d1, d2, d3, d4);
+		}
+	}
+
+	public void xIntervalSeriesTestsTestGetXValueTemplate(XIntervalSeriesTestsTestGetXValueAdapter adapter, double d1,
+			double d2) {
+		XIntervalSeries s1 = new XIntervalSeries("S1");
+		s1.add(1.0, 2.0, 3.0, 4.0);
+		assertEquals(d1, adapter.getXValue(s1, 0), EPSILON);
+		s1.add(2.0, 1.0, 4.0, 2.5);
+		assertEquals(d2, adapter.getXValue(s1, 1), EPSILON);
+	}
+
+	interface XIntervalSeriesTestsTestGetXValueAdapter {
+		double getXValue(XIntervalSeries xIntervalSeries1, int i1);
+	}
+
+	class XIntervalSeriesTestsTestGetXLowValueAdapterImpl implements XIntervalSeriesTestsTestGetXValueAdapter {
+		public double getXValue(XIntervalSeries s1, int i1) {
+			return s1.getXLowValue(i1);
+		}
+	}
+
+	class XIntervalSeriesTestsTestGetXHighValueAdapterImpl implements XIntervalSeriesTestsTestGetXValueAdapter {
+		public double getXValue(XIntervalSeries s1, int i1) {
+			return s1.getXHighValue(i1);
+		}
+	}
 
 }

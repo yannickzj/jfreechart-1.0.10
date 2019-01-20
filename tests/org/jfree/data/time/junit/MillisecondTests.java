@@ -46,6 +46,8 @@
 
 package org.jfree.data.time.junit;
 
+import org.jfree.data.time.Millisecond;
+import java.util.Date;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -53,7 +55,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -64,7 +65,6 @@ import junit.framework.TestSuite;
 
 import org.jfree.data.time.Day;
 import org.jfree.data.time.Hour;
-import org.jfree.data.time.Millisecond;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.Second;
 import org.jfree.date.MonthConstants;
@@ -226,18 +226,12 @@ public class MillisecondTests extends TestCase {
     }
 
     /**
-     * Some checks for the getFirstMillisecond() method.
-     */
-    public void testGetFirstMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Millisecond m = new Millisecond(500, 15, 43, 15, 1, 4, 2006);
-        assertEquals(1143902595500L, m.getFirstMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
-    }
+	 * Some checks for the getFirstMillisecond() method.
+	 */
+	public void testGetFirstMillisecond() {
+		this.millisecondTestsTestGetMillisecondTemplate(new MillisecondTestsTestGetFirstMillisecondAdapterImpl(), 500,
+				15, 43, 15, 4, 2006, 1143902595500L);
+	}
     
     /**
      * Some checks for the getFirstMillisecond(TimeZone) method.
@@ -279,18 +273,12 @@ public class MillisecondTests extends TestCase {
     }    
 
     /**
-     * Some checks for the getLastMillisecond() method.
-     */
-    public void testGetLastMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Millisecond m = new Millisecond(750, 1, 1, 1, 1, 1, 1970);
-        assertEquals(61750L, m.getLastMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
-    }
+	 * Some checks for the getLastMillisecond() method.
+	 */
+	public void testGetLastMillisecond() {
+		this.millisecondTestsTestGetMillisecondTemplate(new MillisecondTestsTestGetLastMillisecondAdapterImpl(), 750, 1,
+				1, 1, 1, 1970, 61750L);
+	}
     
     /**
      * Some checks for the getLastMillisecond(TimeZone) method.
@@ -360,31 +348,72 @@ public class MillisecondTests extends TestCase {
     }
     
     /**
-     * Some checks for the getStart() method.
-     */
-    public void testGetStart() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.ITALY);
-        Calendar cal = Calendar.getInstance(Locale.ITALY);
-        cal.set(2006, Calendar.JANUARY, 16, 3, 47, 55);
-        cal.set(Calendar.MILLISECOND, 555);
-        Millisecond m = new Millisecond(555, 55, 47, 3, 16, 1, 2006);
-        assertEquals(cal.getTime(), m.getStart());
-        Locale.setDefault(saved);        
-    }
+	 * Some checks for the getStart() method.
+	 */
+	public void testGetStart() {
+		this.millisecondTestsTestGetTemplate(new MillisecondTestsTestGetStartAdapterImpl());
+	}
     
     /**
-     * Some checks for the getEnd() method.
-     */
-    public void testGetEnd() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.ITALY);
-        Calendar cal = Calendar.getInstance(Locale.ITALY);
-        cal.set(2006, Calendar.JANUARY, 16, 3, 47, 55);
-        cal.set(Calendar.MILLISECOND, 555);
-        Millisecond m = new Millisecond(555, 55, 47, 3, 16, 1, 2006);
-        assertEquals(cal.getTime(), m.getEnd());
-        Locale.setDefault(saved);                
-    }
+	 * Some checks for the getEnd() method.
+	 */
+	public void testGetEnd() {
+		this.millisecondTestsTestGetTemplate(new MillisecondTestsTestGetEndAdapterImpl());
+	}
+
+	public void millisecondTestsTestGetTemplate(MillisecondTestsTestGetAdapter adapter) {
+		Locale saved = Locale.getDefault();
+		Locale.setDefault(Locale.ITALY);
+		Calendar cal = Calendar.getInstance(Locale.ITALY);
+		cal.set(2006, Calendar.JANUARY, 16, 3, 47, 55);
+		cal.set(Calendar.MILLISECOND, 555);
+		Millisecond m = new Millisecond(555, 55, 47, 3, 16, 1, 2006);
+		assertEquals(cal.getTime(), adapter.get(m));
+		Locale.setDefault(saved);
+	}
+
+	interface MillisecondTestsTestGetAdapter {
+		Date get(Millisecond millisecond1);
+	}
+
+	class MillisecondTestsTestGetStartAdapterImpl implements MillisecondTestsTestGetAdapter {
+		public Date get(Millisecond m) {
+			return m.getStart();
+		}
+	}
+
+	class MillisecondTestsTestGetEndAdapterImpl implements MillisecondTestsTestGetAdapter {
+		public Date get(Millisecond m) {
+			return m.getEnd();
+		}
+	}
+
+	public void millisecondTestsTestGetMillisecondTemplate(MillisecondTestsTestGetMillisecondAdapter adapter, int i1,
+			int i2, int i3, int i4, int i5, int i6, long l1) {
+		Locale saved = Locale.getDefault();
+		Locale.setDefault(Locale.UK);
+		TimeZone savedZone = TimeZone.getDefault();
+		TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
+		Millisecond m = new Millisecond(i1, i2, i3, i4, 1, i5, i6);
+		assertEquals(l1, adapter.getMillisecond(m));
+		Locale.setDefault(saved);
+		TimeZone.setDefault(savedZone);
+	}
+
+	interface MillisecondTestsTestGetMillisecondAdapter {
+		long getMillisecond(Millisecond millisecond1);
+	}
+
+	class MillisecondTestsTestGetFirstMillisecondAdapterImpl implements MillisecondTestsTestGetMillisecondAdapter {
+		public long getMillisecond(Millisecond m) {
+			return m.getFirstMillisecond();
+		}
+	}
+
+	class MillisecondTestsTestGetLastMillisecondAdapterImpl implements MillisecondTestsTestGetMillisecondAdapter {
+		public long getMillisecond(Millisecond m) {
+			return m.getLastMillisecond();
+		}
+	}
 
 }

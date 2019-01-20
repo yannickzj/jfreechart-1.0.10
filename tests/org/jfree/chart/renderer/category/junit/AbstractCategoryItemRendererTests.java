@@ -42,6 +42,9 @@
 
 package org.jfree.chart.renderer.category.junit;
 
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.AbstractCategoryItemRenderer;
+import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import java.text.NumberFormat;
 
 import junit.framework.Test;
@@ -52,8 +55,6 @@ import org.jfree.chart.labels.IntervalCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategorySeriesLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
-import org.jfree.chart.renderer.category.AbstractCategoryItemRenderer;
-import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.urls.StandardCategoryURLGenerator;
 
 /**
@@ -168,94 +169,22 @@ public class AbstractCategoryItemRendererTests extends TestCase {
     }
 
     /**
-     * Confirm that cloning works.
-     */
-    public void testCloning1() {
-        AbstractCategoryItemRenderer r1 = new BarRenderer();
-        r1.setItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-        AbstractCategoryItemRenderer r2 = null;
-        try {
-            r2 = (BarRenderer) r1.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(r1 != r2);
-        assertTrue(r1.getClass() == r2.getClass());
-        assertTrue(r1.equals(r2));
-        
-        r1 = new BarRenderer();
-        r1.setSeriesItemLabelGenerator(0, 
-                new StandardCategoryItemLabelGenerator());
-        r2 = null;
-        try {
-            r2 = (BarRenderer) r1.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(r1 != r2);
-        assertTrue(r1.getClass() == r2.getClass());
-        assertTrue(r1.equals(r2));
-        
-        r1 = new BarRenderer();
-        r1.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-        r2 = null;
-        try {
-            r2 = (BarRenderer) r1.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(r1 != r2);
-        assertTrue(r1.getClass() == r2.getClass());
-        assertTrue(r1.equals(r2));
-    }
+	 * Confirm that cloning works.
+	 */
+	public void testCloning1() throws Exception {
+		this.abstractCategoryItemRendererTestsTestTemplate(
+				new AbstractCategoryItemRendererTestsTestCloning1AdapterImpl(),
+				StandardCategoryItemLabelGenerator.class);
+	}
     
     /**
-     * Confirm that cloning works.
-     */
-    public void testCloning2() {
-        BarRenderer r1 = new BarRenderer();
-        r1.setItemLabelGenerator(new IntervalCategoryItemLabelGenerator());
-        BarRenderer r2 = null;
-        try {
-            r2 = (BarRenderer) r1.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(r1 != r2);
-        assertTrue(r1.getClass() == r2.getClass());
-        assertTrue(r1.equals(r2));
-        
-        r1 = new BarRenderer();
-        r1.setSeriesItemLabelGenerator(0, 
-                new IntervalCategoryItemLabelGenerator());
-        r2 = null;
-        try {
-            r2 = (BarRenderer) r1.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(r1 != r2);
-        assertTrue(r1.getClass() == r2.getClass());
-        assertTrue(r1.equals(r2));
-        
-        r1 = new BarRenderer();
-        r1.setBaseItemLabelGenerator(new IntervalCategoryItemLabelGenerator());
-        r2 = null;
-        try {
-            r2 = (BarRenderer) r1.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(r1 != r2);
-        assertTrue(r1.getClass() == r2.getClass());
-        assertTrue(r1.equals(r2));
-    }
+	 * Confirm that cloning works.
+	 */
+	public void testCloning2() throws Exception {
+		this.abstractCategoryItemRendererTestsTestTemplate(
+				new AbstractCategoryItemRendererTestsTestCloning2AdapterImpl(),
+				IntervalCategoryItemLabelGenerator.class);
+	}
     
     /**
      * Check that the legendItemLabelGenerator is cloned.
@@ -328,6 +257,62 @@ public class AbstractCategoryItemRendererTests extends TestCase {
         assertTrue(r1.getLegendItemURLGenerator() 
                 != r2.getLegendItemURLGenerator());
     }
+
+	public <TRenderer extends AbstractCategoryItemRenderer, TCategoryItemLabelGenerator> void abstractCategoryItemRendererTestsTestTemplate(
+			AbstractCategoryItemRendererTestsTestAdapter<TRenderer> adapter,
+			Class<TCategoryItemLabelGenerator> clazzTCategoryItemLabelGenerator) throws Exception {
+		TRenderer r1 = (TRenderer) new BarRenderer();
+		r1.setItemLabelGenerator((CategoryItemLabelGenerator) clazzTCategoryItemLabelGenerator.newInstance());
+		TRenderer r2 = null;
+		try {
+			r2 = (TRenderer) r1.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		assertTrue(r1 != r2);
+		assertTrue(adapter.getClass(r1) == adapter.getClass(r2));
+		assertTrue(r1.equals(r2));
+		r1 = (TRenderer) new BarRenderer();
+		r1.setSeriesItemLabelGenerator(0, (CategoryItemLabelGenerator) clazzTCategoryItemLabelGenerator.newInstance());
+		r2 = null;
+		try {
+			r2 = (TRenderer) r1.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		assertTrue(r1 != r2);
+		assertTrue(adapter.getClass(r1) == adapter.getClass(r2));
+		assertTrue(r1.equals(r2));
+		r1 = (TRenderer) new BarRenderer();
+		r1.setBaseItemLabelGenerator((CategoryItemLabelGenerator) clazzTCategoryItemLabelGenerator.newInstance());
+		r2 = null;
+		try {
+			r2 = (TRenderer) r1.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		assertTrue(r1 != r2);
+		assertTrue(adapter.getClass(r1) == adapter.getClass(r2));
+		assertTrue(r1.equals(r2));
+	}
+
+	interface AbstractCategoryItemRendererTestsTestAdapter<TRenderer> {
+		Class<? extends TRenderer> getClass(TRenderer tRenderer1);
+	}
+
+	class AbstractCategoryItemRendererTestsTestCloning1AdapterImpl
+			implements AbstractCategoryItemRendererTestsTestAdapter<AbstractCategoryItemRenderer> {
+		public Class<? extends AbstractCategoryItemRenderer> getClass(AbstractCategoryItemRenderer r1) {
+			return r1.getClass();
+		}
+	}
+
+	class AbstractCategoryItemRendererTestsTestCloning2AdapterImpl
+			implements AbstractCategoryItemRendererTestsTestAdapter<BarRenderer> {
+		public Class<? extends BarRenderer> getClass(BarRenderer r1) {
+			return r1.getClass();
+		}
+	}
 
 }
     

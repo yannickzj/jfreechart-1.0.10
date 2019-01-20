@@ -46,13 +46,15 @@
 
 package org.jfree.data.general.junit;
 
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.category.CategoryDataset;
+import java.lang.Number;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.KeyToGroupMap;
 import org.jfree.data.Range;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.category.DefaultIntervalCategoryDataset;
 import org.jfree.data.function.Function2D;
@@ -63,7 +65,6 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.data.xy.DefaultTableXYDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.TableXYDataset;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.YIntervalSeries;
@@ -385,30 +386,20 @@ public class DatasetUtilitiesTests extends TestCase {
     }
     
     /**
-     * Some tests for the findMinimumRangeValue() method.
-     */
-    public void testFindMinimumRangeValue() {
-        CategoryDataset d1 = createCategoryDataset1();
-        Number min1 = DatasetUtilities.findMinimumRangeValue(d1);
-        assertEquals(new Double(1.0), min1);
-        
-        XYDataset d2 = createXYDataset1();
-        Number min2 = DatasetUtilities.findMinimumRangeValue(d2);
-        assertEquals(new Double(100.0), min2);        
-    }
+	 * Some tests for the findMinimumRangeValue() method.
+	 */
+	public void testFindMinimumRangeValue() {
+		this.datasetUtilitiesTestsTestFindRangeValueTemplate(
+				new DatasetUtilitiesTestsTestFindMinimumRangeValueAdapterImpl(), 1.0, 100.0);
+	}
     
     /**
-     * Some tests for the findMaximumRangeValue() method.
-     */
-    public void testFindMaximumRangeValue() {
-        CategoryDataset d1 = createCategoryDataset1();
-        Number max1 = DatasetUtilities.findMaximumRangeValue(d1);
-        assertEquals(new Double(6.0), max1);
-
-        XYDataset dataset = createXYDataset1();
-        Number maximum = DatasetUtilities.findMaximumRangeValue(dataset);
-        assertEquals(new Double(105.0), maximum);
-    }
+	 * Some tests for the findMaximumRangeValue() method.
+	 */
+	public void testFindMaximumRangeValue() {
+		this.datasetUtilitiesTestsTestFindRangeValueTemplate(
+				new DatasetUtilitiesTestsTestFindMaximumRangeValueAdapterImpl(), 6.0, 105.0);
+	}
     
     /**
      * A quick test of the min and max range value methods.
@@ -742,5 +733,43 @@ public class DatasetUtilitiesTests extends TestCase {
         
         return dataset;  
     }
+
+	public void datasetUtilitiesTestsTestFindRangeValueTemplate(DatasetUtilitiesTestsTestFindRangeValueAdapter adapter,
+			double d2, double d3) {
+		CategoryDataset d1 = createCategoryDataset1();
+		Number v1 = adapter.findRangeValue(d1);
+		assertEquals(new Double(d2), v1);
+		XYDataset v2 = createXYDataset1();
+		Number v3 = adapter.findRangeValue1(v2);
+		assertEquals(new Double(d3), v3);
+	}
+
+	interface DatasetUtilitiesTestsTestFindRangeValueAdapter {
+		Number findRangeValue(CategoryDataset categoryDataset1);
+
+		Number findRangeValue1(XYDataset xYDataset1);
+	}
+
+	class DatasetUtilitiesTestsTestFindMinimumRangeValueAdapterImpl
+			implements DatasetUtilitiesTestsTestFindRangeValueAdapter {
+		public Number findRangeValue(CategoryDataset d1) {
+			return DatasetUtilities.findMinimumRangeValue(d1);
+		}
+
+		public Number findRangeValue1(XYDataset d2) {
+			return DatasetUtilities.findMinimumRangeValue(d2);
+		}
+	}
+
+	class DatasetUtilitiesTestsTestFindMaximumRangeValueAdapterImpl
+			implements DatasetUtilitiesTestsTestFindRangeValueAdapter {
+		public Number findRangeValue(CategoryDataset d1) {
+			return DatasetUtilities.findMaximumRangeValue(d1);
+		}
+
+		public Number findRangeValue1(XYDataset dataset) {
+			return DatasetUtilities.findMaximumRangeValue(dataset);
+		}
+	}
     
 }

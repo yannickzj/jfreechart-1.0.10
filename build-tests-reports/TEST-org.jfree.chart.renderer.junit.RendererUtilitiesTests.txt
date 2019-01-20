@@ -1,0 +1,9 @@
+Testsuite: org.jfree.chart.renderer.junit.RendererUtilitiesTests
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 sec
+
+Testcase: testFindLiveItemsLowerBoundAscending took 0.002 sec
+Testcase: testFindLiveItemsLowerBoundDescending took 0.001 sec
+Testcase: testFindLiveItemsUpperBoundUnordered took 0 sec
+Testcase: testFindLiveItemsUpperBoundAscending took 0.002 sec
+Testcase: testFindLiveItemsUpperBoundDescending took 0 sec
+Testcase: testFindLiveItemsLowerBoundUnordered took 0 sec

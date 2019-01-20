@@ -45,13 +45,14 @@
 
 package org.jfree.data.time.junit;
 
+import java.util.Calendar;
+import org.jfree.data.time.Second;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -64,7 +65,6 @@ import junit.framework.TestSuite;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.Hour;
 import org.jfree.data.time.Minute;
-import org.jfree.data.time.Second;
 import org.jfree.date.MonthConstants;
 
 /**
@@ -240,24 +240,12 @@ public class SecondTests extends TestCase {
     }
     
     /**
-     * Some checks for the getFirstMillisecond(TimeZone) method.
-     */
-    public void testGetFirstMillisecondWithCalendar() {
-        Second s = new Second(55, 40, 2, 15, 4, 2000);
-        GregorianCalendar calendar = new GregorianCalendar(Locale.GERMANY);
-        calendar.setTimeZone(TimeZone.getTimeZone("Europe/Frankfurt"));
-        assertEquals(955766455000L, s.getFirstMillisecond(calendar));
-        
-        // try null calendar
-        boolean pass = false;
-        try {
-            s.getFirstMillisecond((Calendar) null);
-        }
-        catch (NullPointerException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-    }    
+	 * Some checks for the getFirstMillisecond(TimeZone) method.
+	 */
+	public void testGetFirstMillisecondWithCalendar() {
+		this.secondTestsTestGetMillisecondWithCalendarTemplate(
+				new SecondTestsTestGetFirstMillisecondWithCalendarAdapterImpl(), 55, 40, 2, 15, 2000, 955766455000L);
+	}    
 
     /**
      * Some checks for the getLastMillisecond() method.
@@ -293,24 +281,12 @@ public class SecondTests extends TestCase {
     }
     
     /**
-     * Some checks for the getLastMillisecond(TimeZone) method.
-     */
-    public void testGetLastMillisecondWithCalendar() {
-        Second s = new Second(50, 45, 21, 21, 4, 2001);
-        GregorianCalendar calendar = new GregorianCalendar(Locale.GERMANY);
-        calendar.setTimeZone(TimeZone.getTimeZone("Europe/Frankfurt"));
-        assertEquals(987889550999L, s.getLastMillisecond(calendar));
-        
-        // try null calendar
-        boolean pass = false;
-        try {
-            s.getLastMillisecond((Calendar) null);
-        }
-        catch (NullPointerException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-    } 
+	 * Some checks for the getLastMillisecond(TimeZone) method.
+	 */
+	public void testGetLastMillisecondWithCalendar() {
+		this.secondTestsTestGetMillisecondWithCalendarTemplate(
+				new SecondTestsTestGetLastMillisecondWithCalendarAdapterImpl(), 50, 45, 21, 21, 2001, 987889550999L);
+	} 
     
     /**
      * Some checks for the getSerialIndex() method.
@@ -365,5 +341,38 @@ public class SecondTests extends TestCase {
         assertEquals(cal.getTime(), s.getEnd());
         Locale.setDefault(saved);                
     }
+
+	public void secondTestsTestGetMillisecondWithCalendarTemplate(
+			SecondTestsTestGetMillisecondWithCalendarAdapter adapter, int i1, int i2, int i3, int i4, int i5, long l1) {
+		Second s = new Second(i1, i2, i3, i4, 4, i5);
+		GregorianCalendar calendar = new GregorianCalendar(Locale.GERMANY);
+		calendar.setTimeZone(TimeZone.getTimeZone("Europe/Frankfurt"));
+		assertEquals(l1, adapter.getMillisecond(s, calendar));
+		boolean pass = false;
+		try {
+			adapter.getMillisecond(s, (Calendar) null);
+		} catch (NullPointerException e) {
+			pass = true;
+		}
+		assertTrue(pass);
+	}
+
+	interface SecondTestsTestGetMillisecondWithCalendarAdapter {
+		long getMillisecond(Second second1, Calendar calendar1);
+	}
+
+	class SecondTestsTestGetFirstMillisecondWithCalendarAdapterImpl
+			implements SecondTestsTestGetMillisecondWithCalendarAdapter {
+		public long getMillisecond(Second s, Calendar calendar) {
+			return s.getFirstMillisecond(calendar);
+		}
+	}
+
+	class SecondTestsTestGetLastMillisecondWithCalendarAdapterImpl
+			implements SecondTestsTestGetMillisecondWithCalendarAdapter {
+		public long getMillisecond(Second s, Calendar calendar) {
+			return s.getLastMillisecond(calendar);
+		}
+	}
 
 }

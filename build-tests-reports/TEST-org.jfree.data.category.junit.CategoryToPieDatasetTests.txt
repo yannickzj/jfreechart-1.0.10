@@ -1,0 +1,9 @@
+Testsuite: org.jfree.data.category.junit.CategoryToPieDatasetTests
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 sec
+
+Testcase: testGetValue took 0.004 sec
+Testcase: testGetKey took 0 sec
+Testcase: testGetIndex took 0 sec
+Testcase: testEquals took 0.002 sec
+Testcase: testSerialization took 0.056 sec
+Testcase: testConstructor took 0 sec

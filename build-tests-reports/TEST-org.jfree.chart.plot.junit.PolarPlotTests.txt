@@ -1,0 +1,6 @@
+Testsuite: org.jfree.chart.plot.junit.PolarPlotTests
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.117 sec
+
+Testcase: testCloning took 0.072 sec
+Testcase: testSerialization took 0.038 sec
+Testcase: testEquals took 0.003 sec

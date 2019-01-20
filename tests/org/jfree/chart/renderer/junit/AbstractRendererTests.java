@@ -43,6 +43,8 @@
 
 package org.jfree.chart.renderer.junit;
 
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.renderer.category.BarRenderer;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -67,11 +69,9 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.event.RendererChangeListener;
 import org.jfree.chart.labels.ItemLabelAnchor;
-import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.renderer.AbstractRenderer;
-import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.ui.TextAnchor;
 
@@ -630,30 +630,20 @@ public class AbstractRendererTests extends TestCase {
     }
 
     /**
-     * Test that setting the positive item label position for ALL series does 
-     * in fact work.
-     */
-    public void testSetPositiveItemLabelPosition() {
-        BarRenderer r = new BarRenderer();
-        r.setPositiveItemLabelPosition(new ItemLabelPosition(
-                ItemLabelAnchor.INSIDE1, TextAnchor.BASELINE_LEFT));
-        assertEquals(new ItemLabelPosition(
-                ItemLabelAnchor.INSIDE1, TextAnchor.BASELINE_LEFT), 
-                r.getPositiveItemLabelPosition(0, 0));
-    }
+	 * Test that setting the positive item label position for ALL series does  in fact work.
+	 */
+	public void testSetPositiveItemLabelPosition() {
+		this.abstractRendererTestsTestSetItemLabelPositionTemplate(
+				new AbstractRendererTestsTestSetPositiveItemLabelPositionAdapterImpl());
+	}
 
     /**
-     * Test that setting the negative item label position for ALL series does 
-     * in fact work.
-     */
-    public void testSetNegativeItemLabelPosition() {
-        BarRenderer r = new BarRenderer();
-        r.setNegativeItemLabelPosition(new ItemLabelPosition(
-                ItemLabelAnchor.INSIDE1, TextAnchor.BASELINE_LEFT));
-        assertEquals(new ItemLabelPosition(
-                ItemLabelAnchor.INSIDE1, TextAnchor.BASELINE_LEFT), 
-                r.getNegativeItemLabelPosition(0, 0));
-    }
+	 * Test that setting the negative item label position for ALL series does  in fact work.
+	 */
+	public void testSetNegativeItemLabelPosition() {
+		this.abstractRendererTestsTestSetItemLabelPositionTemplate(
+				new AbstractRendererTestsTestSetNegativeItemLabelPositionAdapterImpl());
+	}
 
     /**
      * Tests each setter method to ensure that it sends an event notification.
@@ -913,5 +903,41 @@ public class AbstractRendererTests extends TestCase {
                 r.lookupSeriesOutlinePaint(0));
         assertNotNull(r.getSeriesOutlinePaint(0));
     }
+
+	public void abstractRendererTestsTestSetItemLabelPositionTemplate(
+			AbstractRendererTestsTestSetItemLabelPositionAdapter adapter) {
+		BarRenderer r = new BarRenderer();
+		adapter.setItemLabelPosition(r, new ItemLabelPosition(ItemLabelAnchor.INSIDE1, TextAnchor.BASELINE_LEFT));
+		assertEquals(new ItemLabelPosition(ItemLabelAnchor.INSIDE1, TextAnchor.BASELINE_LEFT),
+				adapter.getItemLabelPosition(r, 0, 0));
+	}
+
+	interface AbstractRendererTestsTestSetItemLabelPositionAdapter {
+		void setItemLabelPosition(BarRenderer barRenderer1, ItemLabelPosition itemLabelPosition1);
+
+		ItemLabelPosition getItemLabelPosition(BarRenderer barRenderer1, int i1, int i2);
+	}
+
+	class AbstractRendererTestsTestSetPositiveItemLabelPositionAdapterImpl
+			implements AbstractRendererTestsTestSetItemLabelPositionAdapter {
+		public void setItemLabelPosition(BarRenderer r, ItemLabelPosition itemLabelPosition1) {
+			r.setPositiveItemLabelPosition(itemLabelPosition1);
+		}
+
+		public ItemLabelPosition getItemLabelPosition(BarRenderer r, int i1, int i2) {
+			return r.getPositiveItemLabelPosition(i1, i2);
+		}
+	}
+
+	class AbstractRendererTestsTestSetNegativeItemLabelPositionAdapterImpl
+			implements AbstractRendererTestsTestSetItemLabelPositionAdapter {
+		public void setItemLabelPosition(BarRenderer r, ItemLabelPosition itemLabelPosition1) {
+			r.setNegativeItemLabelPosition(itemLabelPosition1);
+		}
+
+		public ItemLabelPosition getItemLabelPosition(BarRenderer r, int i1, int i2) {
+			return r.getNegativeItemLabelPosition(i1, i2);
+		}
+	}
 
 }

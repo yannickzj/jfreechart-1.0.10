@@ -1,0 +1,11 @@
+Testsuite: org.jfree.data.statistics.junit.RegressionTests
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 sec
+
+Testcase: testOLSRegression1a took 0 sec
+Testcase: testOLSRegression1b took 0.006 sec
+Testcase: testOLSRegression2a took 0 sec
+Testcase: testOLSRegression2b took 0.002 sec
+Testcase: testPowerRegression2a took 0 sec
+Testcase: testPowerRegression2b took 0 sec
+Testcase: testPowerRegression1a took 0 sec
+Testcase: testPowerRegression1b took 0.001 sec

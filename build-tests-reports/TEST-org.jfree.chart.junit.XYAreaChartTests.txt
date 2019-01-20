@@ -1,0 +1,6 @@
+Testsuite: org.jfree.chart.junit.XYAreaChartTests
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.196 sec
+
+Testcase: testSetSeriesToolTipGenerator took 0.119 sec
+Testcase: testDrawWithNullInfo took 0.071 sec
+Testcase: testReplaceDataset took 0.002 sec

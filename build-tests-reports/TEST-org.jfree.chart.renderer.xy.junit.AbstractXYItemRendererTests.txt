@@ -1,0 +1,8 @@
+Testsuite: org.jfree.chart.renderer.xy.junit.AbstractXYItemRendererTests
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.075 sec
+
+Testcase: testFindDomainBounds took 0.065 sec
+Testcase: testFindRangeBounds took 0 sec
+Testcase: testCloning_LegendItemLabelGenerator took 0.004 sec
+Testcase: testCloning_LegendItemToolTipGenerator took 0.002 sec
+Testcase: testCloning_LegendItemURLGenerator took 0 sec

@@ -41,6 +41,7 @@
 
 package org.jfree.chart.plot.junit;
 
+import org.jfree.chart.plot.IntervalMarker;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -54,7 +55,6 @@ import junit.framework.TestSuite;
 
 import org.jfree.chart.event.MarkerChangeEvent;
 import org.jfree.chart.event.MarkerChangeListener;
-import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.GradientPaintTransformer;
 import org.jfree.ui.StandardGradientPaintTransformer;
@@ -165,28 +165,53 @@ public class IntervalMarkerTests
     private static final double EPSILON = 0.0000000001;
    
     /**
-     * Some checks for the getStartValue() and setStartValue() methods.
-     */
-    public void testGetSetStartValue() {
-        IntervalMarker m = new IntervalMarker(1.0, 2.0);
-        m.addChangeListener(this);
-        this.lastEvent = null;
-        assertEquals(1.0, m.getStartValue(), EPSILON);
-        m.setStartValue(0.5);
-        assertEquals(0.5, m.getStartValue(), EPSILON);
-        assertEquals(m, this.lastEvent.getMarker());
-    }
+	 * Some checks for the getStartValue() and setStartValue() methods.
+	 */
+	public void testGetSetStartValue() {
+		this.intervalMarkerTestsTestGetSetValueTemplate(new IntervalMarkerTestsTestGetSetStartValueAdapterImpl(), 1.0);
+	}
 
     /**
-     * Some checks for the getEndValue() and setEndValue() methods.
-     */
-    public void testGetSetEndValue() {
-        IntervalMarker m = new IntervalMarker(1.0, 2.0);
-        m.addChangeListener(this);
-        this.lastEvent = null;
-        assertEquals(2.0, m.getEndValue(), EPSILON);
-        m.setEndValue(0.5);
-        assertEquals(0.5, m.getEndValue(), EPSILON);
-        assertEquals(m, this.lastEvent.getMarker());
-    }
+	 * Some checks for the getEndValue() and setEndValue() methods.
+	 */
+	public void testGetSetEndValue() {
+		this.intervalMarkerTestsTestGetSetValueTemplate(new IntervalMarkerTestsTestGetSetEndValueAdapterImpl(), 2.0);
+	}
+
+	public void intervalMarkerTestsTestGetSetValueTemplate(IntervalMarkerTestsTestGetSetValueAdapter adapter,
+			double d1) {
+		IntervalMarker m = new IntervalMarker(1.0, 2.0);
+		m.addChangeListener(this);
+		this.lastEvent = null;
+		assertEquals(d1, adapter.getValue(m), EPSILON);
+		adapter.setValue(m, 0.5);
+		assertEquals(0.5, adapter.getValue(m), EPSILON);
+		assertEquals(m, this.lastEvent.getMarker());
+	}
+
+	interface IntervalMarkerTestsTestGetSetValueAdapter {
+		double getValue(IntervalMarker intervalMarker1);
+
+		void setValue(IntervalMarker intervalMarker1, double d1);
+	}
+
+	class IntervalMarkerTestsTestGetSetStartValueAdapterImpl implements IntervalMarkerTestsTestGetSetValueAdapter {
+		public double getValue(IntervalMarker m) {
+			return m.getStartValue();
+		}
+
+		public void setValue(IntervalMarker m, double d1) {
+			m.setStartValue(d1);
+		}
+	}
+
+	class IntervalMarkerTestsTestGetSetEndValueAdapterImpl implements IntervalMarkerTestsTestGetSetValueAdapter {
+		public double getValue(IntervalMarker m) {
+			return m.getEndValue();
+		}
+
+		public void setValue(IntervalMarker m, double d1) {
+			m.setEndValue(d1);
+		}
+	}
 }

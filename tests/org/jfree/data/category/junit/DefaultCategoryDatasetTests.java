@@ -43,6 +43,8 @@
 
 package org.jfree.data.category.junit;
 
+import org.jfree.data.category.DefaultCategoryDataset;
+import java.lang.Comparable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -55,7 +57,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.UnknownKeyException;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -158,46 +159,20 @@ public class DefaultCategoryDatasetTests extends TestCase {
     }
 
     /**
-     * Some tests for the getRowCount() method.
-     */
-    public void testGetRowCount() {
-        DefaultCategoryDataset d = new DefaultCategoryDataset();
-        assertTrue(d.getRowCount() == 0);
-
-        d.addValue(1.0, "R1", "C1");
-        assertTrue(d.getRowCount() == 1);
-
-        d.addValue(1.0, "R2", "C1");
-        assertTrue(d.getRowCount() == 2);
-
-        d.addValue(2.0, "R2", "C1");
-        assertTrue(d.getRowCount() == 2);
-
-        // a row of all null values is still counted...
-        d.setValue(null, "R2", "C1");
-        assertTrue(d.getRowCount() == 2);
-    }
+	 * Some tests for the getRowCount() method.
+	 */
+	public void testGetRowCount() {
+		this.defaultCategoryDatasetTestsTestGetCountTemplate(
+				new DefaultCategoryDatasetTestsTestGetRowCountAdapterImpl(), "R2", "C1", "R2", "C1", "R2", "C1");
+	}
 
     /**
-     * Some tests for the getColumnCount() method.
-     */
-    public void testGetColumnCount() {
-        DefaultCategoryDataset d = new DefaultCategoryDataset();
-        assertTrue(d.getColumnCount() == 0);
-
-        d.addValue(1.0, "R1", "C1");
-        assertTrue(d.getColumnCount() == 1);
-
-        d.addValue(1.0, "R1", "C2");
-        assertTrue(d.getColumnCount() == 2);
-
-        d.addValue(2.0, "R1", "C2");
-        assertTrue(d.getColumnCount() == 2);
-
-        // a column of all null values is still counted...
-        d.setValue(null, "R1", "C2");
-        assertTrue(d.getColumnCount() == 2);
-    }
+	 * Some tests for the getColumnCount() method.
+	 */
+	public void testGetColumnCount() {
+		this.defaultCategoryDatasetTestsTestGetCountTemplate(
+				new DefaultCategoryDatasetTestsTestGetColumnCountAdapterImpl(), "R1", "C2", "R1", "C2", "R1", "C2");
+	}
 
     /**
      * Confirm that the equals method can distinguish all the required fields.
@@ -362,63 +337,102 @@ public class DefaultCategoryDatasetTests extends TestCase {
     }
 
     /**
-     * Some checks for the removeColumn(Comparable) method.
-     */
-    public void testRemoveColumn() {
-        DefaultCategoryDataset d = new DefaultCategoryDataset();
-        d.addValue(1.0, "R1", "C1");
-        d.addValue(2.0, "R2", "C2");
-        assertEquals(2, d.getColumnCount());
-        d.removeColumn("C2");
-        assertEquals(1, d.getColumnCount());
-
-        boolean pass = false;
-        try {
-            d.removeColumn("XXX");
-        }
-        catch (UnknownKeyException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-
-        pass = false;
-        try {
-            d.removeColumn(null);
-        }
-        catch (IllegalArgumentException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-    }
+	 * Some checks for the removeColumn(Comparable) method.
+	 */
+	public void testRemoveColumn() {
+		this.defaultCategoryDatasetTestsTestRemoveTemplate(new DefaultCategoryDatasetTestsTestRemoveColumnAdapterImpl(),
+				"C2");
+	}
 
     /**
-     * Some checks for the removeRow(Comparable) method.
-     */
-    public void testRemoveRow() {
-        DefaultCategoryDataset d = new DefaultCategoryDataset();
-        d.addValue(1.0, "R1", "C1");
-        d.addValue(2.0, "R2", "C2");
-        assertEquals(2, d.getRowCount());
-        d.removeRow("R2");
-        assertEquals(1, d.getRowCount());
+	 * Some checks for the removeRow(Comparable) method.
+	 */
+	public void testRemoveRow() {
+		this.defaultCategoryDatasetTestsTestRemoveTemplate(new DefaultCategoryDatasetTestsTestRemoveRowAdapterImpl(),
+				"R2");
+	}
 
-        boolean pass = false;
-        try {
-            d.removeRow("XXX");
-        }
-        catch (UnknownKeyException e) {
-            pass = true;
-        }
-        assertTrue(pass);
+	public void defaultCategoryDatasetTestsTestRemoveTemplate(DefaultCategoryDatasetTestsTestRemoveAdapter adapter,
+			String string1) {
+		DefaultCategoryDataset d = new DefaultCategoryDataset();
+		d.addValue(1.0, "R1", "C1");
+		d.addValue(2.0, "R2", "C2");
+		assertEquals(2, adapter.getCount(d));
+		adapter.remove(d, string1);
+		assertEquals(1, adapter.getCount(d));
+		boolean pass = false;
+		try {
+			adapter.remove(d, "XXX");
+		} catch (UnknownKeyException e) {
+			pass = true;
+		}
+		assertTrue(pass);
+		pass = false;
+		try {
+			adapter.remove(d, null);
+		} catch (IllegalArgumentException e) {
+			pass = true;
+		}
+		assertTrue(pass);
+	}
 
-        pass = false;
-        try {
-            d.removeRow(null);
-        }
-        catch (IllegalArgumentException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-    }
+	interface DefaultCategoryDatasetTestsTestRemoveAdapter {
+		int getCount(DefaultCategoryDataset defaultCategoryDataset1);
+
+		void remove(DefaultCategoryDataset defaultCategoryDataset1, Comparable comparable1);
+	}
+
+	class DefaultCategoryDatasetTestsTestRemoveColumnAdapterImpl
+			implements DefaultCategoryDatasetTestsTestRemoveAdapter {
+		public int getCount(DefaultCategoryDataset d) {
+			return d.getColumnCount();
+		}
+
+		public void remove(DefaultCategoryDataset d, Comparable comparable1) {
+			d.removeColumn(comparable1);
+		}
+	}
+
+	class DefaultCategoryDatasetTestsTestRemoveRowAdapterImpl implements DefaultCategoryDatasetTestsTestRemoveAdapter {
+		public int getCount(DefaultCategoryDataset d) {
+			return d.getRowCount();
+		}
+
+		public void remove(DefaultCategoryDataset d, Comparable comparable1) {
+			d.removeRow(comparable1);
+		}
+	}
+
+	public void defaultCategoryDatasetTestsTestGetCountTemplate(DefaultCategoryDatasetTestsTestGetCountAdapter adapter,
+			String string1, String string2, String string3, String string4, String string5, String string6) {
+		DefaultCategoryDataset d = new DefaultCategoryDataset();
+		assertTrue(adapter.getCount(d) == 0);
+		d.addValue(1.0, "R1", "C1");
+		assertTrue(adapter.getCount(d) == 1);
+		d.addValue(1.0, string1, string2);
+		assertTrue(adapter.getCount(d) == 2);
+		d.addValue(2.0, string3, string4);
+		assertTrue(adapter.getCount(d) == 2);
+		d.setValue(null, string5, string6);
+		assertTrue(adapter.getCount(d) == 2);
+	}
+
+	interface DefaultCategoryDatasetTestsTestGetCountAdapter {
+		int getCount(DefaultCategoryDataset defaultCategoryDataset1);
+	}
+
+	class DefaultCategoryDatasetTestsTestGetRowCountAdapterImpl
+			implements DefaultCategoryDatasetTestsTestGetCountAdapter {
+		public int getCount(DefaultCategoryDataset d) {
+			return d.getRowCount();
+		}
+	}
+
+	class DefaultCategoryDatasetTestsTestGetColumnCountAdapterImpl
+			implements DefaultCategoryDatasetTestsTestGetCountAdapter {
+		public int getCount(DefaultCategoryDataset d) {
+			return d.getColumnCount();
+		}
+	}
 
 }

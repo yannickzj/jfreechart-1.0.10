@@ -47,6 +47,8 @@
 
 package org.jfree.chart.axis.junit;
 
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.axis.ValueAxis;
 import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -66,7 +68,6 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.RangeType;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -340,60 +341,18 @@ public class NumberAxisTests extends TestCase {
     }
     
     /**
-     * Checks that the auto-range for the domain axis on an XYPlot is
-     * working as expected.
-     */
-    public void testXYAutoRange1() {
-        XYSeries series = new XYSeries("Series 1");
-        series.add(1.0, 1.0);
-        series.add(2.0, 2.0);
-        series.add(3.0, 3.0);
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
-        JFreeChart chart = ChartFactory.createScatterPlot(
-            "Test", 
-            "X",
-            "Y",
-            dataset,
-            PlotOrientation.VERTICAL,
-            false, 
-            false,
-            false
-        );
-        XYPlot plot = (XYPlot) chart.getPlot();
-        NumberAxis axis = (NumberAxis) plot.getDomainAxis();
-        axis.setAutoRangeIncludesZero(false);
-        assertEquals(0.9, axis.getLowerBound(), EPSILON);    
-        assertEquals(3.1, axis.getUpperBound(), EPSILON);    
-    }
+	 * Checks that the auto-range for the domain axis on an XYPlot is working as expected.
+	 */
+	public void testXYAutoRange1() {
+		this.numberAxisTestsTestXYAutoTemplate(new NumberAxisTestsTestXYAutoRange1AdapterImpl());
+	}
     
     /**
-     * Checks that the auto-range for the range axis on an XYPlot is
-     * working as expected.
-     */
-    public void testXYAutoRange2() {
-        XYSeries series = new XYSeries("Series 1");
-        series.add(1.0, 1.0);
-        series.add(2.0, 2.0);
-        series.add(3.0, 3.0);
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
-        JFreeChart chart = ChartFactory.createScatterPlot(
-            "Test", 
-            "X",
-            "Y",
-            dataset,
-            PlotOrientation.VERTICAL,
-            false, 
-            false,
-            false
-        );
-        XYPlot plot = (XYPlot) chart.getPlot();
-        NumberAxis axis = (NumberAxis) plot.getRangeAxis();
-        axis.setAutoRangeIncludesZero(false);
-        assertEquals(0.9, axis.getLowerBound(), EPSILON);    
-        assertEquals(3.1, axis.getUpperBound(), EPSILON);    
-    }
+	 * Checks that the auto-range for the range axis on an XYPlot is working as expected.
+	 */
+	public void testXYAutoRange2() {
+		this.numberAxisTestsTestXYAutoTemplate(new NumberAxisTestsTestXYAutoRange2AdapterImpl());
+	}
     
 //    /**
 //     * Some checks for the setRangeType() method.
@@ -455,5 +414,37 @@ public class NumberAxisTests extends TestCase {
         //axis.setLowerBound(-5.0);
         //assertEquals(0.0, axis.getLowerBound(), EPSILON);
     }
+
+	public void numberAxisTestsTestXYAutoTemplate(NumberAxisTestsTestXYAutoAdapter adapter) {
+		XYSeries series = new XYSeries("Series 1");
+		series.add(1.0, 1.0);
+		series.add(2.0, 2.0);
+		series.add(3.0, 3.0);
+		XYSeriesCollection dataset = new XYSeriesCollection();
+		dataset.addSeries(series);
+		JFreeChart chart = ChartFactory.createScatterPlot("Test", "X", "Y", dataset, PlotOrientation.VERTICAL, false,
+				false, false);
+		XYPlot plot = (XYPlot) chart.getPlot();
+		NumberAxis axis = (NumberAxis) adapter.getAxis(plot);
+		axis.setAutoRangeIncludesZero(false);
+		assertEquals(0.9, axis.getLowerBound(), EPSILON);
+		assertEquals(3.1, axis.getUpperBound(), EPSILON);
+	}
+
+	interface NumberAxisTestsTestXYAutoAdapter {
+		ValueAxis getAxis(XYPlot xYPlot1);
+	}
+
+	class NumberAxisTestsTestXYAutoRange1AdapterImpl implements NumberAxisTestsTestXYAutoAdapter {
+		public ValueAxis getAxis(XYPlot plot) {
+			return plot.getDomainAxis();
+		}
+	}
+
+	class NumberAxisTestsTestXYAutoRange2AdapterImpl implements NumberAxisTestsTestXYAutoAdapter {
+		public ValueAxis getAxis(XYPlot plot) {
+			return plot.getRangeAxis();
+		}
+	}
 
 }

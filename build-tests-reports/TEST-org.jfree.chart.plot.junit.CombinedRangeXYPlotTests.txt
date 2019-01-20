@@ -1,0 +1,8 @@
+Testsuite: org.jfree.chart.plot.junit.CombinedRangeXYPlotTests
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.272 sec
+
+Testcase: testRemoveSubplot took 0.061 sec
+Testcase: testCloning took 0.021 sec
+Testcase: testSerialization took 0.085 sec
+Testcase: testEquals took 0.005 sec
+Testcase: testNotification took 0.097 sec

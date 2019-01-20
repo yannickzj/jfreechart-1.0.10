@@ -320,150 +320,18 @@ public class DateAxisTests extends TestCase {
     }
 
     /**
-     * A basic check for the testPreviousStandardDate() method when the
-     * tick unit is 1 year.
-     */
-    public void testPreviousStandardDateYearA() {
-        MyDateAxis axis = new MyDateAxis("Year");
-        Year y2006 = new Year(2006);
-        Year y2007 = new Year(2007);
-        
-        // five dates to check...
-        Date d0 = new Date(y2006.getFirstMillisecond());
-        Date d1 = new Date(y2006.getFirstMillisecond() + 500L);
-        Date d2 = new Date(y2006.getMiddleMillisecond());
-        Date d3 = new Date(y2006.getMiddleMillisecond() + 500L);
-        Date d4 = new Date(y2006.getLastMillisecond());
-        
-        Date end = new Date(y2007.getLastMillisecond());
-        
-        DateTickUnit unit = new DateTickUnit(DateTickUnit.YEAR, 1);
-        axis.setTickUnit(unit);
-
-        // START: check d0 and d1
-        axis.setTickMarkPosition(DateTickMarkPosition.START);
-
-        axis.setRange(d0, end);
-        Date psd = axis.previousStandardDate(d0, unit);
-        Date nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-
-        axis.setRange(d1, end);
-        psd = axis.previousStandardDate(d1, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d1.getTime());
-        assertTrue(nsd.getTime() >= d1.getTime());
-
-        // MIDDLE: check d1, d2 and d3
-        axis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
-        
-        axis.setRange(d1, end);
-        psd = axis.previousStandardDate(d1, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d1.getTime());
-        assertTrue(nsd.getTime() >= d1.getTime());
-        
-        axis.setRange(d2, end);
-        psd = axis.previousStandardDate(d2, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d2.getTime());
-        assertTrue(nsd.getTime() >= d2.getTime());
-
-        axis.setRange(d3, end);
-        psd = axis.previousStandardDate(d3, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d3.getTime());
-        assertTrue(nsd.getTime() >= d3.getTime());
-
-        // END: check d3 and d4
-        axis.setTickMarkPosition(DateTickMarkPosition.END);
-        
-        axis.setRange(d3, end);
-        psd = axis.previousStandardDate(d3, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d3.getTime());
-        assertTrue(nsd.getTime() >= d3.getTime());
-        
-        axis.setRange(d4, end);
-        psd = axis.previousStandardDate(d4, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d4.getTime());
-        assertTrue(nsd.getTime() >= d4.getTime());
-    }
+	 * A basic check for the testPreviousStandardDate() method when the tick unit is 1 year.
+	 */
+	public void testPreviousStandardDateYearA() {
+		this.dateAxisTestsTestPreviousStandardDateYearTemplate(1);
+	}
     
     /**
-     * A basic check for the testPreviousStandardDate() method when the
-     * tick unit is 10 years (just for the sake of having a multiple).
-     */
-    public void testPreviousStandardDateYearB() {
-        MyDateAxis axis = new MyDateAxis("Year");
-        Year y2006 = new Year(2006);
-        Year y2007 = new Year(2007);
-        
-        // five dates to check...
-        Date d0 = new Date(y2006.getFirstMillisecond());
-        Date d1 = new Date(y2006.getFirstMillisecond() + 500L);
-        Date d2 = new Date(y2006.getMiddleMillisecond());
-        Date d3 = new Date(y2006.getMiddleMillisecond() + 500L);
-        Date d4 = new Date(y2006.getLastMillisecond());
-        
-        Date end = new Date(y2007.getLastMillisecond());
-        
-        DateTickUnit unit = new DateTickUnit(DateTickUnit.YEAR, 10);
-        axis.setTickUnit(unit);
-
-        // START: check d0 and d1
-        axis.setTickMarkPosition(DateTickMarkPosition.START);
-
-        axis.setRange(d0, end);
-        Date psd = axis.previousStandardDate(d0, unit);
-        Date nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-
-        axis.setRange(d1, end);
-        psd = axis.previousStandardDate(d1, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d1.getTime());
-        assertTrue(nsd.getTime() >= d1.getTime());
-
-        // MIDDLE: check d1, d2 and d3
-        axis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
-        
-        axis.setRange(d1, end);
-        psd = axis.previousStandardDate(d1, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d1.getTime());
-        assertTrue(nsd.getTime() >= d1.getTime());
-        
-        axis.setRange(d2, end);
-        psd = axis.previousStandardDate(d2, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d2.getTime());
-        assertTrue(nsd.getTime() >= d2.getTime());
-
-        axis.setRange(d3, end);
-        psd = axis.previousStandardDate(d3, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d3.getTime());
-        assertTrue(nsd.getTime() >= d3.getTime());
-
-        // END: check d3 and d4
-        axis.setTickMarkPosition(DateTickMarkPosition.END);
-        
-        axis.setRange(d3, end);
-        psd = axis.previousStandardDate(d3, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d3.getTime());
-        assertTrue(nsd.getTime() >= d3.getTime());
-        
-        axis.setRange(d4, end);
-        psd = axis.previousStandardDate(d4, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d4.getTime());
-        assertTrue(nsd.getTime() >= d4.getTime());
-    }
+	 * A basic check for the testPreviousStandardDate() method when the tick unit is 10 years (just for the sake of having a multiple).
+	 */
+	public void testPreviousStandardDateYearB() {
+		this.dateAxisTestsTestPreviousStandardDateYearTemplate(10);
+	}
 
     /**
      * A basic check for the testPreviousStandardDate() method when the
@@ -904,235 +772,163 @@ public class DateAxisTests extends TestCase {
     }
     
     /**
-     * A basic check for the testPreviousStandardDate() method when the
-     * tick unit is 1 second.
-     */
-    public void testPreviousStandardDateSecondA() {
-        MyDateAxis axis = new MyDateAxis("Second");
-        Second s0 = new Second(58, 31, 12, 1, 4, 2007);
-        Second s1 = new Second(59, 31, 12, 1, 4, 2007);
-        
-        // five dates to check...
-        Date d0 = new Date(s0.getFirstMillisecond());
-        Date d1 = new Date(s0.getFirstMillisecond() + 50L);
-        Date d2 = new Date(s0.getMiddleMillisecond());
-        Date d3 = new Date(s0.getMiddleMillisecond() + 50L);
-        Date d4 = new Date(s0.getLastMillisecond());
-     
-        Date end = new Date(s1.getLastMillisecond());
-        
-        DateTickUnit unit = new DateTickUnit(DateTickUnit.SECOND, 1);
-        axis.setTickUnit(unit);
-
-        // START: check d0 and d1
-        axis.setTickMarkPosition(DateTickMarkPosition.START);
-
-        axis.setRange(d0, end);
-        Date psd = axis.previousStandardDate(d0, unit);
-        Date nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-
-        axis.setRange(d1, end);
-        psd = axis.previousStandardDate(d1, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d1.getTime());
-        assertTrue(nsd.getTime() >= d1.getTime());
-
-        // MIDDLE: check d1, d2 and d3
-        axis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
-        
-        axis.setRange(d1, end);
-        psd = axis.previousStandardDate(d1, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d1.getTime());
-        assertTrue(nsd.getTime() >= d1.getTime());
-        
-        axis.setRange(d2, end);
-        psd = axis.previousStandardDate(d2, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d2.getTime());
-        assertTrue(nsd.getTime() >= d2.getTime());
-
-        axis.setRange(d3, end);
-        psd = axis.previousStandardDate(d3, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d3.getTime());
-        assertTrue(nsd.getTime() >= d3.getTime());
-
-        // END: check d3 and d4
-        axis.setTickMarkPosition(DateTickMarkPosition.END);
-        
-        axis.setRange(d3, end);
-        psd = axis.previousStandardDate(d3, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d3.getTime());
-        assertTrue(nsd.getTime() >= d3.getTime());
-        
-        axis.setRange(d4, end);
-        psd = axis.previousStandardDate(d4, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d4.getTime());
-        assertTrue(nsd.getTime() >= d4.getTime());
-    }
+	 * A basic check for the testPreviousStandardDate() method when the tick unit is 1 second.
+	 */
+	public void testPreviousStandardDateSecondA() {
+		this.dateAxisTestsTestPreviousStandardDateSecondTemplate(1);
+	}
 
     /**
-     * A basic check for the testPreviousStandardDate() method when the
-     * tick unit is 5 seconds (just for the sake of having a multiple).
-     */
-    public void testPreviousStandardDateSecondB() {
-        MyDateAxis axis = new MyDateAxis("Second");
-        Second s0 = new Second(58, 31, 12, 1, 4, 2007);
-        Second s1 = new Second(59, 31, 12, 1, 4, 2007);
-        
-        // five dates to check...
-        Date d0 = new Date(s0.getFirstMillisecond());
-        Date d1 = new Date(s0.getFirstMillisecond() + 50L);
-        Date d2 = new Date(s0.getMiddleMillisecond());
-        Date d3 = new Date(s0.getMiddleMillisecond() + 50L);
-        Date d4 = new Date(s0.getLastMillisecond());
-     
-        Date end = new Date(s1.getLastMillisecond());
-        
-        DateTickUnit unit = new DateTickUnit(DateTickUnit.SECOND, 5);
-        axis.setTickUnit(unit);
-
-        // START: check d0 and d1
-        axis.setTickMarkPosition(DateTickMarkPosition.START);
-
-        axis.setRange(d0, end);
-        Date psd = axis.previousStandardDate(d0, unit);
-        Date nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-
-        axis.setRange(d1, end);
-        psd = axis.previousStandardDate(d1, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d1.getTime());
-        assertTrue(nsd.getTime() >= d1.getTime());
-
-        // MIDDLE: check d1, d2 and d3
-        axis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
-        
-        axis.setRange(d1, end);
-        psd = axis.previousStandardDate(d1, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d1.getTime());
-        assertTrue(nsd.getTime() >= d1.getTime());
-        
-        axis.setRange(d2, end);
-        psd = axis.previousStandardDate(d2, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d2.getTime());
-        assertTrue(nsd.getTime() >= d2.getTime());
-
-        axis.setRange(d3, end);
-        psd = axis.previousStandardDate(d3, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d3.getTime());
-        assertTrue(nsd.getTime() >= d3.getTime());
-
-        // END: check d3 and d4
-        axis.setTickMarkPosition(DateTickMarkPosition.END);
-        
-        axis.setRange(d3, end);
-        psd = axis.previousStandardDate(d3, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d3.getTime());
-        assertTrue(nsd.getTime() >= d3.getTime());
-        
-        axis.setRange(d4, end);
-        psd = axis.previousStandardDate(d4, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d4.getTime());
-        assertTrue(nsd.getTime() >= d4.getTime());
-    }
+	 * A basic check for the testPreviousStandardDate() method when the tick unit is 5 seconds (just for the sake of having a multiple).
+	 */
+	public void testPreviousStandardDateSecondB() {
+		this.dateAxisTestsTestPreviousStandardDateSecondTemplate(5);
+	}
 
     /**
-     * A basic check for the testPreviousStandardDate() method when the
-     * tick unit is 1 millisecond.
-     */
-    public void testPreviousStandardDateMillisecondA() {
-        MyDateAxis axis = new MyDateAxis("Millisecond");
-        Millisecond m0 = new Millisecond(458, 58, 31, 12, 1, 4, 2007);
-        Millisecond m1 = new Millisecond(459, 58, 31, 12, 1, 4, 2007);
-
-        Date d0 = new Date(m0.getFirstMillisecond());
-        Date end = new Date(m1.getLastMillisecond());
-        
-        DateTickUnit unit = new DateTickUnit(DateTickUnit.MILLISECOND, 1);
-        axis.setTickUnit(unit);
-
-        // START: check d0
-        axis.setTickMarkPosition(DateTickMarkPosition.START);
-
-        axis.setRange(d0, end);
-        Date psd = axis.previousStandardDate(d0, unit);
-        Date nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-
-        // MIDDLE: check d0
-        axis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
-        
-        axis.setRange(d0, end);
-        psd = axis.previousStandardDate(d0, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-        
-        // END: check d0
-        axis.setTickMarkPosition(DateTickMarkPosition.END);
-        
-        axis.setRange(d0, end);
-        psd = axis.previousStandardDate(d0, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-    }
+	 * A basic check for the testPreviousStandardDate() method when the tick unit is 1 millisecond.
+	 */
+	public void testPreviousStandardDateMillisecondA() {
+		this.dateAxisTestsTestPreviousStandardDateMillisecondTemplate(1);
+	}
 
     /**
-     * A basic check for the testPreviousStandardDate() method when the
-     * tick unit is 10 milliseconds (just for the sake of having a multiple).
-     */
-    public void testPreviousStandardDateMillisecondB() {
-        MyDateAxis axis = new MyDateAxis("Millisecond");
-        Millisecond m0 = new Millisecond(458, 58, 31, 12, 1, 4, 2007);
-        Millisecond m1 = new Millisecond(459, 58, 31, 12, 1, 4, 2007);
+	 * A basic check for the testPreviousStandardDate() method when the tick unit is 10 milliseconds (just for the sake of having a multiple).
+	 */
+	public void testPreviousStandardDateMillisecondB() {
+		this.dateAxisTestsTestPreviousStandardDateMillisecondTemplate(10);
+	}
 
-        Date d0 = new Date(m0.getFirstMillisecond());
-        Date end = new Date(m1.getLastMillisecond());
-        
-        DateTickUnit unit = new DateTickUnit(DateTickUnit.MILLISECOND, 10);
-        axis.setTickUnit(unit);
+	public void dateAxisTestsTestPreviousStandardDateYearTemplate(int i1) {
+		MyDateAxis axis = new MyDateAxis("Year");
+		Year y2006 = new Year(2006);
+		Year y2007 = new Year(2007);
+		Date d0 = new Date(y2006.getFirstMillisecond());
+		Date d1 = new Date(y2006.getFirstMillisecond() + 500L);
+		Date d2 = new Date(y2006.getMiddleMillisecond());
+		Date d3 = new Date(y2006.getMiddleMillisecond() + 500L);
+		Date d4 = new Date(y2006.getLastMillisecond());
+		Date end = new Date(y2007.getLastMillisecond());
+		DateTickUnit unit = new DateTickUnit(DateTickUnit.YEAR, i1);
+		axis.setTickUnit(unit);
+		axis.setTickMarkPosition(DateTickMarkPosition.START);
+		axis.setRange(d0, end);
+		Date psd = axis.previousStandardDate(d0, unit);
+		Date nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d0.getTime());
+		assertTrue(nsd.getTime() >= d0.getTime());
+		axis.setRange(d1, end);
+		psd = axis.previousStandardDate(d1, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d1.getTime());
+		assertTrue(nsd.getTime() >= d1.getTime());
+		axis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
+		axis.setRange(d1, end);
+		psd = axis.previousStandardDate(d1, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d1.getTime());
+		assertTrue(nsd.getTime() >= d1.getTime());
+		axis.setRange(d2, end);
+		psd = axis.previousStandardDate(d2, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d2.getTime());
+		assertTrue(nsd.getTime() >= d2.getTime());
+		axis.setRange(d3, end);
+		psd = axis.previousStandardDate(d3, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d3.getTime());
+		assertTrue(nsd.getTime() >= d3.getTime());
+		axis.setTickMarkPosition(DateTickMarkPosition.END);
+		axis.setRange(d3, end);
+		psd = axis.previousStandardDate(d3, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d3.getTime());
+		assertTrue(nsd.getTime() >= d3.getTime());
+		axis.setRange(d4, end);
+		psd = axis.previousStandardDate(d4, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d4.getTime());
+		assertTrue(nsd.getTime() >= d4.getTime());
+	}
 
-        // START: check d0
-        axis.setTickMarkPosition(DateTickMarkPosition.START);
+	public void dateAxisTestsTestPreviousStandardDateSecondTemplate(int i1) {
+		MyDateAxis axis = new MyDateAxis("Second");
+		Second s0 = new Second(58, 31, 12, 1, 4, 2007);
+		Second s1 = new Second(59, 31, 12, 1, 4, 2007);
+		Date d0 = new Date(s0.getFirstMillisecond());
+		Date d1 = new Date(s0.getFirstMillisecond() + 50L);
+		Date d2 = new Date(s0.getMiddleMillisecond());
+		Date d3 = new Date(s0.getMiddleMillisecond() + 50L);
+		Date d4 = new Date(s0.getLastMillisecond());
+		Date end = new Date(s1.getLastMillisecond());
+		DateTickUnit unit = new DateTickUnit(DateTickUnit.SECOND, i1);
+		axis.setTickUnit(unit);
+		axis.setTickMarkPosition(DateTickMarkPosition.START);
+		axis.setRange(d0, end);
+		Date psd = axis.previousStandardDate(d0, unit);
+		Date nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d0.getTime());
+		assertTrue(nsd.getTime() >= d0.getTime());
+		axis.setRange(d1, end);
+		psd = axis.previousStandardDate(d1, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d1.getTime());
+		assertTrue(nsd.getTime() >= d1.getTime());
+		axis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
+		axis.setRange(d1, end);
+		psd = axis.previousStandardDate(d1, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d1.getTime());
+		assertTrue(nsd.getTime() >= d1.getTime());
+		axis.setRange(d2, end);
+		psd = axis.previousStandardDate(d2, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d2.getTime());
+		assertTrue(nsd.getTime() >= d2.getTime());
+		axis.setRange(d3, end);
+		psd = axis.previousStandardDate(d3, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d3.getTime());
+		assertTrue(nsd.getTime() >= d3.getTime());
+		axis.setTickMarkPosition(DateTickMarkPosition.END);
+		axis.setRange(d3, end);
+		psd = axis.previousStandardDate(d3, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d3.getTime());
+		assertTrue(nsd.getTime() >= d3.getTime());
+		axis.setRange(d4, end);
+		psd = axis.previousStandardDate(d4, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d4.getTime());
+		assertTrue(nsd.getTime() >= d4.getTime());
+	}
 
-        axis.setRange(d0, end);
-        Date psd = axis.previousStandardDate(d0, unit);
-        Date nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-
-        // MIDDLE: check d0
-        axis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
-        
-        axis.setRange(d0, end);
-        psd = axis.previousStandardDate(d0, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-        
-        // END: check d0
-        axis.setTickMarkPosition(DateTickMarkPosition.END);
-        
-        axis.setRange(d0, end);
-        psd = axis.previousStandardDate(d0, unit);
-        nsd = unit.addToDate(psd);
-        assertTrue(psd.getTime() < d0.getTime());
-        assertTrue(nsd.getTime() >= d0.getTime());
-    }
+	public void dateAxisTestsTestPreviousStandardDateMillisecondTemplate(int i1) {
+		MyDateAxis axis = new MyDateAxis("Millisecond");
+		Millisecond m0 = new Millisecond(458, 58, 31, 12, 1, 4, 2007);
+		Millisecond m1 = new Millisecond(459, 58, 31, 12, 1, 4, 2007);
+		Date d0 = new Date(m0.getFirstMillisecond());
+		Date end = new Date(m1.getLastMillisecond());
+		DateTickUnit unit = new DateTickUnit(DateTickUnit.MILLISECOND, i1);
+		axis.setTickUnit(unit);
+		axis.setTickMarkPosition(DateTickMarkPosition.START);
+		axis.setRange(d0, end);
+		Date psd = axis.previousStandardDate(d0, unit);
+		Date nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d0.getTime());
+		assertTrue(nsd.getTime() >= d0.getTime());
+		axis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
+		axis.setRange(d0, end);
+		psd = axis.previousStandardDate(d0, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d0.getTime());
+		assertTrue(nsd.getTime() >= d0.getTime());
+		axis.setTickMarkPosition(DateTickMarkPosition.END);
+		axis.setRange(d0, end);
+		psd = axis.previousStandardDate(d0, unit);
+		nsd = unit.addToDate(psd);
+		assertTrue(psd.getTime() < d0.getTime());
+		assertTrue(nsd.getTime() >= d0.getTime());
+	}
 
 }

@@ -1,0 +1,9 @@
+Testsuite: org.jfree.chart.junit.StrokeMapTests
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 sec
+
+Testcase: testCloning took 0.003 sec
+Testcase: testSerialization1 took 0.051 sec
+Testcase: testSerialization2 took 0.002 sec
+Testcase: testPut took 0.001 sec
+Testcase: testEquals took 0 sec
+Testcase: testGetStroke took 0 sec

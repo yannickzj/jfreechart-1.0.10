@@ -49,6 +49,10 @@
 
 package org.jfree.chart.plot.junit;
 
+import java.awt.Paint;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.LegendItemSource;
+import org.jfree.chart.plot.XYPlot;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -83,11 +87,9 @@ import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ValueMarker;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.DefaultXYItemRenderer;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
@@ -874,20 +876,12 @@ public class XYPlotTests extends TestCase {
     }
     
     /**
-     * A test for a bug where setting the renderer doesn't register the plot
-     * as a RendererChangeListener.
-     */
-    public void testSetRenderer() {
-        XYPlot plot = new XYPlot();
-        XYItemRenderer renderer = new XYLineAndShapeRenderer();
-        plot.setRenderer(renderer);
-        // now make a change to the renderer and see if it triggers a plot
-        // change event...
-        MyPlotChangeListener listener = new MyPlotChangeListener();
-        plot.addChangeListener(listener);
-        renderer.setSeriesPaint(0, Color.black);
-        assertTrue(listener.getEvent() != null);
-    }
+	 * A test for a bug where setting the renderer doesn't register the plot as a RendererChangeListener.
+	 */
+	public void testSetRenderer() throws Exception {
+		PlotTestsTestSetRendererTemplate.plotTestsTestSetRendererTemplate(new XYPlotTestsTestSetRendererAdapterImpl(),
+				XYPlot.class, XYLineAndShapeRenderer.class);
+	}
     
     /**
      * Some checks for the removeAnnotation() method.
@@ -1037,5 +1031,15 @@ public class XYPlotTests extends TestCase {
         XYPlot plot = new XYPlot();
         assertFalse(plot.removeRangeMarker(new ValueMarker(0.5)));
     }
+
+	class XYPlotTestsTestSetRendererAdapterImpl implements PlotTestsTestSetRendererAdapter<XYPlot, XYItemRenderer> {
+		public void setRenderer(XYPlot plot, LegendItemSource renderer) {
+			plot.setRenderer((XYItemRenderer) renderer);
+		}
+
+		public void setSeriesPaint(XYItemRenderer renderer, int i1, Paint paint1) {
+			renderer.setSeriesPaint(i1, paint1);
+		}
+	}
 
 }

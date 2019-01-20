@@ -40,6 +40,7 @@
 
 package org.jfree.data.junit;
 
+import org.jfree.data.Values2D;
 import junit.framework.TestCase;
 
 import org.jfree.data.DataUtilities;
@@ -66,32 +67,47 @@ public class DataUtilitiesTests extends TestCase {
     private static final double EPSILON = 0.000000001;
     
     /**
-     * Some checks for the calculateColumnTotal() method.
-     */
-    public void testCalculateColumnTotal() {
-        DefaultKeyedValues2D table = new DefaultKeyedValues2D();
-        table.addValue(new Double(1.0), "R0", "C0");
-        table.addValue(new Double(2.0), "R0", "C1");
-        table.addValue(new Double(3.0), "R1", "C0");
-        table.addValue(new Double(4.0), "R1", "C1");
-        assertEquals(4.0, DataUtilities.calculateColumnTotal(table, 0), EPSILON);
-        assertEquals(6.0, DataUtilities.calculateColumnTotal(table, 1), EPSILON);
-        table.setValue(null, "R1", "C1");
-        assertEquals(2.0, DataUtilities.calculateColumnTotal(table, 1), EPSILON);
-    }
+	 * Some checks for the calculateColumnTotal() method.
+	 */
+	public void testCalculateColumnTotal() {
+		this.dataUtilitiesTestsTestCalculateTotalTemplate(new DataUtilitiesTestsTestCalculateColumnTotalAdapterImpl(),
+				4.0, 6.0, 2.0);
+	}
     
     /**
-     * Some checks for the calculateRowTotal() method.
-     */
-    public void testCalculateRowTotal() {
-        DefaultKeyedValues2D table = new DefaultKeyedValues2D();
-        table.addValue(new Double(1.0), "R0", "C0");
-        table.addValue(new Double(2.0), "R0", "C1");
-        table.addValue(new Double(3.0), "R1", "C0");
-        table.addValue(new Double(4.0), "R1", "C1");
-        assertEquals(3.0, DataUtilities.calculateRowTotal(table, 0), EPSILON);
-        assertEquals(7.0, DataUtilities.calculateRowTotal(table, 1), EPSILON);
-        table.setValue(null, "R1", "C1");
-        assertEquals(3.0, DataUtilities.calculateRowTotal(table, 1), EPSILON);
-    }
+	 * Some checks for the calculateRowTotal() method.
+	 */
+	public void testCalculateRowTotal() {
+		this.dataUtilitiesTestsTestCalculateTotalTemplate(new DataUtilitiesTestsTestCalculateRowTotalAdapterImpl(), 3.0,
+				7.0, 3.0);
+	}
+
+	public void dataUtilitiesTestsTestCalculateTotalTemplate(DataUtilitiesTestsTestCalculateTotalAdapter adapter,
+			double d1, double d2, double d3) {
+		DefaultKeyedValues2D table = new DefaultKeyedValues2D();
+		table.addValue(new Double(1.0), "R0", "C0");
+		table.addValue(new Double(2.0), "R0", "C1");
+		table.addValue(new Double(3.0), "R1", "C0");
+		table.addValue(new Double(4.0), "R1", "C1");
+		assertEquals(d1, adapter.calculateTotal(table, 0), EPSILON);
+		assertEquals(d2, adapter.calculateTotal(table, 1), EPSILON);
+		table.setValue(null, "R1", "C1");
+		assertEquals(d3, adapter.calculateTotal(table, 1), EPSILON);
+	}
+
+	interface DataUtilitiesTestsTestCalculateTotalAdapter {
+		double calculateTotal(Values2D values2D1, int i1);
+	}
+
+	class DataUtilitiesTestsTestCalculateColumnTotalAdapterImpl implements DataUtilitiesTestsTestCalculateTotalAdapter {
+		public double calculateTotal(Values2D table, int i1) {
+			return DataUtilities.calculateColumnTotal(table, i1);
+		}
+	}
+
+	class DataUtilitiesTestsTestCalculateRowTotalAdapterImpl implements DataUtilitiesTestsTestCalculateTotalAdapter {
+		public double calculateTotal(Values2D table, int i1) {
+			return DataUtilities.calculateRowTotal(table, i1);
+		}
+	}
 }

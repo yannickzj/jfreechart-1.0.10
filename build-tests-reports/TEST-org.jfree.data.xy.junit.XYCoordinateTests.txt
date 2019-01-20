@@ -1,0 +1,7 @@
+Testsuite: org.jfree.data.xy.junit.XYCoordinateTests
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.063 sec
+
+Testcase: testCloning took 0.001 sec
+Testcase: testSerialization took 0.058 sec
+Testcase: testHashcode took 0 sec
+Testcase: testEquals took 0.001 sec

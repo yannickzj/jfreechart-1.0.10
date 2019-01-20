@@ -49,6 +49,9 @@
 
 package org.jfree.data.time.junit;
 
+import org.jfree.data.time.Year;
+import java.lang.String;
+import org.jfree.data.time.Month;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -65,9 +68,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.jfree.data.time.Month;
 import org.jfree.data.time.TimePeriodFormatException;
-import org.jfree.data.time.Year;
 import org.jfree.date.MonthConstants;
 
 /**
@@ -207,43 +208,12 @@ public class MonthTests extends TestCase {
     }
 
     /**
-     * Tests the string parsing code...
-     */
-    public void testParseMonth() {
-
-        Month month = null;
-
-        // test 1...
-        try {
-            month = Month.parseMonth("1990-01");
-        }
-        catch (TimePeriodFormatException e) {
-            month = new Month(1, 1900);
-        }
-        assertEquals(1, month.getMonth());
-        assertEquals(1990, month.getYear().getYear());
-
-        // test 2...
-        try {
-            month = Month.parseMonth("02-1991");
-        }
-        catch (TimePeriodFormatException e) {
-            month = new Month(1, 1900);
-        }
-        assertEquals(2, month.getMonth());
-        assertEquals(1991, month.getYear().getYear());
-
-        // test 3...
-        try {
-            month = Month.parseMonth("March 1993");
-        }
-        catch (TimePeriodFormatException e) {
-            month = new Month(1, 1900);
-        }
-        assertEquals(3, month.getMonth());
-        assertEquals(1993, month.getYear().getYear());
-
-    }
+	 * Tests the string parsing code...
+	 */
+	public void testParseMonth() throws Exception {
+		TestsTestParseTemplate.testsTestParseTemplate(new MonthTestsTestParseMonthAdapterImpl(), Month.class, "1990-01",
+				1990, "02-1991", 1991, "March 1993", 1993);
+	}
 
     /**
      * Serialize an instance, restore it, and check for equality.
@@ -447,5 +417,19 @@ public class MonthTests extends TestCase {
         assertEquals(cal.getTime(), m.getEnd());
         Locale.setDefault(saved);                
     }
+
+	class MonthTestsTestParseMonthAdapterImpl implements TestsTestParseAdapter<Month> {
+		public Month parse(String string1) {
+			return Month.parseMonth(string1);
+		}
+
+		public int get(Month v1) {
+			return v1.getMonth();
+		}
+
+		public Year getYear(Month v1) {
+			return v1.getYear();
+		}
+	}
 
 }

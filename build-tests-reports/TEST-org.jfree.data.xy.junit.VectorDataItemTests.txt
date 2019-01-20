@@ -1,0 +1,7 @@
+Testsuite: org.jfree.data.xy.junit.VectorDataItemTests
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 sec
+
+Testcase: testHashcode took 0.002 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.06 sec
+Testcase: testEquals took 0 sec

@@ -1,0 +1,23 @@
+Testsuite: org.jfree.data.category.junit.DefaultIntervalCategoryDatasetTests
+Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.09 sec
+
+Testcase: testEquals took 0.006 sec
+Testcase: testSerialization took 0.074 sec
+Testcase: testCloning took 0 sec
+Testcase: testCloning2 took 0 sec
+Testcase: testSetStartValue took 0 sec
+Testcase: testSetEndValue took 0.001 sec
+Testcase: testGetSeriesCount took 0 sec
+Testcase: testGetCategoryCount took 0 sec
+Testcase: testGetSeriesIndex took 0 sec
+Testcase: testGetRowIndex took 0 sec
+Testcase: testSetSeriesKeys took 0 sec
+Testcase: testGetCategoryIndex took 0 sec
+Testcase: testGetColumnIndex took 0 sec
+Testcase: testSetCategoryKeys took 0.001 sec
+Testcase: testGetColumnKeys took 0 sec
+Testcase: testGetRowKeys took 0.001 sec
+Testcase: testGetColumnCount took 0 sec
+Testcase: testGetRowCount took 0 sec
+Testcase: testGetValue took 0 sec
+Testcase: testGetRowAndColumnCount took 0 sec

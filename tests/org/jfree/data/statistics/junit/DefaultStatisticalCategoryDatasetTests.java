@@ -44,6 +44,7 @@
 
 package org.jfree.data.statistics.junit;
 
+import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -57,7 +58,6 @@ import junit.framework.TestSuite;
 
 import org.jfree.data.Range;
 import org.jfree.data.UnknownKeyException;
-import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 /**
  * Tests for the {@link DefaultStatisticalCategoryDataset} class.
@@ -233,26 +233,20 @@ public class DefaultStatisticalCategoryDatasetTests extends TestCase {
     }
     
     /**
-     * Some checks for the getRangeLowerBound() method.
-     */
-    public void testGetRangeLowerBound() {
-        DefaultStatisticalCategoryDataset d1 
-                = new DefaultStatisticalCategoryDataset();
-        d1.add(1.0, 2.0, "R1", "C1");
-        assertEquals(1.0, d1.getRangeLowerBound(false), EPSILON);
-        assertEquals(-1.0, d1.getRangeLowerBound(true), EPSILON);
-    }
+	 * Some checks for the getRangeLowerBound() method.
+	 */
+	public void testGetRangeLowerBound() {
+		this.defaultStatisticalCategoryDatasetTestsTestGetRangeBoundTemplate(
+				new DefaultStatisticalCategoryDatasetTestsTestGetRangeLowerBoundAdapterImpl(), -1.0);
+	}
 
     /**
-     * Some checks for the getRangeUpperBound() method.
-     */
-    public void testGetRangeUpperBound() {
-        DefaultStatisticalCategoryDataset d1 
-                = new DefaultStatisticalCategoryDataset();
-        d1.add(1.0, 2.0, "R1", "C1");
-        assertEquals(1.0, d1.getRangeUpperBound(false), EPSILON);
-        assertEquals(3.0, d1.getRangeUpperBound(true), EPSILON);
-    }
+	 * Some checks for the getRangeUpperBound() method.
+	 */
+	public void testGetRangeUpperBound() {
+		this.defaultStatisticalCategoryDatasetTestsTestGetRangeBoundTemplate(
+				new DefaultStatisticalCategoryDatasetTestsTestGetRangeUpperBoundAdapterImpl(), 3.0);
+	}
     
     /**
      * Some checks for the getRangeBounds() method.
@@ -302,6 +296,32 @@ public class DefaultStatisticalCategoryDatasetTests extends TestCase {
         assertEquals(1.2, data.getRangeLowerBound(true), EPSILON);
         assertEquals(1.6, data.getRangeUpperBound(true), EPSILON);
     }
+
+	public void defaultStatisticalCategoryDatasetTestsTestGetRangeBoundTemplate(
+			DefaultStatisticalCategoryDatasetTestsTestGetRangeBoundAdapter adapter, double d2) {
+		DefaultStatisticalCategoryDataset d1 = new DefaultStatisticalCategoryDataset();
+		d1.add(1.0, 2.0, "R1", "C1");
+		assertEquals(1.0, adapter.getRangeBound(d1, false), EPSILON);
+		assertEquals(d2, adapter.getRangeBound(d1, true), EPSILON);
+	}
+
+	interface DefaultStatisticalCategoryDatasetTestsTestGetRangeBoundAdapter {
+		double getRangeBound(DefaultStatisticalCategoryDataset defaultStatisticalCategoryDataset1, boolean b1);
+	}
+
+	class DefaultStatisticalCategoryDatasetTestsTestGetRangeLowerBoundAdapterImpl
+			implements DefaultStatisticalCategoryDatasetTestsTestGetRangeBoundAdapter {
+		public double getRangeBound(DefaultStatisticalCategoryDataset d1, boolean b1) {
+			return d1.getRangeLowerBound(b1);
+		}
+	}
+
+	class DefaultStatisticalCategoryDatasetTestsTestGetRangeUpperBoundAdapterImpl
+			implements DefaultStatisticalCategoryDatasetTestsTestGetRangeBoundAdapter {
+		public double getRangeBound(DefaultStatisticalCategoryDataset d1, boolean b1) {
+			return d1.getRangeUpperBound(b1);
+		}
+	}
 
 
 }

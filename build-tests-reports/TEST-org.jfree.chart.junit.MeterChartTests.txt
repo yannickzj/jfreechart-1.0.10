@@ -1,0 +1,4 @@
+Testsuite: org.jfree.chart.junit.MeterChartTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.151 sec
+
+Testcase: testDrawWithNullInfo took 0.149 sec

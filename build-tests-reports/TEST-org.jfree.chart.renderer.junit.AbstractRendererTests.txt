@@ -1,0 +1,23 @@
+Testsuite: org.jfree.chart.renderer.junit.AbstractRendererTests
+Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.127 sec
+
+Testcase: testCloning took 0.061 sec
+Testcase: testCloning2 took 0.001 sec
+Testcase: testSetSeriesVisible took 0.002 sec
+Testcase: testSetPaint took 0 sec
+Testcase: testSetOutlinePaint took 0 sec
+Testcase: testSetStroke took 0 sec
+Testcase: testSetOutlineStroke took 0 sec
+Testcase: testSetShape took 0 sec
+Testcase: testEquals took 0.003 sec
+Testcase: testSetItemLabelsVisible took 0 sec
+Testcase: testSetItemLabelFont took 0 sec
+Testcase: testSetItemLabelPaint took 0 sec
+Testcase: testSetPositiveItemLabelPosition took 0 sec
+Testcase: testSetNegativeItemLabelPosition took 0 sec
+Testcase: testEventNotification took 0 sec
+Testcase: testSerialization took 0.039 sec
+Testcase: testAutoPopulateFlagDefaults took 0 sec
+Testcase: testPaintLookup took 0.013 sec
+Testcase: testFillPaintLookup took 0.001 sec
+Testcase: testOutlinePaintLookup took 0 sec

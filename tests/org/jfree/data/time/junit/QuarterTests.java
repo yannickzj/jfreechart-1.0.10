@@ -45,6 +45,9 @@
 
 package org.jfree.data.time.junit;
 
+import org.jfree.data.time.Year;
+import java.lang.String;
+import org.jfree.data.time.Quarter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -61,9 +64,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.jfree.data.time.Quarter;
 import org.jfree.data.time.TimePeriodFormatException;
-import org.jfree.data.time.Year;
 
 /**
  * Tests for the {link Quarter} class.
@@ -202,43 +203,12 @@ public class QuarterTests extends TestCase {
     }
 
     /**
-     * Test the string parsing code...
-     */
-    public void testParseQuarter() {
-
-        Quarter quarter = null;
-
-        // test 1...
-        try {
-            quarter = Quarter.parseQuarter("Q1-2000");
-        }
-        catch (TimePeriodFormatException e) {
-            quarter = new Quarter(1, 1900);
-        }
-        assertEquals(1, quarter.getQuarter());
-        assertEquals(2000, quarter.getYear().getYear());
-
-        // test 2...
-        try {
-            quarter = Quarter.parseQuarter("2001-Q2");
-        }
-        catch (TimePeriodFormatException e) {
-            quarter = new Quarter(1, 1900);
-        }
-        assertEquals(2, quarter.getQuarter());
-        assertEquals(2001, quarter.getYear().getYear());
-
-        // test 3...
-        try {
-            quarter = Quarter.parseQuarter("Q3, 2002");
-        }
-        catch (TimePeriodFormatException e) {
-            quarter = new Quarter(1, 1900);
-        }
-        assertEquals(3, quarter.getQuarter());
-        assertEquals(2002, quarter.getYear().getYear());
-
-    }
+	 * Test the string parsing code...
+	 */
+	public void testParseQuarter() throws Exception {
+		TestsTestParseTemplate.testsTestParseTemplate(new QuarterTestsTestParseQuarterAdapterImpl(), Quarter.class,
+				"Q1-2000", 2000, "2001-Q2", 2001, "Q3, 2002", 2002);
+	}
 
     /**
      * Serialize an instance, restore it, and check for equality.
@@ -467,4 +437,18 @@ public class QuarterTests extends TestCase {
         assertEquals(cal.getTime(), q.getEnd());
         Locale.setDefault(saved);                
     }
+
+	class QuarterTestsTestParseQuarterAdapterImpl implements TestsTestParseAdapter<Quarter> {
+		public Quarter parse(String string1) {
+			return Quarter.parseQuarter(string1);
+		}
+
+		public int get(Quarter quarter) {
+			return quarter.getQuarter();
+		}
+
+		public Year getYear(Quarter quarter) {
+			return quarter.getYear();
+		}
+	}
 }

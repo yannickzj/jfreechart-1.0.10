@@ -44,6 +44,9 @@
 
 package org.jfree.chart.renderer.xy.junit;
 
+import java.lang.Object;
+import java.awt.Shape;
+import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -60,7 +63,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.data.xy.DefaultTableXYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -146,29 +148,12 @@ public class XYAreaRendererTests extends TestCase {
     }
 
     /**
-     * Confirm that cloning works.
-     */
-    public void testCloning() {
-        XYAreaRenderer r1 = new XYAreaRenderer();
-        Rectangle2D rect1 = new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0);
-        r1.setLegendArea(rect1);
-        XYAreaRenderer r2 = null;
-        try {
-            r2 = (XYAreaRenderer) r1.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(r1 != r2);
-        assertTrue(r1.getClass() == r2.getClass());
-        assertTrue(r1.equals(r2));
-
-        // check independence
-        rect1.setRect(4.0, 3.0, 2.0, 1.0);
-        assertFalse(r1.equals(r2));
-        r2.setLegendArea(new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0));
-        assertTrue(r1.equals(r2));
-    }
+	 * Confirm that cloning works.
+	 */
+	public void testCloning() throws Exception {
+		XyRendererTestsTestCloningTemplate.xyRendererTestsTestCloningTemplate(
+				new XYAreaRendererTestsTestCloningAdapterImpl(), XYAreaRenderer.class);
+	}
 
     /**
      * Verify that this class implements {@link PublicCloneable}.
@@ -276,5 +261,19 @@ public class XYAreaRendererTests extends TestCase {
         assertEquals(1, li.getDatasetIndex());
         assertEquals(2, li.getSeriesIndex());
     }
+
+	class XYAreaRendererTestsTestCloningAdapterImpl implements XYRendererTestsTestCloningAdapter<XYAreaRenderer> {
+		public void setLegend(XYAreaRenderer r1, Shape rect1) {
+			r1.setLegendArea(rect1);
+		}
+
+		public Object clone(XYAreaRenderer r1) throws CloneNotSupportedException {
+			return r1.clone();
+		}
+
+		public Class<? extends XYAreaRenderer> getClass(XYAreaRenderer r1) {
+			return r1.getClass();
+		}
+	}
 
 }

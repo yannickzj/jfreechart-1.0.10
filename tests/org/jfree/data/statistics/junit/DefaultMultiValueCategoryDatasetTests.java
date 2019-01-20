@@ -40,6 +40,7 @@
 
 package org.jfree.data.statistics.junit;
 
+import org.jfree.data.statistics.DefaultMultiValueCategoryDataset;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -54,7 +55,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.UnknownKeyException;
-import org.jfree.data.statistics.DefaultMultiValueCategoryDataset;
 
 /**
  * Tests for the {@link DefaultMultiValueCategoryDataset} class.
@@ -126,42 +126,20 @@ public class DefaultMultiValueCategoryDatasetTests extends TestCase {
     }
         
     /**
-     * Some tests for the getRowCount() method.
-     */
-    public void testGetRowCount() {
-        DefaultMultiValueCategoryDataset d 
-                = new DefaultMultiValueCategoryDataset();
-        assertTrue(d.getRowCount() == 0);
-        List values = new ArrayList();
-        d.add(values, "R1", "C1");
-        assertTrue(d.getRowCount() == 1);
-        
-        d.add(values, "R2", "C1");
-        assertTrue(d.getRowCount() == 2);
-        
-        d.add(values, "R2", "C1");
-        assertTrue(d.getRowCount() == 2);
-    }
+	 * Some tests for the getRowCount() method.
+	 */
+	public void testGetRowCount() {
+		this.defaultMultiValueCategoryDatasetTestsTestGetCountTemplate(
+				new DefaultMultiValueCategoryDatasetTestsTestGetRowCountAdapterImpl(), "R2", "C1", "R2", "C1");
+	}
 
     /**
-     * Some tests for the getColumnCount() method.
-     */
-    public void testGetColumnCount() {
-        DefaultMultiValueCategoryDataset d 
-                = new DefaultMultiValueCategoryDataset();
-        assertTrue(d.getColumnCount() == 0);
-        
-        List values = new ArrayList();
-        d.add(values, "R1", "C1");
-        assertTrue(d.getColumnCount() == 1);
-        
-        d.add(values, "R1", "C2");
-        assertTrue(d.getColumnCount() == 2);
-        
-        d.add(values, "R1", "C2");
-        assertTrue(d.getColumnCount() == 2);
-
-    }
+	 * Some tests for the getColumnCount() method.
+	 */
+	public void testGetColumnCount() {
+		this.defaultMultiValueCategoryDatasetTestsTestGetCountTemplate(
+				new DefaultMultiValueCategoryDatasetTestsTestGetColumnCountAdapterImpl(), "R1", "C2", "R1", "C2");
+	}
 
     /**
      * Confirm that the equals method can distinguish all the required fields.
@@ -290,5 +268,37 @@ public class DefaultMultiValueCategoryDatasetTests extends TestCase {
         d2.add(values2, "R2", "C2");
         assertTrue(d1.equals(d2));
     }
+
+	public void defaultMultiValueCategoryDatasetTestsTestGetCountTemplate(
+			DefaultMultiValueCategoryDatasetTestsTestGetCountAdapter adapter, String string1, String string2,
+			String string3, String string4) {
+		DefaultMultiValueCategoryDataset d = new DefaultMultiValueCategoryDataset();
+		assertTrue(adapter.getCount(d) == 0);
+		List values = new ArrayList();
+		d.add(values, "R1", "C1");
+		assertTrue(adapter.getCount(d) == 1);
+		d.add(values, string1, string2);
+		assertTrue(adapter.getCount(d) == 2);
+		d.add(values, string3, string4);
+		assertTrue(adapter.getCount(d) == 2);
+	}
+
+	interface DefaultMultiValueCategoryDatasetTestsTestGetCountAdapter {
+		int getCount(DefaultMultiValueCategoryDataset defaultMultiValueCategoryDataset1);
+	}
+
+	class DefaultMultiValueCategoryDatasetTestsTestGetRowCountAdapterImpl
+			implements DefaultMultiValueCategoryDatasetTestsTestGetCountAdapter {
+		public int getCount(DefaultMultiValueCategoryDataset d) {
+			return d.getRowCount();
+		}
+	}
+
+	class DefaultMultiValueCategoryDatasetTestsTestGetColumnCountAdapterImpl
+			implements DefaultMultiValueCategoryDatasetTestsTestGetCountAdapter {
+		public int getCount(DefaultMultiValueCategoryDataset d) {
+			return d.getColumnCount();
+		}
+	}
 
 }

@@ -40,9 +40,8 @@
 
 package org.jfree.data.statistics.junit;
 
-import java.util.ArrayList;
 import java.util.List;
-
+import java.util.ArrayList;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -102,67 +101,20 @@ public class BoxAndWhiskerCalculatorTests extends TestCase {
     private static final double EPSILON = 0.000000001;
     
     /**
-     * Tests the Q1 calculation.
-     */
-    public void testCalculateQ1() {
-        
-        // try null argument
-        boolean pass = false;
-        try {
-            BoxAndWhiskerCalculator.calculateQ1(null);
-        }
-        catch (IllegalArgumentException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-        
-        List values = new ArrayList();
-        double q1 = BoxAndWhiskerCalculator.calculateQ1(values);
-        assertTrue(Double.isNaN(q1));
-        values.add(new Double(1.0));
-        q1 = BoxAndWhiskerCalculator.calculateQ1(values);
-        assertEquals(q1, 1.0, EPSILON);
-        values.add(new Double(2.0));
-        q1 = BoxAndWhiskerCalculator.calculateQ1(values);
-        assertEquals(q1, 1.0, EPSILON);
-        values.add(new Double(3.0));
-        q1 = BoxAndWhiskerCalculator.calculateQ1(values);
-        assertEquals(q1, 1.5, EPSILON);
-        values.add(new Double(4.0));
-        q1 = BoxAndWhiskerCalculator.calculateQ1(values);
-        assertEquals(q1, 1.5, EPSILON);
-    }
+	 * Tests the Q1 calculation.
+	 */
+	public void testCalculateQ1() {
+		this.boxAndWhiskerCalculatorTestsTestCalculateTemplate(
+				new BoxAndWhiskerCalculatorTestsTestCalculateQ1AdapterImpl(), 1.0, 1.5, 1.5);
+	}
 
     /**
-     * Tests the Q3 calculation.
-     */
-    public void testCalculateQ3() {
-        // try null argument
-        boolean pass = false;
-        try {
-            BoxAndWhiskerCalculator.calculateQ3(null);
-        }
-        catch (IllegalArgumentException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-
-        List values = new ArrayList();
-        double q3 = BoxAndWhiskerCalculator.calculateQ3(values);
-        assertTrue(Double.isNaN(q3));
-        values.add(new Double(1.0));
-        q3 = BoxAndWhiskerCalculator.calculateQ3(values);
-        assertEquals(q3, 1.0, EPSILON);
-        values.add(new Double(2.0));
-        q3 = BoxAndWhiskerCalculator.calculateQ3(values);
-        assertEquals(q3, 2.0, EPSILON);
-        values.add(new Double(3.0));
-        q3 = BoxAndWhiskerCalculator.calculateQ3(values);
-        assertEquals(q3, 2.5, EPSILON);
-        values.add(new Double(4.0));
-        q3 = BoxAndWhiskerCalculator.calculateQ3(values);
-        assertEquals(q3, 3.5, EPSILON);
-    }
+	 * Tests the Q3 calculation.
+	 */
+	public void testCalculateQ3() {
+		this.boxAndWhiskerCalculatorTestsTestCalculateTemplate(
+				new BoxAndWhiskerCalculatorTestsTestCalculateQ3AdapterImpl(), 2.0, 2.5, 3.5);
+	}
     
     /**
      * The test case included in bug report 1593149.
@@ -179,4 +131,48 @@ public class BoxAndWhiskerCalculatorTests extends TestCase {
         assertEquals(1.0, theItem.getMinRegularValue().doubleValue(), EPSILON);
         assertEquals(4.0, theItem.getMaxRegularValue().doubleValue(), EPSILON);
     }
+
+	public void boxAndWhiskerCalculatorTestsTestCalculateTemplate(
+			BoxAndWhiskerCalculatorTestsTestCalculateAdapter adapter, double d1, double d2, double d3) {
+		boolean pass = false;
+		try {
+			adapter.calculate(null);
+		} catch (IllegalArgumentException e) {
+			pass = true;
+		}
+		assertTrue(pass);
+		List values = new ArrayList();
+		double v1 = adapter.calculate(values);
+		assertTrue(Double.isNaN(v1));
+		values.add(new Double(1.0));
+		v1 = adapter.calculate(values);
+		assertEquals(v1, 1.0, EPSILON);
+		values.add(new Double(2.0));
+		v1 = adapter.calculate(values);
+		assertEquals(v1, d1, EPSILON);
+		values.add(new Double(3.0));
+		v1 = adapter.calculate(values);
+		assertEquals(v1, d2, EPSILON);
+		values.add(new Double(4.0));
+		v1 = adapter.calculate(values);
+		assertEquals(v1, d3, EPSILON);
+	}
+
+	interface BoxAndWhiskerCalculatorTestsTestCalculateAdapter {
+		double calculate(List list1);
+	}
+
+	class BoxAndWhiskerCalculatorTestsTestCalculateQ1AdapterImpl
+			implements BoxAndWhiskerCalculatorTestsTestCalculateAdapter {
+		public double calculate(List list1) {
+			return BoxAndWhiskerCalculator.calculateQ1(list1);
+		}
+	}
+
+	class BoxAndWhiskerCalculatorTestsTestCalculateQ3AdapterImpl
+			implements BoxAndWhiskerCalculatorTestsTestCalculateAdapter {
+		public double calculate(List list1) {
+			return BoxAndWhiskerCalculator.calculateQ3(list1);
+		}
+	}
 }

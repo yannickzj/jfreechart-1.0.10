@@ -1,0 +1,12 @@
+Testsuite: org.jfree.data.xy.junit.TableXYDatasetTests
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.084 sec
+
+Testcase: testTableXYDataset took 0.006 sec
+Testcase: test788597 took 0 sec
+Testcase: testRemoveAllValuesForX took 0 sec
+Testcase: testPrune took 0.001 sec
+Testcase: testAutoPrune took 0 sec
+Testcase: testCloning took 0.001 sec
+Testcase: testPublicCloneable took 0 sec
+Testcase: testSerialization took 0.068 sec
+Testcase: testEquals took 0.001 sec

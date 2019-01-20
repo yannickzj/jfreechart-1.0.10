@@ -50,6 +50,8 @@
 
 package org.jfree.data.time.junit;
 
+import java.util.TimeZone;
+import org.jfree.data.time.Week;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -60,13 +62,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.jfree.data.time.Week;
 import org.jfree.data.time.Year;
 
 /**
@@ -337,30 +336,12 @@ public class WeekTests extends TestCase {
     }
     
     /**
-     * Some checks for the getFirstMillisecond(TimeZone) method.
-     */
-    public void testGetFirstMillisecondWithTimeZone() {
-        Week w = new Week(47, 1950);
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.US);
-        try {
-            TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-            assertEquals(-603302400000L, w.getFirstMillisecond(zone));
-        }
-        finally {
-            Locale.setDefault(saved);
-        }
-        
-        // try null calendar
-        boolean pass = false;
-        try {
-            w.getFirstMillisecond((TimeZone) null);
-        }
-        catch (NullPointerException e) {
-            pass = true;
-        }        
-        assertTrue(pass); 
-    }
+	 * Some checks for the getFirstMillisecond(TimeZone) method.
+	 */
+	public void testGetFirstMillisecondWithTimeZone() {
+		this.weekTestsTestGetMillisecondWithTimeZoneTemplate(
+				new WeekTestsTestGetFirstMillisecondWithTimeZoneAdapterImpl(), 47, -603302400000L);
+	}
     
     /**
      * Some checks for the getFirstMillisecond(TimeZone) method.
@@ -397,30 +378,12 @@ public class WeekTests extends TestCase {
     }
     
     /**
-     * Some checks for the getLastMillisecond(TimeZone) method.
-     */
-    public void testGetLastMillisecondWithTimeZone() {
-        Week w = new Week(2, 1950);
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.US);
-        try {
-            TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-            assertEquals(-629913600001L, w.getLastMillisecond(zone));
-        }
-        finally {
-            Locale.setDefault(saved);
-        }
-
-        // try null zone
-        boolean pass = false;
-        try {
-            w.getLastMillisecond((TimeZone) null);
-        }
-        catch (NullPointerException e) {
-            pass = true;
-        }
-        assertTrue(pass);       
-    }
+	 * Some checks for the getLastMillisecond(TimeZone) method.
+	 */
+	public void testGetLastMillisecondWithTimeZone() {
+		this.weekTestsTestGetMillisecondWithTimeZoneTemplate(
+				new WeekTestsTestGetLastMillisecondWithTimeZoneAdapterImpl(), 2, -629913600001L);
+	}
     
     /**
      * Some checks for the getLastMillisecond(TimeZone) method.
@@ -529,5 +492,43 @@ public class WeekTests extends TestCase {
         Locale.setDefault(savedLocale);
         TimeZone.setDefault(savedZone);
     }
+
+	public void weekTestsTestGetMillisecondWithTimeZoneTemplate(WeekTestsTestGetMillisecondWithTimeZoneAdapter adapter,
+			int i1, long l1) {
+		Week w = new Week(i1, 1950);
+		Locale saved = Locale.getDefault();
+		Locale.setDefault(Locale.US);
+		try {
+			TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
+			assertEquals(l1, adapter.getMillisecond(w, zone));
+		} finally {
+			Locale.setDefault(saved);
+		}
+		boolean pass = false;
+		try {
+			adapter.getMillisecond(w, (TimeZone) null);
+		} catch (NullPointerException e) {
+			pass = true;
+		}
+		assertTrue(pass);
+	}
+
+	interface WeekTestsTestGetMillisecondWithTimeZoneAdapter {
+		long getMillisecond(Week week1, TimeZone timeZone1);
+	}
+
+	class WeekTestsTestGetFirstMillisecondWithTimeZoneAdapterImpl
+			implements WeekTestsTestGetMillisecondWithTimeZoneAdapter {
+		public long getMillisecond(Week w, TimeZone zone) {
+			return w.getFirstMillisecond(zone);
+		}
+	}
+
+	class WeekTestsTestGetLastMillisecondWithTimeZoneAdapterImpl
+			implements WeekTestsTestGetMillisecondWithTimeZoneAdapter {
+		public long getMillisecond(Week w, TimeZone zone) {
+			return w.getLastMillisecond(zone);
+		}
+	}
     
 }

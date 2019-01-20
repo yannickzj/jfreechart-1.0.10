@@ -1,0 +1,31 @@
+Testsuite: org.jfree.chart.needle.junit.NeedlePackageTests
+Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.076 sec
+
+Testcase: testCloning took 0.047 sec
+Testcase: testSerialization took 0.011 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0.001 sec
+Testcase: testSerialization took 0.001 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0.001 sec
+Testcase: testSerialization took 0 sec
+Testcase: testEquals took 0 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0.001 sec
+Testcase: testSerialization took 0.001 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0 sec
+Testcase: testEquals took 0.001 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.001 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0.001 sec
+Testcase: testSerialization took 0.001 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.001 sec
+Testcase: testEquals took 0 sec

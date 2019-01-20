@@ -1,0 +1,6 @@
+Testsuite: org.jfree.chart.plot.junit.PiePlot3DTests
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.212 sec
+
+Testcase: testSerialization took 0.115 sec
+Testcase: testDrawWithNullDataset took 0.093 sec
+Testcase: testEquals took 0.001 sec

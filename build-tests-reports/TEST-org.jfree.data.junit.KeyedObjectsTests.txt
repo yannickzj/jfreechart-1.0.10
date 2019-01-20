@@ -1,0 +1,13 @@
+Testsuite: org.jfree.data.junit.KeyedObjectsTests
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.064 sec
+
+Testcase: testGetKey took 0.002 sec
+Testcase: testGetIndex took 0 sec
+Testcase: testSetObject took 0 sec
+Testcase: testRemoveValue took 0.001 sec
+Testcase: testRemoveValueInt took 0 sec
+Testcase: testInsertAndRetrieve took 0 sec
+Testcase: testSerialization took 0.054 sec
+Testcase: testGetObject took 0 sec
+Testcase: testCloning2 took 0.003 sec
+Testcase: testCloning took 0 sec

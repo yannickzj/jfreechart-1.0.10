@@ -41,6 +41,8 @@
 
 package org.jfree.data.xy.junit;
 
+import org.jfree.data.xy.YIntervalSeries;
+import java.lang.Number;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -54,7 +56,6 @@ import junit.framework.TestSuite;
 
 import org.jfree.data.general.SeriesChangeEvent;
 import org.jfree.data.general.SeriesChangeListener;
-import org.jfree.data.xy.YIntervalSeries;
 
 /**
  * Tests for the {@link YIntervalSeries} class.
@@ -190,34 +191,20 @@ public class YIntervalSeriesTests extends TestCase
     }
     
     /**
-     * A check for the indexOf() method for an unsorted series.
-     */
-    public void testIndexOf2() {
-        YIntervalSeries s1 = new YIntervalSeries("Series 1", false, true);
-        s1.add(1.0, 1.0, 1.0, 2.0);
-        s1.add(3.0, 3.0, 3.0, 3.0);
-        s1.add(2.0, 2.0, 2.0, 2.0);
-        assertEquals(0, s1.indexOf(new Double(1.0)));        
-        assertEquals(1, s1.indexOf(new Double(3.0)));        
-        assertEquals(2, s1.indexOf(new Double(2.0)));        
-    }
+	 * A check for the indexOf() method for an unsorted series.
+	 */
+	public void testIndexOf2() throws Exception {
+		IntervalSeriesTestsTestIndexOf2Template.intervalSeriesTestsTestIndexOf2Template(
+				new YIntervalSeriesTestsTestIndexOf2AdapterImpl(), YIntervalSeries.class);
+	}
 
     /**
-     * Simple test for the remove() method.
-     */
-    public void testRemove() {
-        YIntervalSeries s1 = new YIntervalSeries("Series 1");
-        s1.add(1.0, 1.0, 1.0, 2.0);
-        s1.add(2.0, 2.0, 2.0, 2.0);
-        s1.add(3.0, 3.0, 3.0, 3.0);
-        assertEquals(3, s1.getItemCount());
-        
-        s1.remove(new Double(2.0));
-        assertEquals(new Double(3.0), s1.getX(1));
-        
-        s1.remove(new Double(1.0));
-        assertEquals(new Double(3.0), s1.getX(0));    
-    }
+	 * Simple test for the remove() method.
+	 */
+	public void testRemove() throws Exception {
+		IntervalSeriesTestsTestRemoveTemplate.intervalSeriesTestsTestRemoveTemplate(
+				new YIntervalSeriesTestsTestRemoveAdapterImpl(), YIntervalSeries.class);
+	}
 
     private static final double EPSILON = 0.0000000001;
     
@@ -302,6 +289,23 @@ public class YIntervalSeriesTests extends TestCase
         s1.clear();
         assertNotNull(this.lastEvent);
         assertTrue(s1.isEmpty());
-    } 
+    }
+
+	class YIntervalSeriesTestsTestRemoveAdapterImpl implements IntervalSeriesTestsTestRemoveAdapter<YIntervalSeries> {
+		public void add(YIntervalSeries s1, double d1, double d2, double d3, double d4) {
+			s1.add(d1, d2, d3, d4);
+		}
+
+		public Number getX(YIntervalSeries s1, int i1) {
+			return s1.getX(i1);
+		}
+	}
+
+	class YIntervalSeriesTestsTestIndexOf2AdapterImpl
+			implements IntervalSeriesTestsTestIndexOf2Adapter<YIntervalSeries> {
+		public void add(YIntervalSeries s1, double d1, double d2, double d3, double d4) {
+			s1.add(d1, d2, d3, d4);
+		}
+	} 
     
 }

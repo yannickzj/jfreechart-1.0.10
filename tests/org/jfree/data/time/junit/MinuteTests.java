@@ -47,6 +47,8 @@
 
 package org.jfree.data.time.junit;
 
+import org.jfree.data.time.Minute;
+import java.util.Date;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -54,7 +56,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -65,7 +66,6 @@ import junit.framework.TestSuite;
 
 import org.jfree.data.time.Day;
 import org.jfree.data.time.Hour;
-import org.jfree.data.time.Minute;
 import org.jfree.date.MonthConstants;
 
 /**
@@ -338,38 +338,18 @@ public class MinuteTests extends TestCase {
     }
     
     /**
-     * Some checks for the getStart() method.
-     */
-    public void testGetStart() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.ITALY);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Rome"));
-        Calendar cal = Calendar.getInstance(Locale.ITALY);
-        cal.set(2006, Calendar.JANUARY, 16, 3, 47, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        Minute m = new Minute(47, 3, 16, 1, 2006);
-        assertEquals(cal.getTime(), m.getStart());
-        Locale.setDefault(saved);       
-        TimeZone.setDefault(savedZone);
-    }
+	 * Some checks for the getStart() method.
+	 */
+	public void testGetStart() {
+		this.minuteTestsTestGetTemplate(new MinuteTestsTestGetStartAdapterImpl(), 0, 0);
+	}
     
     /**
-     * Some checks for the getEnd() method.
-     */
-    public void testGetEnd() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.ITALY);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Rome"));
-        Calendar cal = Calendar.getInstance(Locale.ITALY);
-        cal.set(2006, Calendar.JANUARY, 16, 3, 47, 59);
-        cal.set(Calendar.MILLISECOND, 999);
-        Minute m = new Minute(47, 3, 16, 1, 2006);
-        assertEquals(cal.getTime(), m.getEnd());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
-    }
+	 * Some checks for the getEnd() method.
+	 */
+	public void testGetEnd() {
+		this.minuteTestsTestGetTemplate(new MinuteTestsTestGetEndAdapterImpl(), 59, 999);
+	}
     
     /**
      * Test for bug 1611872 - previous() fails for first minute in hour.
@@ -379,5 +359,35 @@ public class MinuteTests extends TestCase {
         Minute m2 = (Minute) m1.previous();
         assertEquals(m2, new Minute(59, 9, 15, 4, 2000));
     }
+
+	public void minuteTestsTestGetTemplate(MinuteTestsTestGetAdapter adapter, int i1, int i2) {
+		Locale saved = Locale.getDefault();
+		Locale.setDefault(Locale.ITALY);
+		TimeZone savedZone = TimeZone.getDefault();
+		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Rome"));
+		Calendar cal = Calendar.getInstance(Locale.ITALY);
+		cal.set(2006, Calendar.JANUARY, 16, 3, 47, i1);
+		cal.set(Calendar.MILLISECOND, i2);
+		Minute m = new Minute(47, 3, 16, 1, 2006);
+		assertEquals(cal.getTime(), adapter.get(m));
+		Locale.setDefault(saved);
+		TimeZone.setDefault(savedZone);
+	}
+
+	interface MinuteTestsTestGetAdapter {
+		Date get(Minute minute1);
+	}
+
+	class MinuteTestsTestGetStartAdapterImpl implements MinuteTestsTestGetAdapter {
+		public Date get(Minute m) {
+			return m.getStart();
+		}
+	}
+
+	class MinuteTestsTestGetEndAdapterImpl implements MinuteTestsTestGetAdapter {
+		public Date get(Minute m) {
+			return m.getEnd();
+		}
+	}
  
 }

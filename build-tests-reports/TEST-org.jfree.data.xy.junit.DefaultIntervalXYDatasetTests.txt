@@ -1,0 +1,19 @@
+Testsuite: org.jfree.data.xy.junit.DefaultIntervalXYDatasetTests
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 sec
+
+Testcase: testGetSeriesCount took 0.002 sec
+Testcase: testGetSeriesKey took 0 sec
+Testcase: testPublicCloneable took 0 sec
+Testcase: testSerialization took 0.066 sec
+Testcase: testIndexOf took 0 sec
+Testcase: testAddSeries took 0 sec
+Testcase: testGetItemCount took 0 sec
+Testcase: testGetXValue took 0 sec
+Testcase: testGetYValue took 0 sec
+Testcase: testGetStartXValue took 0 sec
+Testcase: testGetEndXValue took 0.001 sec
+Testcase: testGetStartYValue took 0 sec
+Testcase: testGetEndYValue took 0 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testCloning2 took 0 sec

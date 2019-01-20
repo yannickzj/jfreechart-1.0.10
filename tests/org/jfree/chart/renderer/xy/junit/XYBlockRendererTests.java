@@ -42,6 +42,9 @@
 
 package org.jfree.chart.renderer.xy.junit;
 
+import org.jfree.data.xy.XYDataset;
+import org.jfree.chart.renderer.xy.XYBlockRenderer;
+import org.jfree.data.Range;
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -56,8 +59,6 @@ import junit.framework.TestSuite;
 
 import org.jfree.chart.renderer.GrayPaintScale;
 import org.jfree.chart.renderer.LookupPaintScale;
-import org.jfree.chart.renderer.xy.XYBlockRenderer;
-import org.jfree.data.Range;
 import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.util.PublicCloneable;
 
@@ -185,27 +186,42 @@ public class XYBlockRendererTests extends TestCase {
     }
 
     /**
-     * A simple test for bug 1766646.
-     */
-    public void testBug1766646A() {
-        XYBlockRenderer r = new XYBlockRenderer();
-        Range range = r.findDomainBounds(null);
-        assertTrue(range == null);
-        DefaultXYZDataset emptyDataset = new DefaultXYZDataset();
-        range = r.findDomainBounds(emptyDataset);
-        assertTrue(range == null);
-    }
+	 * A simple test for bug 1766646.
+	 */
+	public void testBug1766646A() {
+		this.xyBlockRendererTestsTestBug1766646Template(new XYBlockRendererTestsTestBug1766646AAdapterImpl());
+	}
 
     /**
-     * A simple test for bug 1766646.
-     */
-    public void testBug1766646B() {
-        XYBlockRenderer r = new XYBlockRenderer();
-        Range range = r.findRangeBounds(null);
-        assertTrue(range == null);
-        DefaultXYZDataset emptyDataset = new DefaultXYZDataset();
-        range = r.findRangeBounds(emptyDataset);
-        assertTrue(range == null);
-    }
+	 * A simple test for bug 1766646.
+	 */
+	public void testBug1766646B() {
+		this.xyBlockRendererTestsTestBug1766646Template(new XYBlockRendererTestsTestBug1766646BAdapterImpl());
+	}
+
+	public void xyBlockRendererTestsTestBug1766646Template(XYBlockRendererTestsTestBug1766646Adapter adapter) {
+		XYBlockRenderer r = new XYBlockRenderer();
+		Range range = adapter.findBounds(r, null);
+		assertTrue(range == null);
+		DefaultXYZDataset emptyDataset = new DefaultXYZDataset();
+		range = adapter.findBounds(r, emptyDataset);
+		assertTrue(range == null);
+	}
+
+	interface XYBlockRendererTestsTestBug1766646Adapter {
+		Range findBounds(XYBlockRenderer xYBlockRenderer1, XYDataset xYDataset1);
+	}
+
+	class XYBlockRendererTestsTestBug1766646AAdapterImpl implements XYBlockRendererTestsTestBug1766646Adapter {
+		public Range findBounds(XYBlockRenderer r, XYDataset xYDataset1) {
+			return r.findDomainBounds(xYDataset1);
+		}
+	}
+
+	class XYBlockRendererTestsTestBug1766646BAdapterImpl implements XYBlockRendererTestsTestBug1766646Adapter {
+		public Range findBounds(XYBlockRenderer r, XYDataset xYDataset1) {
+			return r.findRangeBounds(xYDataset1);
+		}
+	}
 
 }

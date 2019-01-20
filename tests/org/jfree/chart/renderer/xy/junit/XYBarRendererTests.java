@@ -44,6 +44,9 @@
 
 package org.jfree.chart.renderer.xy.junit;
 
+import java.lang.Object;
+import java.awt.Shape;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
 import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -63,7 +66,6 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYBarDataset;
 import org.jfree.data.xy.XYSeries;
@@ -170,29 +172,12 @@ public class XYBarRendererTests extends TestCase {
     }
 
     /**
-     * Confirm that cloning works.
-     */
-    public void testCloning() {
-        XYBarRenderer r1 = new XYBarRenderer();
-        Rectangle2D rect = new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0);
-        r1.setLegendBar(rect);
-        XYBarRenderer r2 = null;
-        try {
-            r2 = (XYBarRenderer) r1.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(r1 != r2);
-        assertTrue(r1.getClass() == r2.getClass());
-        assertTrue(r1.equals(r2));
-
-        // check independence
-        rect.setRect(4.0, 3.0, 2.0, 1.0);
-        assertFalse(r1.equals(r2));
-        r2.setLegendBar(new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0));
-        assertTrue(r1.equals(r2));
-    }
+	 * Confirm that cloning works.
+	 */
+	public void testCloning() throws Exception {
+		XyRendererTestsTestCloningTemplate.xyRendererTestsTestCloningTemplate(
+				new XYBarRendererTestsTestCloningAdapterImpl(), XYBarRenderer.class);
+	}
 
     /**
      * Verify that this class implements {@link PublicCloneable}.
@@ -309,6 +294,20 @@ public class XYBarRendererTests extends TestCase {
         assertEquals(1, li.getDatasetIndex());
         assertEquals(2, li.getSeriesIndex());
     }
+
+	class XYBarRendererTestsTestCloningAdapterImpl implements XYRendererTestsTestCloningAdapter<XYBarRenderer> {
+		public void setLegend(XYBarRenderer r1, Shape rect) {
+			r1.setLegendBar(rect);
+		}
+
+		public Object clone(XYBarRenderer r1) throws CloneNotSupportedException {
+			return r1.clone();
+		}
+
+		public Class<? extends XYBarRenderer> getClass(XYBarRenderer r1) {
+			return r1.getClass();
+		}
+	}
 
 
 }

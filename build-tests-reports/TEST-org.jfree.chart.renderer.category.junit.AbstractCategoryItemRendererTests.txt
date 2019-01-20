@@ -1,0 +1,9 @@
+Testsuite: org.jfree.chart.renderer.category.junit.AbstractCategoryItemRendererTests
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 sec
+
+Testcase: testEquals took 0.058 sec
+Testcase: testCloning1 took 0.002 sec
+Testcase: testCloning2 took 0.001 sec
+Testcase: testCloning_LegendItemLabelGenerator took 0.001 sec
+Testcase: testCloning_LegendItemToolTipGenerator took 0 sec
+Testcase: testCloning_LegendItemURLGenerator took 0 sec

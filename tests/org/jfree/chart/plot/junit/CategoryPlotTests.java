@@ -48,6 +48,14 @@
 
 package org.jfree.chart.plot.junit;
 
+import java.awt.Paint;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.LegendItemSource;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.axis.Axis;
+import org.jfree.chart.axis.CategoryAxis;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -78,11 +86,8 @@ import org.jfree.chart.annotations.CategoryTextAnnotation;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.AxisSpace;
 import org.jfree.chart.axis.CategoryAnchor;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.event.MarkerChangeListener;
 import org.jfree.chart.plot.CategoryMarker;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.chart.plot.Marker;
@@ -90,7 +95,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.renderer.category.AreaRenderer;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -742,20 +746,12 @@ public class CategoryPlotTests extends TestCase {
     }
 
     /**
-     * A test for a bug where setting the renderer doesn't register the plot
-     * as a RendererChangeListener.
-     */
-    public void testSetRenderer() {
-        CategoryPlot plot = new CategoryPlot();
-        CategoryItemRenderer renderer = new LineAndShapeRenderer();
-        plot.setRenderer(renderer);
-        // now make a change to the renderer and see if it triggers a plot
-        // change event...
-        MyPlotChangeListener listener = new MyPlotChangeListener();
-        plot.addChangeListener(listener);
-        renderer.setSeriesPaint(0, Color.black);
-        assertTrue(listener.getEvent() != null);
-    }
+	 * A test for a bug where setting the renderer doesn't register the plot as a RendererChangeListener.
+	 */
+	public void testSetRenderer() throws Exception {
+		PlotTestsTestSetRendererTemplate.plotTestsTestSetRendererTemplate(
+				new CategoryPlotTestsTestSetRendererAdapterImpl(), CategoryPlot.class, LineAndShapeRenderer.class);
+	}
 
     /**
      * A test for bug report 1169972.
@@ -826,52 +822,20 @@ public class CategoryPlotTests extends TestCase {
     }
 
     /**
-     * Some checks for the getDomainAxisIndex() method.
-     */
-    public void testGetDomainAxisIndex() {
-        CategoryAxis domainAxis1 = new CategoryAxis("X1");
-        CategoryAxis domainAxis2 = new CategoryAxis("X2");
-        NumberAxis rangeAxis1 = new NumberAxis("Y1");
-        CategoryPlot plot = new CategoryPlot(null, domainAxis1, rangeAxis1,
-                null);
-        assertEquals(0, plot.getDomainAxisIndex(domainAxis1));
-        assertEquals(-1, plot.getDomainAxisIndex(domainAxis2));
-        plot.setDomainAxis(1, domainAxis2);
-        assertEquals(1, plot.getDomainAxisIndex(domainAxis2));
-        assertEquals(-1, plot.getDomainAxisIndex(new CategoryAxis("X2")));
-        boolean pass = false;
-        try {
-            plot.getDomainAxisIndex(null);
-        }
-        catch (IllegalArgumentException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-    }
+	 * Some checks for the getDomainAxisIndex() method.
+	 */
+	public void testGetDomainAxisIndex() throws Exception {
+		this.categoryPlotTestsTestGetAxisIndexTemplate(new CategoryPlotTestsTestGetDomainAxisIndexAdapterImpl(),
+				CategoryAxis.class);
+	}
 
     /**
-     * Some checks for the getRangeAxisIndex() method.
-     */
-    public void testGetRangeAxisIndex() {
-        CategoryAxis domainAxis1 = new CategoryAxis("X1");
-        NumberAxis rangeAxis1 = new NumberAxis("Y1");
-        NumberAxis rangeAxis2 = new NumberAxis("Y2");
-        CategoryPlot plot = new CategoryPlot(null, domainAxis1, rangeAxis1,
-                null);
-        assertEquals(0, plot.getRangeAxisIndex(rangeAxis1));
-        assertEquals(-1, plot.getRangeAxisIndex(rangeAxis2));
-        plot.setRangeAxis(1, rangeAxis2);
-        assertEquals(1, plot.getRangeAxisIndex(rangeAxis2));
-        assertEquals(-1, plot.getRangeAxisIndex(new NumberAxis("Y2")));
-        boolean pass = false;
-        try {
-            plot.getRangeAxisIndex(null);
-        }
-        catch (IllegalArgumentException e) {
-            pass = true;
-        }
-        assertTrue(pass);
-    }
+	 * Some checks for the getRangeAxisIndex() method.
+	 */
+	public void testGetRangeAxisIndex() throws Exception {
+		this.categoryPlotTestsTestGetAxisIndexTemplate(new CategoryPlotTestsTestGetRangeAxisIndexAdapterImpl(),
+				NumberAxis.class);
+	}
 
     /**
      * Check that removing a marker that isn't assigned to the plot returns
@@ -890,5 +854,74 @@ public class CategoryPlotTests extends TestCase {
         CategoryPlot plot = new CategoryPlot();
         assertFalse(plot.removeRangeMarker(new ValueMarker(0.5)));
     }
+
+	public <TAxis extends Axis> void categoryPlotTestsTestGetAxisIndexTemplate(
+			CategoryPlotTestsTestGetAxisIndexAdapter<TAxis> adapter, Class<TAxis> clazzTAxis) throws Exception {
+		CategoryAxis domainAxis1 = new CategoryAxis("X1");
+		TAxis axis21 = clazzTAxis.getDeclaredConstructor(String.class).newInstance("X2");
+		NumberAxis rangeAxis1 = new NumberAxis("Y1");
+		CategoryPlot plot = new CategoryPlot(null, domainAxis1, rangeAxis1, null);
+		assertEquals(0, adapter.getAxisIndex(plot, adapter.action1(domainAxis1, rangeAxis1)));
+		assertEquals(-1, adapter.getAxisIndex(plot, axis21));
+		adapter.setAxis(plot, 1, axis21);
+		assertEquals(1, adapter.getAxisIndex(plot, axis21));
+		assertEquals(-1, adapter.getAxisIndex(plot, clazzTAxis.getDeclaredConstructor(String.class).newInstance("X2")));
+		boolean pass = false;
+		try {
+			adapter.getAxisIndex(plot, null);
+		} catch (IllegalArgumentException e) {
+			pass = true;
+		}
+		assertTrue(pass);
+	}
+
+	interface CategoryPlotTestsTestGetAxisIndexAdapter<TAxis> {
+		Axis action1(CategoryAxis categoryAxis1, NumberAxis numberAxis1);
+
+		int getAxisIndex(CategoryPlot categoryPlot1, Axis axis1);
+
+		void setAxis(CategoryPlot categoryPlot1, int i1, TAxis tAxis1);
+	}
+
+	class CategoryPlotTestsTestGetDomainAxisIndexAdapterImpl
+			implements CategoryPlotTestsTestGetAxisIndexAdapter<CategoryAxis> {
+		public Axis action1(CategoryAxis categoryAxis1, NumberAxis numberAxis1) {
+			return categoryAxis1;
+		}
+
+		public int getAxisIndex(CategoryPlot plot, Axis domainAxis1) {
+			return plot.getDomainAxisIndex((CategoryAxis) domainAxis1);
+		}
+
+		public void setAxis(CategoryPlot plot, int i1, CategoryAxis domainAxis2) {
+			plot.setDomainAxis(i1, domainAxis2);
+		}
+	}
+
+	class CategoryPlotTestsTestGetRangeAxisIndexAdapterImpl
+			implements CategoryPlotTestsTestGetAxisIndexAdapter<NumberAxis> {
+		public Axis action1(CategoryAxis categoryAxis1, NumberAxis numberAxis1) {
+			return numberAxis1;
+		}
+
+		public int getAxisIndex(CategoryPlot plot, Axis rangeAxis1) {
+			return plot.getRangeAxisIndex((ValueAxis) rangeAxis1);
+		}
+
+		public void setAxis(CategoryPlot plot, int i1, NumberAxis rangeAxis2) {
+			plot.setRangeAxis(i1, rangeAxis2);
+		}
+	}
+
+	class CategoryPlotTestsTestSetRendererAdapterImpl
+			implements PlotTestsTestSetRendererAdapter<CategoryPlot, CategoryItemRenderer> {
+		public void setRenderer(CategoryPlot plot, LegendItemSource renderer) {
+			plot.setRenderer((CategoryItemRenderer) renderer);
+		}
+
+		public void setSeriesPaint(CategoryItemRenderer renderer, int i1, Paint paint1) {
+			renderer.setSeriesPaint(i1, paint1);
+		}
+	}
 
 }

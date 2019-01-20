@@ -1,0 +1,25 @@
+Testsuite: org.jfree.data.time.junit.TimeSeriesTests
+Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.108 sec
+
+Testcase: testClone2 took 0.013 sec
+Testcase: testAddValue took 0.001 sec
+Testcase: testGetValue took 0.001 sec
+Testcase: testDelete took 0.001 sec
+Testcase: testDelete2 took 0.001 sec
+Testcase: testSerialization took 0.064 sec
+Testcase: testEquals took 0.004 sec
+Testcase: testEquals2 took 0 sec
+Testcase: testCreateCopy1 took 0.002 sec
+Testcase: testCreateCopy2 took 0.001 sec
+Testcase: testSetMaximumItemCount took 0.001 sec
+Testcase: testAddOrUpdate took 0.001 sec
+Testcase: testBug1075255 took 0 sec
+Testcase: testBug1832432 took 0.001 sec
+Testcase: testGetIndex took 0.001 sec
+Testcase: testGetDataItem1 took 0.001 sec
+Testcase: testGetDataItem2 took 0 sec
+Testcase: testRemoveAgedItems took 0 sec
+Testcase: testRemoveAgedItems2 took 0.001 sec
+Testcase: testHashCode took 0.001 sec
+Testcase: testBug1864222 took 0 sec
+Testcase: testClone took 0.001 sec

@@ -1,0 +1,8 @@
+Testsuite: org.jfree.chart.annotations.junit.CategoryTextAnnotationTests
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.078 sec
+
+Testcase: testHashcode took 0.054 sec
+Testcase: testSerialization took 0.019 sec
+Testcase: testPublicCloneable took 0 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0 sec

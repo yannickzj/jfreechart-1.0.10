@@ -43,19 +43,20 @@
 
 package org.jfree.chart.urls.junit;
 
+import java.lang.String;
+import java.util.List;
+import org.jfree.chart.urls.CustomXYURLGenerator;
+import java.lang.Object;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.util.List;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.jfree.chart.urls.CustomXYURLGenerator;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -103,34 +104,12 @@ public class CustomXYURLGeneratorTests extends TestCase {
     }
 
     /**
-     * Confirm that cloning works.
-     */
-    public void testCloning() {
-        CustomXYURLGenerator g1 = new CustomXYURLGenerator();
-        List u1 = new java.util.ArrayList();
-        u1.add("URL A1");
-        u1.add("URL A2");
-        u1.add("URL A3");
-        g1.addURLSeries(u1);
-        CustomXYURLGenerator g2 = null;
-        try {
-            g2 = (CustomXYURLGenerator) g1.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(g1 != g2);
-        assertTrue(g1.getClass() == g2.getClass());
-        assertTrue(g1.equals(g2));
-
-        // check independence
-        List u2 = new java.util.ArrayList();
-        u2.add("URL XXX");
-        g1.addURLSeries(u2);
-        assertFalse(g1.equals(g2));
-        g2.addURLSeries(new java.util.ArrayList(u2));
-        assertTrue(g1.equals(g2));
-    }
+	 * Confirm that cloning works.
+	 */
+	public void testCloning() throws Exception {
+		CustomGeneratorTestsTestCloningTemplate.customGeneratorTestsTestCloningTemplate(
+				new CustomXYURLGeneratorTestsTestCloningAdapterImpl(), CustomXYURLGenerator.class);
+	}
 
     /**
      * Checks that the class implements PublicCloneable.
@@ -179,26 +158,39 @@ public class CustomXYURLGeneratorTests extends TestCase {
 
     }
 
-    public void testAddURLSeries() {
-        CustomXYURLGenerator g1 = new CustomXYURLGenerator();
-        // you can add a null list - it would have been better if this
-        // required EMPTY_LIST
-        g1.addURLSeries(null);
-        assertEquals(1, g1.getListCount());
-        assertEquals(0, g1.getURLCount(0));
+    public void testAddURLSeries() throws Exception {
+		CustomGeneratorTestsTestAddURLSeriesTemplate.customGeneratorTestsTestAddURLSeriesTemplate(
+				new CustomXYURLGeneratorTestsTestAddURLSeriesAdapterImpl(), CustomXYURLGenerator.class);
+	}
 
-        List list1 = new java.util.ArrayList();
-        list1.add("URL1");
-        g1.addURLSeries(list1);
-        assertEquals(2, g1.getListCount());
-        assertEquals(0, g1.getURLCount(0));
-        assertEquals(1, g1.getURLCount(1));
-        assertEquals("URL1", g1.getURL(1, 0));
+	class CustomXYURLGeneratorTestsTestCloningAdapterImpl
+			implements CustomGeneratorTestsTestCloningAdapter<CustomXYURLGenerator> {
+		public void addURLSeries(CustomXYURLGenerator g1, List u1) {
+			g1.addURLSeries(u1);
+		}
 
-        // if we modify the original list, it's best if the URL generator is
-        // not affected
-        list1.clear();
-        assertEquals("URL1", g1.getURL(1, 0));
-    }
+		public Object clone(CustomXYURLGenerator g1) throws CloneNotSupportedException {
+			return g1.clone();
+		}
+	}
+
+	class CustomXYURLGeneratorTestsTestAddURLSeriesAdapterImpl
+			implements CustomGeneratorTestsTestAddURLSeriesAdapter<CustomXYURLGenerator> {
+		public void addURLSeries(CustomXYURLGenerator g1, List list1) {
+			g1.addURLSeries(list1);
+		}
+
+		public int getListCount(CustomXYURLGenerator g1) {
+			return g1.getListCount();
+		}
+
+		public int getURLCount(CustomXYURLGenerator g1, int i1) {
+			return g1.getURLCount(i1);
+		}
+
+		public String getURL(CustomXYURLGenerator g1, int i1, int i2) {
+			return g1.getURL(i1, i2);
+		}
+	}
 
 }

@@ -1,0 +1,11 @@
+Testsuite: org.jfree.chart.renderer.category.junit.BarRendererTests
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.151 sec
+
+Testcase: testHashcode took 0.057 sec
+Testcase: testEventNotification took 0.002 sec
+Testcase: testGetLegendItem took 0.053 sec
+Testcase: testGetLegendItemSeriesIndex took 0.002 sec
+Testcase: testEquals took 0 sec
+Testcase: testSerialization took 0.032 sec
+Testcase: testPublicCloneable took 0 sec
+Testcase: testCloning took 0.002 sec

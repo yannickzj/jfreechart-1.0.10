@@ -1,0 +1,7 @@
+Testsuite: org.jfree.data.time.ohlc.junit.OHLCItemTests
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 sec
+
+Testcase: testEquals took 0.011 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.065 sec
+Testcase: testConstructor1 took 0.001 sec

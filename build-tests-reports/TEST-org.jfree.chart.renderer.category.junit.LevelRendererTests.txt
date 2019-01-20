@@ -1,0 +1,10 @@
+Testsuite: org.jfree.chart.renderer.category.junit.LevelRendererTests
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.208 sec
+
+Testcase: testCloning took 0.055 sec
+Testcase: testSerialization took 0.037 sec
+Testcase: testDrawWithNullInfo took 0.111 sec
+Testcase: testGetLegendItemSeriesIndex took 0.001 sec
+Testcase: testHashcode took 0 sec
+Testcase: testPublicCloneable took 0 sec
+Testcase: testEquals took 0 sec

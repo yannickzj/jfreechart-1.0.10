@@ -42,6 +42,7 @@
 package org.jfree.chart.axis.junit;
 
 import java.awt.geom.Rectangle2D;
+import org.jfree.ui.RectangleEdge;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -54,7 +55,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.chart.axis.LogarithmicAxis;
-import org.jfree.ui.RectangleEdge;
 
 /**
  * Tests for the {@link LogarithmicAxis} class.
@@ -195,52 +195,18 @@ public class LogarithmicAxisTests extends TestCase {
       }
 
       /**
-       * Test of java2DToValue method.
-       */
-      public void testJava2DToValue() {
-          Rectangle2D plotArea = new Rectangle2D.Double(22, 33, 500, 500);
-          RectangleEdge edge = RectangleEdge.BOTTOM;
-
-          // set axis bounds to be both greater than 1
-          this.axis.setRange(10, 20);
-          checkPointsToValue(edge, plotArea);
-
-          // check for bounds interval that includes 1
-          this.axis.setRange(0.5, 10);
-          checkPointsToValue(edge, plotArea);
-
-          // check for bounds interval that includes 1
-          this.axis.setRange(0.2, 20);
-          checkPointsToValue(edge, plotArea);
-
-          // check for both bounds smaller than 1
-          this.axis.setRange(0.2, 0.7);
-          checkPointsToValue(edge, plotArea);
-      }
+	 * Test of java2DToValue method.
+	 */
+	public void testJava2DToValue() {
+		this.logarithmicAxisTestsTestValueToJava2DTemplate(new LogarithmicAxisTestsTestJava2DToValueAdapterImpl());
+	}
 
       /**
-       * Test of valueToJava2D method.
-       */
-      public void testValueToJava2D() {
-          Rectangle2D plotArea = new Rectangle2D.Double(22, 33, 500, 500);
-          RectangleEdge edge = RectangleEdge.BOTTOM;
-
-          // set axis bounds to be both greater than 1
-          this.axis.setRange(10, 20);
-          checkPointsToJava2D(edge, plotArea);
-
-          // check for bounds interval that includes 1
-          this.axis.setRange(0.5, 10);
-          checkPointsToJava2D(edge, plotArea);
-
-          // check for bounds interval that includes 1
-          this.axis.setRange(0.2, 20);
-          checkPointsToJava2D(edge, plotArea);
-
-          // check for both bounds smaller than 1
-          this.axis.setRange(0.2, 0.7);
-          checkPointsToJava2D(edge, plotArea);
-      }
+	 * Test of valueToJava2D method.
+	 */
+	public void testValueToJava2D() {
+		this.logarithmicAxisTestsTestValueToJava2DTemplate(new LogarithmicAxisTestsTestValueToJava2DAdapterImpl());
+	}
 
       private void checkPointsToJava2D(RectangleEdge edge, 
               Rectangle2D plotArea) {
@@ -286,5 +252,34 @@ public class LogarithmicAxisTests extends TestCase {
     public static void main(String[] args) {
         junit.textui.TestRunner.run(LogarithmicAxisTests.class);
     }
+
+	public void logarithmicAxisTestsTestValueToJava2DTemplate(LogarithmicAxisTestsTestValueToJava2DAdapter adapter) {
+		Rectangle2D plotArea = new Rectangle2D.Double(22, 33, 500, 500);
+		RectangleEdge edge = RectangleEdge.BOTTOM;
+		this.axis.setRange(10, 20);
+		adapter.checkPointsTo(edge, plotArea);
+		this.axis.setRange(0.5, 10);
+		adapter.checkPointsTo(edge, plotArea);
+		this.axis.setRange(0.2, 20);
+		adapter.checkPointsTo(edge, plotArea);
+		this.axis.setRange(0.2, 0.7);
+		adapter.checkPointsTo(edge, plotArea);
+	}
+
+	interface LogarithmicAxisTestsTestValueToJava2DAdapter {
+		void checkPointsTo(RectangleEdge rectangleEdge1, Rectangle2D rectangle2D1);
+	}
+
+	class LogarithmicAxisTestsTestJava2DToValueAdapterImpl implements LogarithmicAxisTestsTestValueToJava2DAdapter {
+		public void checkPointsTo(RectangleEdge edge, Rectangle2D plotArea) {
+			checkPointsToValue(edge, plotArea);
+		}
+	}
+
+	class LogarithmicAxisTestsTestValueToJava2DAdapterImpl implements LogarithmicAxisTestsTestValueToJava2DAdapter {
+		public void checkPointsTo(RectangleEdge edge, Rectangle2D plotArea) {
+			checkPointsToJava2D(edge, plotArea);
+		}
+	}
 
 }

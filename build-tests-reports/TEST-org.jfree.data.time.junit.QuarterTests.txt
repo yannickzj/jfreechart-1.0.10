@@ -1,0 +1,26 @@
+Testsuite: org.jfree.data.time.junit.QuarterTests
+Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 sec
+
+Testcase: testHashcode took 0.013 sec
+Testcase: testNotCloneable took 0 sec
+Testcase: testConstructor took 0.001 sec
+Testcase: testGetFirstMillisecond took 0.001 sec
+Testcase: testGetFirstMillisecondWithTimeZone took 0 sec
+Testcase: testGetFirstMillisecondWithCalendar took 0.001 sec
+Testcase: testGetLastMillisecond took 0 sec
+Testcase: testGetLastMillisecondWithTimeZone took 0.001 sec
+Testcase: testGetLastMillisecondWithCalendar took 0 sec
+Testcase: testGetSerialIndex took 0.001 sec
+Testcase: testNext took 0.001 sec
+Testcase: testGetStart took 0.001 sec
+Testcase: testGetEnd took 0 sec
+Testcase: testEqualsSelf took 0.001 sec
+Testcase: testEquals took 0 sec
+Testcase: testDateConstructor1 took 0.001 sec
+Testcase: testDateConstructor2 took 0 sec
+Testcase: testQ1Y1900Previous took 0 sec
+Testcase: testQ1Y1900Next took 0 sec
+Testcase: testParseQuarter took 0.002 sec
+Testcase: testSerialization took 0.05 sec
+Testcase: testQ4Y9999Previous took 0 sec
+Testcase: testQ4Y9999Next took 0 sec

@@ -1,0 +1,27 @@
+Testsuite: org.jfree.data.gantt.junit.TaskSeriesCollectionTests
+Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.082 sec
+
+Testcase: testGetColumnIndex took 0.004 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.067 sec
+Testcase: test697153 took 0 sec
+Testcase: test800324 took 0 sec
+Testcase: testGetSubIntervalCount took 0 sec
+Testcase: testGetSeries took 0 sec
+Testcase: testRemove took 0 sec
+Testcase: testGetSeriesCount took 0 sec
+Testcase: testGetSeriesKey took 0 sec
+Testcase: testGetRowCount took 0 sec
+Testcase: testGetRowKey took 0.001 sec
+Testcase: testGetRowIndex took 0 sec
+Testcase: testGetValue took 0 sec
+Testcase: testGetStartValue took 0.001 sec
+Testcase: testGetStartValue2 took 0 sec
+Testcase: testGetStartValue3 took 0.001 sec
+Testcase: testGetEndValue took 0 sec
+Testcase: testGetEndValue2 took 0.001 sec
+Testcase: testGetEndValue3 took 0 sec
+Testcase: testGetPercentComplete took 0 sec
+Testcase: testGetColumnCount took 0 sec
+Testcase: testGetColumnKey took 0 sec

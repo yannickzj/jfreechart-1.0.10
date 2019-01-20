@@ -1,0 +1,7 @@
+Testsuite: org.jfree.data.statistics.junit.BoxAndWhiskerCalculatorTests
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.01 sec
+
+Testcase: testCalculateQ3 took 0.003 sec
+Testcase: testCalculateBoxAndWhiskerStatistics took 0 sec
+Testcase: test1593149 took 0.001 sec
+Testcase: testCalculateQ1 took 0.002 sec

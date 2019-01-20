@@ -1,0 +1,6 @@
+Testsuite: org.jfree.chart.needle.junit.ShipNeedleTests
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 sec
+
+Testcase: testSerialization took 0.063 sec
+Testcase: testCloning took 0 sec
+Testcase: testEquals took 0 sec

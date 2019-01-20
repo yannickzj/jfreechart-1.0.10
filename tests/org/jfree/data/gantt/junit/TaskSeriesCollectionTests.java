@@ -42,6 +42,9 @@
 
 package org.jfree.data.gantt.junit;
 
+import java.lang.Comparable;
+import org.jfree.data.gantt.TaskSeriesCollection;
+import java.lang.Number;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -56,7 +59,6 @@ import junit.framework.TestSuite;
 
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
-import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
 
 /**
@@ -240,134 +242,52 @@ public class TaskSeriesCollectionTests extends TestCase {
     }
 
     /**
-     * Some tests for the getStartValue() method.
-     */
-    public void testGetStartValue() {
-        TaskSeriesCollection c = createCollection1();
-        assertEquals(new Long(1L), c.getStartValue("S1", "Task 1"));
-        assertEquals(new Long(3L), c.getStartValue("S1", "Task 2"));
-        assertEquals(new Long(5L), c.getStartValue("S2", "Task 3"));
-
-        assertEquals(new Long(1L), c.getStartValue(0, 0));
-        assertEquals(new Long(3L), c.getStartValue(0, 1));
-        assertEquals(null, c.getStartValue(0, 2));
-        assertEquals(null, c.getStartValue(1, 0));
-        assertEquals(null, c.getStartValue(1, 1));
-        assertEquals(new Long(5L), c.getStartValue(1, 2));
-
-        // test collection 3, which doesn't define all tasks in all series
-        TaskSeriesCollection c3 = createCollection3();
-        assertEquals(new Long(100), c3.getStartValue(0, 0));
-        assertEquals(new Long(220), c3.getStartValue(0, 1));
-        assertTrue(c3.getStartValue(1, 0) == null);
-        assertEquals(new Long(2220), c3.getStartValue(1, 1));
-    }
+	 * Some tests for the getStartValue() method.
+	 */
+	public void testGetStartValue() {
+		this.taskSeriesCollectionTestsTestGetValueTemplate(new TaskSeriesCollectionTestsTestGetStartValueAdapterImpl(),
+				1L, 3L, 5L, 1L, 3L, 5L, 100, 220, 2220);
+	}
 
     /**
-     * Some tests for the getStartValue() method for sub-intervals.
-     */
-    public void testGetStartValue2() {
-        TaskSeriesCollection c = createCollection2();
-        assertEquals(new Long(10L), c.getStartValue("S1", "Task 1", 0));
-        assertEquals(new Long(16L), c.getStartValue("S1", "Task 1", 1));
-        assertEquals(new Long(30L), c.getStartValue("S1", "Task 2", 0));
-        assertEquals(new Long(36L), c.getStartValue("S1", "Task 2", 1));
-        assertEquals(new Long(50L), c.getStartValue("S2", "Task 3", 0));
-        assertEquals(new Long(56L), c.getStartValue("S2", "Task 3", 1));
-
-        assertEquals(new Long(10L), c.getStartValue(0, 0, 0));
-        assertEquals(new Long(16L), c.getStartValue(0, 0, 1));
-        assertEquals(new Long(30L), c.getStartValue(0, 1, 0));
-        assertEquals(new Long(36L), c.getStartValue(0, 1, 1));
-        assertEquals(new Long(50L), c.getStartValue(1, 2, 0));
-        assertEquals(new Long(56L), c.getStartValue(1, 2, 1));
-
-        TaskSeriesCollection c3 = createCollection3();
-        assertEquals(new Long(11), c3.getStartValue(0, 0, 0));
-        assertEquals(new Long(22), c3.getStartValue(0, 1, 0));
-        assertEquals(new Long(33), c3.getStartValue(0, 1, 1));
-        assertTrue(c3.getStartValue(1, 0, 0) == null);
-        assertEquals(new Long(44), c3.getStartValue(1, 1, 0));
-        assertEquals(new Long(55), c3.getStartValue(1, 1, 1));
-        assertEquals(new Long(66), c3.getStartValue(1, 1, 2));
-    }
+	 * Some tests for the getStartValue() method for sub-intervals.
+	 */
+	public void testGetStartValue2() {
+		this.taskSeriesCollectionTestsTestGetValue2Template(
+				new TaskSeriesCollectionTestsTestGetStartValue2AdapterImpl(), 10L, 16L, 30L, 36L, 50L, 56L, 10L, 16L,
+				30L, 36L, 50L, 56L, 11, 22, 33, 44, 55, 66);
+	}
 
     /**
-     * A check for a null task duration.
-     */
-    public void testGetStartValue3() {
-        TaskSeriesCollection c = new TaskSeriesCollection();
-        TaskSeries s = new TaskSeries("Series 1");
-        s.add(new Task("Task with null duration", null));
-        c.add(s);
-        Number millis = c.getStartValue("Series 1", "Task with null duration");
-        assertTrue(millis == null);
-    }
+	 * A check for a null task duration.
+	 */
+	public void testGetStartValue3() {
+		this.taskSeriesCollectionTestsTestGetValue3Template(
+				new TaskSeriesCollectionTestsTestGetStartValue3AdapterImpl());
+	}
 
     /**
-     * Some tests for the getEndValue() method.
-     */
-    public void testGetEndValue() {
-        TaskSeriesCollection c = createCollection1();
-        assertEquals(new Long(2L), c.getEndValue("S1", "Task 1"));
-        assertEquals(new Long(4L), c.getEndValue("S1", "Task 2"));
-        assertEquals(new Long(6L), c.getEndValue("S2", "Task 3"));
-
-        assertEquals(new Long(2L), c.getEndValue(0, 0));
-        assertEquals(new Long(4L), c.getEndValue(0, 1));
-        assertEquals(null, c.getEndValue(0, 2));
-        assertEquals(null, c.getEndValue(1, 0));
-        assertEquals(null, c.getEndValue(1, 1));
-        assertEquals(new Long(6L), c.getEndValue(1, 2));
-
-        // test collection 3, which doesn't define all tasks in all series
-        TaskSeriesCollection c3 = createCollection3();
-        assertEquals(new Long(200), c3.getEndValue(0, 0));
-        assertEquals(new Long(350), c3.getEndValue(0, 1));
-        assertTrue(c3.getEndValue(1, 0) == null);
-        assertEquals(new Long(3350), c3.getEndValue(1, 1));
-    }
+	 * Some tests for the getEndValue() method.
+	 */
+	public void testGetEndValue() {
+		this.taskSeriesCollectionTestsTestGetValueTemplate(new TaskSeriesCollectionTestsTestGetEndValueAdapterImpl(),
+				2L, 4L, 6L, 2L, 4L, 6L, 200, 350, 3350);
+	}
 
     /**
-     * Some tests for the getEndValue() method for sub-intervals.
-     */
-    public void testGetEndValue2() {
-        TaskSeriesCollection c = createCollection2();
-        assertEquals(new Long(15L), c.getEndValue("S1", "Task 1", 0));
-        assertEquals(new Long(20L), c.getEndValue("S1", "Task 1", 1));
-        assertEquals(new Long(35L), c.getEndValue("S1", "Task 2", 0));
-        assertEquals(new Long(40L), c.getEndValue("S1", "Task 2", 1));
-        assertEquals(new Long(55L), c.getEndValue("S2", "Task 3", 0));
-        assertEquals(new Long(60L), c.getEndValue("S2", "Task 3", 1));
-
-        assertEquals(new Long(15L), c.getEndValue(0, 0, 0));
-        assertEquals(new Long(20L), c.getEndValue(0, 0, 1));
-        assertEquals(new Long(35L), c.getEndValue(0, 1, 0));
-        assertEquals(new Long(40L), c.getEndValue(0, 1, 1));
-        assertEquals(new Long(55L), c.getEndValue(1, 2, 0));
-        assertEquals(new Long(60L), c.getEndValue(1, 2, 1));
-
-        TaskSeriesCollection c3 = createCollection3();
-        assertEquals(new Long(111), c3.getEndValue(0, 0, 0));
-        assertEquals(new Long(222), c3.getEndValue(0, 1, 0));
-        assertEquals(new Long(333), c3.getEndValue(0, 1, 1));
-        assertTrue(c3.getEndValue(1, 0, 0) == null);
-        assertEquals(new Long(444), c3.getEndValue(1, 1, 0));
-        assertEquals(new Long(555), c3.getEndValue(1, 1, 1));
-        assertEquals(new Long(666), c3.getEndValue(1, 1, 2));
-    }
+	 * Some tests for the getEndValue() method for sub-intervals.
+	 */
+	public void testGetEndValue2() {
+		this.taskSeriesCollectionTestsTestGetValue2Template(new TaskSeriesCollectionTestsTestGetEndValue2AdapterImpl(),
+				15L, 20L, 35L, 40L, 55L, 60L, 15L, 20L, 35L, 40L, 55L, 60L, 111, 222, 333, 444, 555, 666);
+	}
 
     /**
-     * A check for a null task duration.
-     */
-    public void testGetEndValue3() {
-        TaskSeriesCollection c = new TaskSeriesCollection();
-        TaskSeries s = new TaskSeries("Series 1");
-        s.add(new Task("Task with null duration", null));
-        c.add(s);
-        Number millis = c.getEndValue("Series 1", "Task with null duration");
-        assertTrue(millis == null);
-    }
+	 * A check for a null task duration.
+	 */
+	public void testGetEndValue3() {
+		this.taskSeriesCollectionTestsTestGetValue3Template(new TaskSeriesCollectionTestsTestGetEndValue3AdapterImpl());
+	}
 
     /**
      * Some tests for the getPercentComplete() method.
@@ -673,5 +593,133 @@ public class TaskSeriesCollectionTests extends TestCase {
         }
         assertTrue(pass);
     }
+
+	public void taskSeriesCollectionTestsTestGetValue2Template(TaskSeriesCollectionTestsTestGetValue2Adapter adapter,
+			long l1, long l2, long l3, long l4, long l5, long l6, long l7, long l8, long l9, long l10, long l11,
+			long l12, int i1, int i2, int i3, int i4, int i5, int i6) {
+		TaskSeriesCollection c = createCollection2();
+		assertEquals(new Long(l1), adapter.getValue(c, "S1", "Task 1", 0));
+		assertEquals(new Long(l2), adapter.getValue(c, "S1", "Task 1", 1));
+		assertEquals(new Long(l3), adapter.getValue(c, "S1", "Task 2", 0));
+		assertEquals(new Long(l4), adapter.getValue(c, "S1", "Task 2", 1));
+		assertEquals(new Long(l5), adapter.getValue(c, "S2", "Task 3", 0));
+		assertEquals(new Long(l6), adapter.getValue(c, "S2", "Task 3", 1));
+		assertEquals(new Long(l7), adapter.getValue1(c, 0, 0, 0));
+		assertEquals(new Long(l8), adapter.getValue1(c, 0, 0, 1));
+		assertEquals(new Long(l9), adapter.getValue1(c, 0, 1, 0));
+		assertEquals(new Long(l10), adapter.getValue1(c, 0, 1, 1));
+		assertEquals(new Long(l11), adapter.getValue1(c, 1, 2, 0));
+		assertEquals(new Long(l12), adapter.getValue1(c, 1, 2, 1));
+		TaskSeriesCollection c3 = createCollection3();
+		assertEquals(new Long(i1), adapter.getValue1(c3, 0, 0, 0));
+		assertEquals(new Long(i2), adapter.getValue1(c3, 0, 1, 0));
+		assertEquals(new Long(i3), adapter.getValue1(c3, 0, 1, 1));
+		assertTrue(adapter.getValue1(c3, 1, 0, 0) == null);
+		assertEquals(new Long(i4), adapter.getValue1(c3, 1, 1, 0));
+		assertEquals(new Long(i5), adapter.getValue1(c3, 1, 1, 1));
+		assertEquals(new Long(i6), adapter.getValue1(c3, 1, 1, 2));
+	}
+
+	interface TaskSeriesCollectionTestsTestGetValue2Adapter {
+		Number getValue(TaskSeriesCollection taskSeriesCollection1, Comparable comparable1, Comparable comparable2,
+				int i1);
+
+		Number getValue1(TaskSeriesCollection taskSeriesCollection1, int i1, int i2, int i3);
+	}
+
+	class TaskSeriesCollectionTestsTestGetStartValue2AdapterImpl
+			implements TaskSeriesCollectionTestsTestGetValue2Adapter {
+		public Number getValue(TaskSeriesCollection c, Comparable comparable1, Comparable comparable2, int i1) {
+			return c.getStartValue(comparable1, comparable2, i1);
+		}
+
+		public Number getValue1(TaskSeriesCollection c, int i1, int i2, int i3) {
+			return c.getStartValue(i1, i2, i3);
+		}
+	}
+
+	class TaskSeriesCollectionTestsTestGetEndValue2AdapterImpl
+			implements TaskSeriesCollectionTestsTestGetValue2Adapter {
+		public Number getValue(TaskSeriesCollection c, Comparable comparable1, Comparable comparable2, int i1) {
+			return c.getEndValue(comparable1, comparable2, i1);
+		}
+
+		public Number getValue1(TaskSeriesCollection c, int i1, int i2, int i3) {
+			return c.getEndValue(i1, i2, i3);
+		}
+	}
+
+	public void taskSeriesCollectionTestsTestGetValueTemplate(TaskSeriesCollectionTestsTestGetValueAdapter adapter,
+			long l1, long l2, long l3, long l4, long l5, long l6, int i1, int i2, int i3) {
+		TaskSeriesCollection c = createCollection1();
+		assertEquals(new Long(l1), adapter.getValue(c, "S1", "Task 1"));
+		assertEquals(new Long(l2), adapter.getValue(c, "S1", "Task 2"));
+		assertEquals(new Long(l3), adapter.getValue(c, "S2", "Task 3"));
+		assertEquals(new Long(l4), adapter.getValue1(c, 0, 0));
+		assertEquals(new Long(l5), adapter.getValue1(c, 0, 1));
+		assertEquals(null, adapter.getValue1(c, 0, 2));
+		assertEquals(null, adapter.getValue1(c, 1, 0));
+		assertEquals(null, adapter.getValue1(c, 1, 1));
+		assertEquals(new Long(l6), adapter.getValue1(c, 1, 2));
+		TaskSeriesCollection c3 = createCollection3();
+		assertEquals(new Long(i1), adapter.getValue1(c3, 0, 0));
+		assertEquals(new Long(i2), adapter.getValue1(c3, 0, 1));
+		assertTrue(adapter.getValue1(c3, 1, 0) == null);
+		assertEquals(new Long(i3), adapter.getValue1(c3, 1, 1));
+	}
+
+	interface TaskSeriesCollectionTestsTestGetValueAdapter {
+		Number getValue(TaskSeriesCollection taskSeriesCollection1, Comparable comparable1, Comparable comparable2);
+
+		Number getValue1(TaskSeriesCollection taskSeriesCollection1, int i1, int i2);
+	}
+
+	class TaskSeriesCollectionTestsTestGetStartValueAdapterImpl
+			implements TaskSeriesCollectionTestsTestGetValueAdapter {
+		public Number getValue(TaskSeriesCollection c, Comparable comparable1, Comparable comparable2) {
+			return c.getStartValue(comparable1, comparable2);
+		}
+
+		public Number getValue1(TaskSeriesCollection c, int i1, int i2) {
+			return c.getStartValue(i1, i2);
+		}
+	}
+
+	class TaskSeriesCollectionTestsTestGetEndValueAdapterImpl implements TaskSeriesCollectionTestsTestGetValueAdapter {
+		public Number getValue(TaskSeriesCollection c, Comparable comparable1, Comparable comparable2) {
+			return c.getEndValue(comparable1, comparable2);
+		}
+
+		public Number getValue1(TaskSeriesCollection c, int i1, int i2) {
+			return c.getEndValue(i1, i2);
+		}
+	}
+
+	public void taskSeriesCollectionTestsTestGetValue3Template(TaskSeriesCollectionTestsTestGetValue3Adapter adapter) {
+		TaskSeriesCollection c = new TaskSeriesCollection();
+		TaskSeries s = new TaskSeries("Series 1");
+		s.add(new Task("Task with null duration", null));
+		c.add(s);
+		Number millis = adapter.getValue(c, "Series 1", "Task with null duration");
+		assertTrue(millis == null);
+	}
+
+	interface TaskSeriesCollectionTestsTestGetValue3Adapter {
+		Number getValue(TaskSeriesCollection taskSeriesCollection1, Comparable comparable1, Comparable comparable2);
+	}
+
+	class TaskSeriesCollectionTestsTestGetStartValue3AdapterImpl
+			implements TaskSeriesCollectionTestsTestGetValue3Adapter {
+		public Number getValue(TaskSeriesCollection c, Comparable comparable1, Comparable comparable2) {
+			return c.getStartValue(comparable1, comparable2);
+		}
+	}
+
+	class TaskSeriesCollectionTestsTestGetEndValue3AdapterImpl
+			implements TaskSeriesCollectionTestsTestGetValue3Adapter {
+		public Number getValue(TaskSeriesCollection c, Comparable comparable1, Comparable comparable2) {
+			return c.getEndValue(comparable1, comparable2);
+		}
+	}
 
 }

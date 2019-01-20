@@ -1,0 +1,8 @@
+Testsuite: org.jfree.chart.plot.junit.CombinedDomainCategoryPlotTests
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.271 sec
+
+Testcase: testRemoveSubplot took 0.063 sec
+Testcase: testEquals took 0.022 sec
+Testcase: testCloning took 0.002 sec
+Testcase: testSerialization took 0.081 sec
+Testcase: testNotification took 0.099 sec

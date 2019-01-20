@@ -1,0 +1,40 @@
+Testsuite: org.jfree.chart.title.junit.TitlePackageTests
+Tests run: 37, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.228 sec
+
+Testcase: testHashcode took 0.055 sec
+Testcase: testCloning took 0.002 sec
+Testcase: testSerialization took 0.022 sec
+Testcase: testEquals took 0 sec
+Testcase: testHashcode took 0.009 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.002 sec
+Testcase: testEquals took 0 sec
+Testcase: testHashcode took 0.038 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0 sec
+Testcase: testEquals took 0.001 sec
+Testcase: testWidthAndHeight took 0 sec
+Testcase: testArrangeNN took 0.015 sec
+Testcase: testHashcode took 0.002 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.003 sec
+Testcase: testEquals took 0.001 sec
+Testcase: testCloning2 took 0 sec
+Testcase: testHashcode took 0.01 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.028 sec
+Testcase: testEquals took 0 sec
+Testcase: testHashcode took 0.005 sec
+Testcase: testCloning took 0.001 sec
+Testcase: testSerialization took 0.015 sec
+Testcase: testEquals took 0.004 sec
+Testcase: testHashcode took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.001 sec
+Testcase: testEquals took 0.001 sec
+Testcase: testHashcode took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testSerialization took 0.001 sec
+Testcase: testEquals took 0 sec
+Testcase: testHashcode took 0 sec
+Testcase: testEquals took 0 sec

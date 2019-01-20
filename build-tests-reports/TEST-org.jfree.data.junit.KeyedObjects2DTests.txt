@@ -1,0 +1,14 @@
+Testsuite: org.jfree.data.junit.KeyedObjects2DTests
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 sec
+
+Testcase: testGetValueByIndex took 0.002 sec
+Testcase: testGetValueByKey took 0.001 sec
+Testcase: testSetObject took 0 sec
+Testcase: testRemoveRowByIndex took 0.002 sec
+Testcase: testRemoveColumnByIndex took 0 sec
+Testcase: testRemoveRowByKey took 0 sec
+Testcase: testRemoveColumnByKey took 0 sec
+Testcase: testRemoveValue took 0 sec
+Testcase: testCloning took 0 sec
+Testcase: testEquals took 0 sec
+Testcase: testSerialization took 0.052 sec

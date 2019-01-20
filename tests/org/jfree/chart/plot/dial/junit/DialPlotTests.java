@@ -40,6 +40,11 @@
 
 package org.jfree.chart.plot.dial.junit;
 
+import java.awt.Paint;
+import org.jfree.chart.plot.dial.ArcDialFrame;
+import org.jfree.chart.plot.dial.DialPlot;
+import org.jfree.chart.plot.dial.DialCap;
+import org.jfree.chart.plot.dial.AbstractDialLayer;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.io.ByteArrayInputStream;
@@ -55,10 +60,7 @@ import junit.framework.TestSuite;
 
 import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.event.PlotChangeListener;
-import org.jfree.chart.plot.dial.ArcDialFrame;
 import org.jfree.chart.plot.dial.DialBackground;
-import org.jfree.chart.plot.dial.DialCap;
-import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.StandardDialFrame;
 import org.jfree.chart.plot.dial.StandardDialScale;
 
@@ -233,46 +235,19 @@ public class DialPlotTests extends TestCase implements PlotChangeListener {
     }
 
     /**
-     * Check the notification event mechanism for the dial cap.
-     */
-    public void testCapListener() {
-        DialPlot p = new DialPlot();
-        DialCap c1 = new DialCap();
-        p.setCap(c1);
-        p.addChangeListener(this);
-        this.lastEvent = null;
-        c1.setFillPaint(Color.red);
-        assertNotNull(this.lastEvent);
-        
-        DialCap c2 = new DialCap();
-        p.setCap(c2);
-        this.lastEvent = null;
-        c1.setFillPaint(Color.blue);
-        assertNull(this.lastEvent);
-        c2.setFillPaint(Color.green);
-        assertNotNull(this.lastEvent);
-    }
+	 * Check the notification event mechanism for the dial cap.
+	 */
+	public void testCapListener() throws Exception {
+		this.dialPlotTestsTestListenerTemplate(new DialPlotTestsTestCapListenerAdapterImpl(), DialCap.class, Color.red);
+	}
 
     /**
-     * Check the notification event mechanism for the dial frame.
-     */
-    public void testFrameListener() {
-        DialPlot p = new DialPlot();
-        ArcDialFrame f1 = new ArcDialFrame();
-        p.setDialFrame(f1);
-        p.addChangeListener(this);
-        this.lastEvent = null;
-        f1.setBackgroundPaint(Color.gray);
-        assertNotNull(this.lastEvent);
-        
-        ArcDialFrame f2 = new ArcDialFrame();
-        p.setDialFrame(f2);
-        this.lastEvent = null;
-        f1.setBackgroundPaint(Color.blue);
-        assertNull(this.lastEvent);
-        f2.setBackgroundPaint(Color.green);
-        assertNotNull(this.lastEvent);
-    }
+	 * Check the notification event mechanism for the dial frame.
+	 */
+	public void testFrameListener() throws Exception {
+		this.dialPlotTestsTestListenerTemplate(new DialPlotTestsTestFrameListenerAdapterImpl(), ArcDialFrame.class,
+				Color.gray);
+	}
 
     /**
      * Check the notification event mechanism for the dial scales.
@@ -320,5 +295,53 @@ public class DialPlotTests extends TestCase implements PlotChangeListener {
         b2.setPaint(Color.red);
         assertNull(this.lastEvent);   
     }
+
+
+	public <TDial extends AbstractDialLayer> void dialPlotTestsTestListenerTemplate(
+			DialPlotTestsTestListenerAdapter<TDial> adapter, Class<TDial> clazzTDial, Color color1) throws Exception {
+		DialPlot p = new DialPlot();
+		TDial v1 = clazzTDial.newInstance();
+		adapter.set(p, v1);
+		p.addChangeListener(this);
+		this.lastEvent = null;
+		adapter.setPaint(v1, color1);
+		assertNotNull(this.lastEvent);
+		TDial v2 = clazzTDial.newInstance();
+		adapter.set(p, v2);
+		this.lastEvent = null;
+		adapter.setPaint(v1, Color.blue);
+		assertNull(this.lastEvent);
+		adapter.setPaint(v2, Color.green);
+		assertNotNull(this.lastEvent);
+	}
+
+
+	interface DialPlotTestsTestListenerAdapter<TDial> {
+		void set(DialPlot dialPlot1, TDial tDial1);
+
+		void setPaint(TDial tDial1, Paint paint1);
+	}
+
+
+	class DialPlotTestsTestCapListenerAdapterImpl implements DialPlotTestsTestListenerAdapter<DialCap> {
+		public void set(DialPlot p, DialCap c1) {
+			p.setCap(c1);
+		}
+
+		public void setPaint(DialCap v1, Paint paint1) {
+			v1.setFillPaint(paint1);
+		}
+	}
+
+
+	class DialPlotTestsTestFrameListenerAdapterImpl implements DialPlotTestsTestListenerAdapter<ArcDialFrame> {
+		public void set(DialPlot p, ArcDialFrame f1) {
+			p.setDialFrame(f1);
+		}
+
+		public void setPaint(ArcDialFrame f1, Paint paint1) {
+			f1.setBackgroundPaint(paint1);
+		}
+	}
 
 }

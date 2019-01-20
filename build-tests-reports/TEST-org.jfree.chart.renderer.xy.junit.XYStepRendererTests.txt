@@ -1,0 +1,10 @@
+Testsuite: org.jfree.chart.renderer.xy.junit.XYStepRendererTests
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.236 sec
+
+Testcase: testCloning took 0.06 sec
+Testcase: testPublicCloneable took 0 sec
+Testcase: testSerialization took 0.04 sec
+Testcase: testEquals took 0 sec
+Testcase: testDrawWithNullInfo took 0.117 sec
+Testcase: testDrawWithNullValue took 0.011 sec
+Testcase: testHashcode took 0.002 sec

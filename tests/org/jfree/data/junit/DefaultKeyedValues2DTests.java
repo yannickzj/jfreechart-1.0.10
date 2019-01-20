@@ -46,6 +46,7 @@
 
 package org.jfree.data.junit;
 
+import org.jfree.data.DefaultKeyedValues2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -57,7 +58,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.jfree.data.DefaultKeyedValues2D;
 import org.jfree.data.UnknownKeyException;
 
 /**
@@ -195,28 +195,20 @@ public class DefaultKeyedValues2DTests extends TestCase {
     }
     
     /**
-     * Some basic checks for the getRowCount() method.
-     */
-    public void testRowCount() {
-        DefaultKeyedValues2D d = new DefaultKeyedValues2D();
-        assertEquals(0, d.getRowCount());
-        d.addValue(new Double(1.0), "R1", "C1");
-        assertEquals(1, d.getRowCount());
-        d.addValue(new Double(2.0), "R2", "C1");
-        assertEquals(2, d.getRowCount());
-    }
+	 * Some basic checks for the getRowCount() method.
+	 */
+	public void testRowCount() {
+		this.defaultKeyedValues2DTestsTestCountTemplate(new DefaultKeyedValues2DTestsTestRowCountAdapterImpl(), "R2",
+				"C1");
+	}
 
     /**
-     * Some basic checks for the getColumnCount() method.
-     */
-    public void testColumnCount() {
-        DefaultKeyedValues2D d = new DefaultKeyedValues2D();
-        assertEquals(0, d.getColumnCount());
-        d.addValue(new Double(1.0), "R1", "C1");
-        assertEquals(1, d.getColumnCount());
-        d.addValue(new Double(2.0), "R1", "C2");
-        assertEquals(2, d.getColumnCount());
-    }
+	 * Some basic checks for the getColumnCount() method.
+	 */
+	public void testColumnCount() {
+		this.defaultKeyedValues2DTestsTestCountTemplate(new DefaultKeyedValues2DTestsTestColumnCountAdapterImpl(), "R1",
+				"C2");
+	}
     
     private static final double EPSILON = 0.0000000001;
     
@@ -364,5 +356,31 @@ public class DefaultKeyedValues2DTests extends TestCase {
         }
         assertTrue(pass);
     }
+
+	public void defaultKeyedValues2DTestsTestCountTemplate(DefaultKeyedValues2DTestsTestCountAdapter adapter,
+			String string1, String string2) {
+		DefaultKeyedValues2D d = new DefaultKeyedValues2D();
+		assertEquals(0, adapter.getCount(d));
+		d.addValue(new Double(1.0), "R1", "C1");
+		assertEquals(1, adapter.getCount(d));
+		d.addValue(new Double(2.0), string1, string2);
+		assertEquals(2, adapter.getCount(d));
+	}
+
+	interface DefaultKeyedValues2DTestsTestCountAdapter {
+		int getCount(DefaultKeyedValues2D defaultKeyedValues2D1);
+	}
+
+	class DefaultKeyedValues2DTestsTestRowCountAdapterImpl implements DefaultKeyedValues2DTestsTestCountAdapter {
+		public int getCount(DefaultKeyedValues2D d) {
+			return d.getRowCount();
+		}
+	}
+
+	class DefaultKeyedValues2DTestsTestColumnCountAdapterImpl implements DefaultKeyedValues2DTestsTestCountAdapter {
+		public int getCount(DefaultKeyedValues2D d) {
+			return d.getColumnCount();
+		}
+	}
 
 }

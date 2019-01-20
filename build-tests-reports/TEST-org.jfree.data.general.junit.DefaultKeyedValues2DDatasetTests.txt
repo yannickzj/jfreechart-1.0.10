@@ -1,0 +1,5 @@
+Testsuite: org.jfree.data.general.junit.DefaultKeyedValues2DDatasetTests
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 sec
+
+Testcase: testSerialization took 0.068 sec
+Testcase: testCloning took 0.001 sec

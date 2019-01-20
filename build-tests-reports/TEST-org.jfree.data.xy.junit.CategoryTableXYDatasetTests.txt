@@ -1,0 +1,9 @@
+Testsuite: org.jfree.data.xy.junit.CategoryTableXYDatasetTests
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.079 sec
+
+Testcase: testCloning took 0.008 sec
+Testcase: testPublicCloneable took 0 sec
+Testcase: testSerialization took 0.067 sec
+Testcase: testAddSeries took 0.001 sec
+Testcase: testEquals took 0 sec
+Testcase: testCloning2 took 0 sec

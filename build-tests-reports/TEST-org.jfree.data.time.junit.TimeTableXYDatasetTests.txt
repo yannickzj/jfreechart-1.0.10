@@ -1,0 +1,9 @@
+Testsuite: org.jfree.data.time.junit.TimeTableXYDatasetTests
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.096 sec
+
+Testcase: testEquals took 0.015 sec
+Testcase: testClone took 0.001 sec
+Testcase: testSerialization took 0.074 sec
+Testcase: testClear took 0.001 sec
+Testcase: testStandard took 0 sec
+Testcase: testGetTimePeriod took 0 sec
